@@ -1,14 +1,20 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+
+import { BrowserRouter } from 'react-router-dom'
+import MainRoutes from './routes'
+import { useDispatch, useSelector } from 'react-redux'
+import { loginUser } from './store/slices/userSlice'
 
 function App() {
-  const [count, setCount] = useState(0)
+  // const user = useSelector(s => s.User.loggedIn)
+  // console.log(user)
+
 
   return (
     <>
-      <h1>Test</h1>
+    <BrowserRouter>
+      <MainRoutes/>
+    </BrowserRouter>
+
     </>
   )
 }

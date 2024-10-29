@@ -28,8 +28,9 @@ DEBUG = os.environ.get('DJANGO_DEBUG', 'True') == 'True'
 ALLOWED_HOSTS = [
     '127.0.0.1', '0.0.0.0',
     'http://localhost:5173',
+    'localhost',
     '46.101.130.165',
-    'https://pocketmind.propulsion-learn.ch',
+    'pocketmind.propulsion-learn.ch',
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True

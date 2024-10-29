@@ -1,0 +1,26 @@
+services:
+  backend:
+    image: registry.gitlab.propulsion-home.ch/full-stack/batch-29-aug-2024/luna-project/luna-project-rizl:latest
+    ports:
+      - "8000:8000"
+
+    command: "sh /scripts/dev.sh"
+    env_file:
+      - ./envs/dev.env
+    volumes:
+      - ./backend:/backend
+    depends_on:
+      - postgres
+    pull_policy: always
+    #command: "python manage.py runserver 0:8000"
+
+  postgres:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    env_file:
+      - ./envs/dev.env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+volumes:
+  postgres_data:

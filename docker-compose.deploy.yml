@@ -16,7 +16,7 @@ x-django-environment: &django-environment
 
 services:
   backend:
-    image: registry.gitlab.propulsion-home.ch/full-stack/batch-29-aug-2024/luna-project/luna-project-rizl:master
+    image: registry.gitlab.propulsion-home.ch/full-stack/batch-29-aug-2024/final-projects/final-project-munich:master
     environment:
       <<:
         - *django-environment

@@ -1,6 +1,6 @@
 services:
   backend:
-    image: registry.gitlab.propulsion-home.ch/full-stack/batch-29-aug-2024/luna-project/luna-project-rizl:latest
+    image: registry.gitlab.propulsion-home.ch/full-stack/batch-29-aug-2024/final-projects/final-project-munich:latest
     ports:
       - "8000:8000"
 

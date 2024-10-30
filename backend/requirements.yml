@@ -16,3 +16,4 @@ dependencies:
       - django_extensions
       - drf-yasg
       - pillow
+      - groq

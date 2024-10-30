@@ -1,4 +1,6 @@
 # Create your views here.
+import logging
+
 from rest_framework import status
 from rest_framework.generics import ListAPIView, GenericAPIView
 from rest_framework.response import Response
@@ -8,9 +10,8 @@ from expense.models import Expense
 from expense.serializers import ExpenseSerializer
 from project.helpers.get_category import get_category
 
-import logging
-
 logger = logging.getLogger(__name__)
+
 
 class ListExpenses(ListAPIView):
     """
@@ -19,6 +20,7 @@ class ListExpenses(ListAPIView):
     """
     queryset = Expense.objects.all()
     serializer_class = ExpenseSerializer
+
 
 class AddExpense(GenericAPIView):
     """

@@ -1,6 +1,8 @@
 from django.db import models
 
-from project.settings import AUTH_USER_MODEL
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 
 # Create your models here.
@@ -8,7 +10,7 @@ class Expense(models.Model):
     description = models.TextField(max_length=250)
     amount = models.FloatField()
     created = models.DateTimeField(auto_now_add=True)
-    user = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='expenses')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='expenses')
     category = models.ForeignKey('category.Category', on_delete=models.PROTECT, blank=True, null=True,
                                  related_name='expenses')
     # recurring expenses

@@ -23,7 +23,7 @@ class RegistrationView(GenericAPIView):
             reg_profile.save()
             code = reg_profile.code
             send_mail(
-                "Luna Validation",
+                "Pocketmind Validation",
                 f"Use this code to verify your email: {code}",
                 settings.DEFAULT_FROM_EMAIL,
                 [request.data['email']],
@@ -55,7 +55,7 @@ class PasswordResetView(GenericAPIView):
         serializer.is_valid(raise_exception=True)
         reg_profile = serializer.save()
         send_mail(
-            "Luna Password Reset code",
+            "PocketMind Password Reset code",
             f"Use this code to reset your password: {reg_profile.code}",
             settings.DEFAULT_FROM_EMAIL,
             [request.data['email']],
@@ -74,7 +74,7 @@ class PasswordResetValidationView(GenericAPIView):
         serializer.is_valid(raise_exception=True)
         user = serializer.save(serializer.validated_data)
         send_mail(
-            "Luna password has been reset",
+            "PocketMind password has been reset",
             f"Hi {user.first_name}, your password has been reset.",
             settings.DEFAULT_FROM_EMAIL,
             [user.email],

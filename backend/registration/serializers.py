@@ -50,7 +50,7 @@ class RegistrationValidationSerializer(serializers.Serializer):
     email = serializers.EmailField(validators=[email_does_not_exist])
     username = serializers.CharField(validators=[username_does_not_exist])
     code = serializers.CharField(validators=[code_is_valid])
-    location = serializers.CharField(label="loc", default="")
+     #location = serializers.CharField(label="loc", default="")
     password = serializers.CharField(write_only=True)
     password_repeat = serializers.CharField(write_only=True)
 

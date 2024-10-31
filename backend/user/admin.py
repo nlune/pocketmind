@@ -20,7 +20,7 @@ class UserAdminView(UserAdmin):
     # fields when reading / updating an instance
     fieldsets = (
         ('Basics', {'fields': ('email', 'username', 'password')}),
-        ('Profile info', {'fields': ('first_name', 'last_name', 'profile_picture')}),
+        ('Profile info', {'fields': ('first_name', 'last_name')}),
         ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser', 'user_permissions')}),
         ('Important dates', {'fields': ('last_login', 'date_joined')}),
         ('Groups', {'fields': ('groups',)}),

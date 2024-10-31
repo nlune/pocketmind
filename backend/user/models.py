@@ -4,17 +4,25 @@ from django.db import models
 
 # Create your models here.
 class User(AbstractUser):
-    username = models.CharField(blank=True, max_length=5)
-    first_name = models.CharField(blank=True, max_length=50)
-    last_name = models.CharField(blank=True, max_length=50)
-    email = models.EmailField(unique=True)
-    goal = models.CharField(blank=True)
-
-    profile_picture = models.ImageField(blank=True, null=True)
-    joined_date = models.DateTimeField(auto_now_add=True)
-
+    # Field used for authentication
     USERNAME_FIELD = 'email'
+
+    # Additional fields required to create an user (USERNAME_FIELD and passwords are always required)
     REQUIRED_FIELDS = ['username']
+
+    username = models.CharField(max_length=30, unique=True)
+
+    first_name = models.CharField(max_length=30)
+
+    last_name = models.CharField(max_length=30)
+
+    password = models.CharField(max_length=200)
+
+    password_repeat = models.CharField(max_length=200, null=True)
+
+    email = models.EmailField(unique=True)
+
+    joined_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"User {self.id}: {self.email}"

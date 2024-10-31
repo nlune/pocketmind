@@ -10,6 +10,9 @@ User = get_user_model()
 class Budget(models.Model):
     name = models.TextField(blank=False, null=False)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, blank=False, null=False, related_name='budget')
-    limit = models.IntegerField(blank=False, null=False)
-    spend = models.IntegerField(blank=False, null=False)
+    limit = models.DecimalField(max_digits=100, decimal_places=2, blank=False, null=False)
+    spend = models.DecimalField(max_digits=100, decimal_places=2, blank=False, null=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=False, null=False, related_name='budgets')
+
+    def __str__(self):
+        return f"{self.name} {self.category} {self.spend}/{self.limit} "

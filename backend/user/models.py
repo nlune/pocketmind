@@ -24,7 +24,5 @@ class User(AbstractUser):
 
     joined_date = models.DateTimeField(auto_now_add=True)
 
-    #profile_picture = models.ImageField(blank=True, null=True)
-
     def __str__(self):
         return f"User {self.id}: {self.email}"

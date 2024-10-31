@@ -42,6 +42,8 @@ urlpatterns = [
 
     path(BASE_URL + 'auth/', include('registration.urls')),
     path(BASE_URL + 'transactions/', include('expense.urls')),
+    path(BASE_URL + 'budgets/', include('budget.urls')),
+
 ]
 
 if settings.DEBUG:

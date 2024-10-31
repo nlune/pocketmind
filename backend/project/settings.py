@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'registration',
     'expense',
     'category',
+    'budget',
 
     # 3rd party
     'rest_framework',

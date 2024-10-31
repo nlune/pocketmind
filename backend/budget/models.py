@@ -5,6 +5,7 @@ from category.models import Category
 
 User = get_user_model()
 
+
 # Create your models here.
 class Budget(models.Model):
     name = models.TextField(blank=False, null=False)

@@ -18,6 +18,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework_simplejwt import views as jwt_views
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
@@ -40,10 +41,13 @@ urlpatterns = [
     path(BASE_URL + 'admin/', admin.site.urls),
     path(BASE_URL + 'docs/', schema_view.with_ui('swagger', cache_timeout=0)),
 
-    path(BASE_URL + 'auth/', include('registration.urls')),
     path(BASE_URL + 'transactions/', include('expense.urls')),
     path(BASE_URL + 'budgets/', include('budget.urls')),
 
+    path(BASE_URL + 'user/', include('user.urls')),
+    path(BASE_URL + 'auth/token/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path(BASE_URL + 'auth/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
+    path(BASE_URL + 'auth/token/verify/', jwt_views.TokenVerifyView.as_view(), name='token_verify'),
 ]
 
 if settings.DEBUG:

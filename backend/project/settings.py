@@ -56,7 +56,6 @@ INSTALLED_APPS = [
 
     # own apps
     'user',
-    'registration',
     'expense',
     'category',
     'budget',

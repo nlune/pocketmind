@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
+
 # Model to store AI-generated financial insights based on user spending
 class AIInsights(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -11,6 +12,7 @@ class AIInsights(models.Model):
 
     def __str__(self):
         return f"AI Insight for {self.user.username} at {self.created_at}"
+
 
 # Model to store user financial questions and AI responses
 class UserQuestion(models.Model):

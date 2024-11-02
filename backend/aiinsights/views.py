@@ -18,7 +18,8 @@ class AIInsightsView(APIView):
         return Response({
             "ai_insights": ai_serializer.data
         })
-    
+
+#class AskQuestionView(APIView):
     #def post(self, request):
         #user = request.user
        # question_text = request.data.get('question')
@@ -32,4 +33,4 @@ class AIInsightsView(APIView):
         #return Response({
         #    "question": question_text,
         #    "answer": answer
-        #})
+        #}status=status.HTTP_200_OK)

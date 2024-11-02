@@ -48,6 +48,9 @@ urlpatterns = [
     path(BASE_URL + 'auth/token/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path(BASE_URL + 'auth/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
     path(BASE_URL + 'auth/token/verify/', jwt_views.TokenVerifyView.as_view(), name='token_verify'),
+
+    path(BASE_URL + 'home/', include('dashboard.urls')),
+    path(BASE_URL + 'home/', include('aiinsights.urls')),
 ]
 
 if settings.DEBUG:

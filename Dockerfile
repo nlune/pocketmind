@@ -27,7 +27,13 @@ RUN chmod +x ./scripts #execution rights
 ENV PATH=/opt/conda/envs/pocketmind/bin:$PATH
 
 # activate app
-RUN echo "source activate pocketmind" >~/.bashrc
+#RUN echo "source activate pocketmind" >~/.bashrc
+RUN echo "conda activate pocketmind" >> ~/.bashrc
+SHELL ["/bin/bash", "--login", "-c"]
+
+# Set the default environment to 'pocketmind'
+ENV CONDA_DEFAULT_ENV=pocketmind
+ENV PATH=/opt/conda/envs/pocketmind/bin:$PATH
 
 # Prevents the generation of PyCache that you might have trouble getting rid of, especially on the server
 ENV PYTHONDONTWRITEBYTECODE=1

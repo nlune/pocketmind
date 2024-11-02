@@ -13,6 +13,7 @@ import os
 from datetime import timedelta
 from pathlib import Path
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -59,6 +60,8 @@ INSTALLED_APPS = [
     'expense',
     'category',
     'budget',
+    'dashboard',
+    'aiinsights',
 
     # 3rd party
     'rest_framework',
@@ -198,3 +201,10 @@ SWAGGER_SETTINGS = {
         }
     }
 }
+
+# Fetch the OpenAI API key from environment variables
+OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
+
+# Check if the key is available, raise an error if not found
+if not OPENAI_API_KEY:
+    raise ValueError("OpenAI API key is missing. Make sure it's set in the environment.")

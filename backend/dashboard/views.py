@@ -1,6 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from budget.models import Budget
+
 # from expenses.models import Expense  # optional
 from .serializers import BudgetSerializer, AIInsightSerializer
 from .models import AIInsight
@@ -23,7 +24,9 @@ class DashboardView(APIView):
         budget_serializer = BudgetSerializer(budgets, many=True)
 
         # Fetch AI insights for the user
-        ai_insights = AIInsight.objects.filter(user=user).order_by('-created_at')[:2]  # Limit to 2
+        ai_insights = AIInsight.objects.filter(user=user).order_by("-created_at")[
+            :2
+        ]  # Limit to 2
         ai_serializer = AIInsightSerializer(ai_insights, many=True)
 
         # Fetch recent expenses (e.g., last 5)
@@ -37,7 +40,7 @@ class DashboardView(APIView):
             "available_budget": available_budget,
             "budgets": budget_serializer.data,  # give budget breakdown by category
             # "recent_expenses": expense_serializer.data
-            "ai_insights": ai_serializer.data
+            "ai_insights": ai_serializer.data,
         }
 
         return Response(response_data)

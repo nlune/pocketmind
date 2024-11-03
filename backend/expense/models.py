@@ -9,9 +9,14 @@ class Expense(models.Model):
     description = models.TextField(max_length=250)
     amount = models.FloatField()
     created = models.DateTimeField(auto_now_add=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='expenses')
-    category = models.ForeignKey('category.Category', on_delete=models.PROTECT, blank=True, null=True,
-                                 related_name='expenses')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="expenses")
+    category = models.ForeignKey(
+        "category.Category",
+        on_delete=models.PROTECT,
+        blank=True,
+        null=True,
+        related_name="expenses",
+    )
     # recurring expenses
     is_recurring = models.BooleanField(default=False)
     start_date = models.DateField(blank=True, null=True)

@@ -9,22 +9,42 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('category', '0002_remove_category_amount_spent_remove_category_budget'),
+        ("category", "0002_remove_category_amount_spent_remove_category_budget"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Budget',
+            name="Budget",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.TextField()),
-                ('limit', models.IntegerField()),
-                ('spend', models.IntegerField(default=0)),
-                ('category', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='budget',
-                                               to='category.category')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='budgets',
-                                           to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.TextField()),
+                ("limit", models.IntegerField()),
+                ("spend", models.IntegerField(default=0)),
+                (
+                    "category",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="budget",
+                        to="category.category",
+                    ),
+                ),
+                (
+                    "user",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="budgets",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
     ]

@@ -6,41 +6,41 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('user', '0002_alter_user_first_name_alter_user_last_name'),
+        ("user", "0002_alter_user_first_name_alter_user_last_name"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='user',
-            name='goal',
+            model_name="user",
+            name="goal",
         ),
         migrations.RemoveField(
-            model_name='user',
-            name='profile_picture',
+            model_name="user",
+            name="profile_picture",
         ),
         migrations.AddField(
-            model_name='user',
-            name='password_repeat',
+            model_name="user",
+            name="password_repeat",
             field=models.CharField(max_length=200, null=True),
         ),
         migrations.AlterField(
-            model_name='user',
-            name='first_name',
+            model_name="user",
+            name="first_name",
             field=models.CharField(max_length=30),
         ),
         migrations.AlterField(
-            model_name='user',
-            name='last_name',
+            model_name="user",
+            name="last_name",
             field=models.CharField(max_length=30),
         ),
         migrations.AlterField(
-            model_name='user',
-            name='password',
+            model_name="user",
+            name="password",
             field=models.CharField(max_length=200),
         ),
         migrations.AlterField(
-            model_name='user',
-            name='username',
+            model_name="user",
+            name="username",
             field=models.CharField(max_length=30, unique=True),
         ),
     ]

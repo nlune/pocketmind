@@ -16,7 +16,7 @@ User = get_user_model()
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = '__all__'
+        fields = "__all__"
 
 
 class UserListSerializer(serializers.ModelSerializer):
@@ -24,7 +24,7 @@ class UserListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['id', 'first_name', 'last_name', 'email']
+        fields = ["id", "first_name", "last_name", "email"]
 
     def get_reviews_count(self, obj):
         return obj.reviews.count()
@@ -56,14 +56,14 @@ class PasswordResetValidationSerializer(serializers.Serializer):
     new_password = serializers.CharField(write_only=True)
 
     def validate(self, data):
-        password_reset_code = data.get('password_reset_code')
-        email = data.get('email')
+        password_reset_code = data.get("password_reset_code")
+        email = data.get("email")
         user = get_object_or_404(User, email=email)
 
         if password_reset_code != user.password_reset_code:
-            raise serializers.ValidationError({'code': 'Invalid validation code.'})
+            raise serializers.ValidationError({"code": "Invalid validation code."})
 
-        data['user'] = user
+        data["user"] = user
         return data
 
 
@@ -71,24 +71,27 @@ class PasswordResetRequestView(CreateAPIView):
     def post(self, request, *args, **kwargs):
         serializer = PasswordResetRequestSerializer(data=request.data)
         if serializer.is_valid():
-            email = serializer.validated_data['email']
+            email = serializer.validated_data["email"]
 
             user = get_object_or_404(User, email=email)
 
             # Generate a 6-digit password reset code
-            user.password_reset_code = ''.join(random.choices('0123456789', k=6))
+            user.password_reset_code = "".join(random.choices("0123456789", k=6))
             user.save()
 
             # Send email with the 6-digit validation code
             send_mail(
-                'Password Reset Validation Code',
-                f'Please use the following code to reset your password: {user.password_reset_code}',
+                "Password Reset Validation Code",
+                f"Please use the following code to reset your password: {user.password_reset_code}",
                 settings.DEFAULT_FROM_EMAIL,
                 [email],
                 fail_silently=False,
             )
 
-            return Response({'detail': 'Password reset validation code sent.'}, status=status.HTTP_200_OK)
+            return Response(
+                {"detail": "Password reset validation code sent."},
+                status=status.HTTP_200_OK,
+            )
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -98,12 +101,15 @@ class PasswordResetValidationView(CreateAPIView):
     def post(self, request, *args, **kwargs):
         serializer = PasswordResetValidationSerializer(data=request.data)
         if serializer.is_valid():
-            user = serializer.validated_data['user']
-            new_password = serializer.validated_data['new_password']
+            user = serializer.validated_data["user"]
+            new_password = serializer.validated_data["new_password"]
 
             user.set_password(new_password)
             user.password_reset_code = None  # Clear the reset code after use
             user.save()
 
-            return Response({'detail': 'Password has been reset successfully.'}, status=status.HTTP_200_OK)
+            return Response(
+                {"detail": "Password has been reset successfully."},
+                status=status.HTTP_200_OK,
+            )
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

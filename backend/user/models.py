@@ -8,8 +8,8 @@ class User(AbstractUser):
     joined_date = models.DateTimeField(auto_now_add=True)
     password_reset_code = models.CharField(max_length=255, null=True, blank=True)
 
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username']
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = ["username"]
 
 
 class RegistrationProfile(models.Model):

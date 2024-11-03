@@ -21,11 +21,11 @@ class ListCreateBudgetView(ListCreateAPIView):
 class RetrieveUpdateDestroyBudgetView(RetrieveUpdateDestroyAPIView):
     queryset = Budget.objects.all()
     serializer_class = BudgetSerializer
-    lookup_field = 'id'
+    lookup_field = "id"
     permission_classes = [IsAuthenticated]
 
     def get_object(self):
-        budget_id = self.kwargs.get('budget_id')
+        budget_id = self.kwargs.get("budget_id")
         try:
             return Budget.objects.get(id=budget_id)
         except Budget.DoesNotExist:

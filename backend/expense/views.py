@@ -18,6 +18,7 @@ class ListExpenses(ListAPIView):
     get:
     List all expenses.
     """
+
     queryset = Expense.objects.all()
     serializer_class = ExpenseSerializer
 
@@ -27,15 +28,15 @@ class AddExpense(GenericAPIView):
     post:
     Create a new expense by sending description
     """
+
     serializer_class = ExpenseSerializer
 
     def post(self, request):
-        _category = get_category(request.data['description'])
+        _category = get_category(request.data["description"])
         logger.warning(_category)
         category, created = Category.objects.get_or_create(name=_category)
         logger.warning(category)
-        request.data.update({"category": category.id,
-                             "user": request.user.id})
+        request.data.update({"category": category.id, "user": request.user.id})
 
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)

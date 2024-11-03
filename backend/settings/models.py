@@ -1,9 +1,10 @@
 from django.db import models
 from django.conf import settings
-#from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
+
 
 class UserSettings(models.Model):
-    #user = models.OneToOneField(User, on_delete=models.CASCADE)
+    # user = models.OneToOneField(User, on_delete=models.CASCADE)
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL,  # AUTH_USER_MODEL
         on_delete=models.CASCADE

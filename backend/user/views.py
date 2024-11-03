@@ -25,6 +25,7 @@ from rest_framework.views import APIView
 User = get_user_model()
 logger = logging.getLogger(__name__)
 
+
 class UserProfileView(APIView):
     def get(self, request):
         user = request.user  # Move request inside method

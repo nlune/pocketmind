@@ -14,6 +14,7 @@ User = get_user_model()
 # Set up logger
 logger = logging.getLogger(__name__)
 
+
 @api_view(['GET', 'PATCH'])
 @permission_classes([IsAuthenticated])
 def user_settings_view(request):

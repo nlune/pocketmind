@@ -32,10 +32,7 @@ def get_category(description):
 
     chat_completion = client.chat.completions.create(
         messages=[
-            {
-                "role": "system",
-                "content": SYS_PROMPT
-            },
+            {"role": "system", "content": SYS_PROMPT},
             {
                 "role": "user",
                 "content": description,

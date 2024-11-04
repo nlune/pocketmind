@@ -5,13 +5,13 @@ from rest_framework.permissions import IsAuthenticated
 from .models import Category
 from .serializers import CategorySerializer
 
+
 class ListCreateCategoryView(generics.ListCreateAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
-
 
 
 class RetrieveUpdateDestroyCategoryView(generics.RetrieveUpdateDestroyAPIView):

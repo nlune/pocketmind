@@ -1,12 +1,14 @@
 import logging
+
 from django.contrib.auth import get_user_model
-from rest_framework.response import Response
+from django.contrib.auth.hashers import make_password
+from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
-from django.contrib.auth.hashers import make_password
+from rest_framework.response import Response
+
 from .models import UserSettings
 from .serializers import UserSettingsSerializer, UserSerializer
-from rest_framework import status
 
 # Get the User model
 User = get_user_model()
@@ -49,7 +51,8 @@ def user_settings_view(request):
 
         except Exception as e:
             logger.error(f"Error fetching or creating user settings: {e}")
-            return Response({"error": "Error fetching or creating user settings"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response({"error": "Error fetching or creating user settings"},
+                            status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     # Handle PATCH request: Update user settings
     elif request.method == 'PATCH':

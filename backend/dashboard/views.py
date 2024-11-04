@@ -1,10 +1,10 @@
-from rest_framework.views import APIView
 from rest_framework.response import Response
-from budget.models import Budget
+from rest_framework.views import APIView
 
+from budget.models import Budget
+from .models import AIInsight
 # from expenses.models import Expense  # optional
 from .serializers import BudgetSerializer, AIInsightSerializer
-from .models import AIInsight
 
 
 class DashboardView(APIView):
@@ -25,8 +25,8 @@ class DashboardView(APIView):
 
         # Fetch AI insights for the user
         ai_insights = AIInsight.objects.filter(user=user).order_by("-created_at")[
-            :2
-        ]  # Limit to 2
+                      :2
+                      ]  # Limit to 2
         ai_serializer = AIInsightSerializer(ai_insights, many=True)
 
         # Fetch recent expenses (e.g., last 5)

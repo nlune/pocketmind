@@ -1,6 +1,7 @@
 # Create your views here.
-import logging
 import json
+import logging
+
 from rest_framework import status
 from rest_framework.generics import ListCreateAPIView, GenericAPIView
 from rest_framework.response import Response

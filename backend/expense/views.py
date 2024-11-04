@@ -50,10 +50,11 @@ class AddExpense(GenericAPIView):
 class GetExpenseFromInput(GenericAPIView):
     """
     post:
-    send text description and get back a suggested transaction 
+    send text description and get back a suggested transaction
     """
+
     serializer_class = ExpenseSerializer
-    
+
     def post(self, request):
         user_entry = request.data["text"]
         logger.warning(f"user input: {user_entry}")
@@ -62,8 +63,8 @@ class GetExpenseFromInput(GenericAPIView):
         _category = get_category(data["description"])
         category, created = Category.objects.get_or_create(name=_category)
         data.update({"category": category.id, "user": request.user.id})
-        
+
         serializer = self.get_serializer(data=data)
-        serializer.is_valid(raise_exception=True) 
-        
+        serializer.is_valid(raise_exception=True)
+
         return Response(serializer.data)

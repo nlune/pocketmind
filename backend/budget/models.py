@@ -11,7 +11,7 @@ class Budget(models.Model):
     name = models.TextField(blank=False, null=False)
     category = models.ForeignKey(
         Category,
-        on_delete=models.CASCADE,
+        on_delete=models.PROTECT,
         blank=False,
         null=False,
         related_name="budget",

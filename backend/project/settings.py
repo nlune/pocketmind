@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+
     # own apps
     "user",
     "expense",
@@ -64,6 +65,7 @@ INSTALLED_APPS = [
     "dashboard",
     "aiinsights",
     "settings",
+
     # 3rd party
     "rest_framework",
     "drf_yasg",

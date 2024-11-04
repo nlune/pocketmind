@@ -43,6 +43,7 @@ urlpatterns = [
     path(BASE_URL + "docs/", schema_view.with_ui("swagger", cache_timeout=0)),
     path(BASE_URL + "transactions/", include("expense.urls")),
     path(BASE_URL + "budgets/", include("budget.urls")),
+    path(BASE_URL + "categories/", include("category.urls")),
     path(BASE_URL + "user/", include("user.urls")),
     path(
         BASE_URL + "auth/token/",

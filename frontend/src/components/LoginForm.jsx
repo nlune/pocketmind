@@ -78,7 +78,7 @@ export default function LoginForm({setForgotPW}){
     </div>
 
     {error && <p className="text-red-400">Error: {error.detail}</p> }
-    {requestError && <p className="text-red-400">Something went wrong. Please check your input.</p> }
+    {requestError && <p className="text-red-400">Please check your login credentials.</p> }
     <button onClick={loginClick} className="btn btn-primary m-10 text-white">{loading ? "Loading..." : "Login"}</button>
     </div>
     </>

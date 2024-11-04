@@ -6,6 +6,12 @@ import AudioInputPage from "../pages/AudioInputPage";
 import TransactionForm from "../pages/TransactionForm";
 import ProtectedRoutes from "./Protector";
 import LoginPage from "../pages/Login";
+import CamInputPage from "../pages/CamInputPage.jsx";
+import RegistrationPage from "../pages/Registration.jsx";
+import ProfilePage from "../pages/Profile.jsx";
+import NotFoundPage from "../pages/NotFound.jsx";
+import PasswordResetPage from "../pages/PasswordReset.jsx";
+
 
 export default function MainRoutes() {
 
@@ -25,6 +31,11 @@ export default function MainRoutes() {
             {/* <Route path="*" element={<NotFound/>} /> */}
 
 
+            <Route path='/camera-input/' element={<CamInputPage/>}/>
+            <Route path='/registration/' element={<RegistrationPage/>}/>
+            <Route path='/password-reset/' element={<PasswordResetPage/>}/>
+            <Route path='/profile/' element={<ProfilePage/>}/>
+            <Route path='/not-found/' element={<NotFoundPage/>}/>
         </Route >
         </Routes>
         </>

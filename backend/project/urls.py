@@ -60,7 +60,7 @@ urlpatterns = [
         name="token_verify",
     ),
     path(BASE_URL + "home/", include("dashboard.urls")),
-    path(BASE_URL + "home/", include("aiinsights.urls")),
+    # path(BASE_URL + "home/", include("aiinsights.urls")),
     path(BASE_URL + "home/", include("settings.urls")),
 ]
 

@@ -1,8 +1,9 @@
 from django.urls import path
 
-from expense.views import ListExpenses, AddExpense
+from expense.views import GetExpenseFromInput, ListAddExpenses, AddExpense
 
 urlpatterns = [
-    path("", ListExpenses.as_view(), name="expense-list"),
-    path("add/", AddExpense.as_view(), name="expense-add"),
+    path("", ListAddExpenses.as_view(), name="expense-list"),
+    path("add-by-user/", AddExpense.as_view(), name="expense-add"),
+    path("get-via-input/", GetExpenseFromInput.as_view())
 ]

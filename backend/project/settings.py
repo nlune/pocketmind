@@ -221,9 +221,3 @@ LOGGING = {
 
 # Fetch the OpenAI API key from environment variables
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-
-# Check if the key is available, raise an error if not found
-if not OPENAI_API_KEY:
-    raise ValueError(
-        "OpenAI API key is missing. Make sure it's set in the environment."
-    )

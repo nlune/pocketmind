@@ -1,3 +1,4 @@
+import logging
 from decimal import Decimal
 
 from django.db.models.signals import post_save, pre_save
@@ -5,9 +6,9 @@ from django.dispatch import receiver
 
 from budget.models import Budget
 from expense.models import Expense
-import logging
 
 logger = logging.getLogger(__name__)
+
 
 @receiver(post_save, sender=Expense)
 def update_budget_spend(sender, instance, created, **kwargs):

@@ -5,7 +5,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
@@ -23,7 +22,8 @@ class Migration(migrations.Migration):
                 ('is_recurring', models.BooleanField(default=False)),
                 ('start_date', models.DateField(blank=True, null=True)),
                 ('end_date', models.DateField(blank=True, null=True)),
-                ('category', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, related_name='expenses', to='category.category')),
+                ('category', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT,
+                                               related_name='expenses', to='category.category')),
             ],
         ),
     ]

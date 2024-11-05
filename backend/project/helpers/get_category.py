@@ -9,8 +9,8 @@ def get_category(description):
     )
 
     SYS_PROMPT = """
-    You are an expense categorization assistant. Your task is to analyze an expense description
-    and determine the single best-fitting category from a list of commonly used categories.
+    You are an expense categorization assistant. Your task is to analyze an expense description and determine the
+    single best-fitting category from a list of commonly used categories.
     Consider both specific keywords and contextual information within the description.
     When in doubt, choose the category that most closely aligns with the primary purpose of the expense.
     The categories available are as follows:

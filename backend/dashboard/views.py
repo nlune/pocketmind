@@ -1,5 +1,6 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
+
 from budget.models import Budget
 from .serializers import BudgetSerializer, FinancialTipSerializer
 from .models import FinancialTip

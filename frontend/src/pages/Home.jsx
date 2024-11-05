@@ -6,7 +6,10 @@ export default function HomePage() {
     const voiceClickHandler = (e) => {
       e.preventDefault()
       nav("/audio-input")
-
+    }
+    const camClickHandler = (e) => {
+      e.preventDefault()
+      nav("/cam-input")
     }
 
     return (
@@ -21,7 +24,7 @@ export default function HomePage() {
       </div>
         {/* Icon Upload Buttons */}
         <div className="grid grid-cols-3 gap-4 w-full max-w-lg justify-items-center">
-          <button className="btn btn-lg bg-primary text-white w-full">Camera</button>
+          <button onClick={camClickHandler} className="btn btn-lg bg-primary text-white w-full">Camera</button>
           <button onClick={voiceClickHandler} className="btn btn-lg bg-primary text-white w-full">Voice</button>
           <button className="btn btn-lg bg-primary text-white w-full">Write</button>
         </div>

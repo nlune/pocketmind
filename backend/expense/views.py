@@ -107,7 +107,6 @@ class ReportsView(APIView):
         else:
             return Response({"error": "Invalid interval or missing date parameters."}, status=400)
 
-
         total_expense = expenses.aggregate(total=Sum('amount'))['total'] or 0.0
         expense_details = ExpenseSerializer(expenses, many=True).data
 

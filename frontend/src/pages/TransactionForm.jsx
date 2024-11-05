@@ -1,10 +1,28 @@
 import { useLocation } from "react-router-dom"
+import useApiRequest from "../hooks/useAPI";
+import { useEffect, useState } from "react";
 
 
 export default function TransactionForm() {
+    const { sendRequest, data, error, loading } = useApiRequest({ auth: true });
     const categories = ["Food", "Transportation", "Entertainment", "Shopping"]
     const { state } = useLocation()
     const userInput = state.userInput
+
+    const [description, setDescription ] = useState("")
+    const [amount, setAmount ] = useState("")
+    const [category, setCategory] = useState("")
+
+    useEffect(() => {
+      sendRequest("POST", "/transactions/get-via-input/", {"text": userInput})
+    }, [userInput])
+
+    useEffect(() => {
+      if (data && !error) {
+          setDescription(data.description)
+          setAmount(data.amount)
+      }
+  }, [data, error])
     
 
     return (
@@ -17,6 +35,8 @@ export default function TransactionForm() {
             <input
               type="text"
               placeholder="e.g., Coffee at Café"
+              value={description}
+              onChange={e => setDescription(e.target.value)}
               className="input input-bordered w-full mt-2 py-2 px-4 rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-200"
             /></div>
 
@@ -25,6 +45,8 @@ export default function TransactionForm() {
             <input
               type="number"
               placeholder="e.g., 15.50"
+              value={amount}
+              onChange={e => setAmount(e.target.value)}
               className="input input-bordered w-full mt-2 py-2 px-4 rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-200"
             />
           </div>

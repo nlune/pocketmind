@@ -6,6 +6,7 @@ from .models import FinancialTip
 from rest_framework import status
 from decimal import Decimal
 
+
 class DashboardView(APIView):
 
     def get(self, request):
@@ -14,14 +15,14 @@ class DashboardView(APIView):
 
             # Fetch all budgets for the user
             budgets = Budget.objects.filter(user=user)
-            
+
             # Initialize totals
-            total_limit = Decimal(0)  
-            total_spent = Decimal(0) 
+            total_limit = Decimal(0)
+            total_spent = Decimal(0)
 
             # Calculate total limit and total spent across all budgets
             for budget in budgets:
-                total_limit += budget.limit 
+                total_limit += budget.limit
                 total_spent += budget.spend
 
             available_budget = total_limit - total_spent

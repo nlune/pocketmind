@@ -1,5 +1,6 @@
 from django.db import models
 
+
 # New model for predefined financial tips
 class FinancialTip(models.Model):
     category = models.CharField(max_length=255, blank=True, null=True)  # Category of the tip (e.g., groceries, entertainment)
@@ -7,4 +8,3 @@ class FinancialTip(models.Model):
 
     def __str__(self):
         return self.category or "General Tip"
-

@@ -72,7 +72,6 @@ INSTALLED_APPS = [
     "category",
     "budget",
     "dashboard",
-    "aiinsights",
     "settings",
 
     # 3rd party

@@ -1,46 +1,50 @@
-from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.response import Response
 
 from budget.models import Budget
-from .models import AIInsight
-# from expenses.models import Expense  # optional
-from .serializers import BudgetSerializer, AIInsightSerializer
+from .serializers import BudgetSerializer, FinancialTipSerializer
+from .models import FinancialTip
+from rest_framework import status
+from decimal import Decimal
 
 
 class DashboardView(APIView):
 
     def get(self, request):
-        user = request.user
+        try:
+            user = request.user
 
-        # Fetch all budgets for the user
-        budgets = Budget.objects.filter(user=user)
+            # Fetch all budgets for the user
+            budgets = Budget.objects.filter(user=user)
 
-        # Calculate total limit and total spent across all budgets
-        total_limit = sum(budget.limit for budget in budgets)
-        total_spent = sum(budget.spend for budget in budgets)
-        available_budget = total_limit - total_spent
+            # Initialize totals
+            total_limit = Decimal(0)
+            total_spent = Decimal(0)
 
-        # Optional: serialize individual budgets if needed
-        budget_serializer = BudgetSerializer(budgets, many=True)
+            # Calculate total limit and total spent across all budgets
+            for budget in budgets:
+                total_limit += budget.limit
+                total_spent += budget.spend
 
-        # Fetch AI insights for the user
-        ai_insights = AIInsight.objects.filter(user=user).order_by("-created_at")[
-                      :2
-                      ]  # Limit to 2
-        ai_serializer = AIInsightSerializer(ai_insights, many=True)
+            available_budget = total_limit - total_spent
 
-        # Fetch recent expenses (e.g., last 5)
-        # recent_expenses = Expense.objects.filter(user=user).order_by('-date')[:5]
-        # expense_serializer = ExpenseSerializer(recent_expenses, many=True)
+            # Serialize individual budgets
+            budget_serializer = BudgetSerializer(budgets, many=True)
 
-        # Combine the data into the response
-        response_data = {
-            "total_limit": total_limit,
-            "total_spent": total_spent,
-            "available_budget": available_budget,
-            "budgets": budget_serializer.data,  # give budget breakdown by category
-            # "recent_expenses": expense_serializer.data
-            "ai_insights": ai_serializer.data,
-        }
+            # Fetch predefined financial tips (for example, showing general tips)
+            financial_tips = FinancialTip.objects.filter(category="General")[:2]  # Fetch 2 tips
+            financial_tip_serializer = FinancialTipSerializer(financial_tips, many=True)
 
-        return Response(response_data)
+            # Combine the data into the response
+            response_data = {
+                "total_limit": float(total_limit),  # Convert Decimal to float before sending in response
+                "total_spent": float(total_spent),  # Convert Decimal to float before sending in response
+                "available_budget": float(available_budget),  # Convert Decimal to float
+                "budgets": budget_serializer.data,
+                "financial_tips": financial_tip_serializer.data,  # Display tips
+            }
+
+            return Response(response_data)
+
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

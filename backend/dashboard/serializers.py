@@ -1,8 +1,8 @@
 from rest_framework import serializers
 
 from budget.models import Budget  # Import the Budget model
+from .models import FinancialTip
 # from expense.models import Expense     # Import the Expense model
-from .models import AIInsight  # AIinsights is assumed
 
 
 class BudgetSerializer(serializers.ModelSerializer):
@@ -17,7 +17,7 @@ class BudgetSerializer(serializers.ModelSerializer):
 #        fields = ['amount', 'category', 'date']
 
 
-class AIInsightSerializer(serializers.ModelSerializer):
+class FinancialTipSerializer(serializers.ModelSerializer):
     class Meta:
-        model = AIInsight
-        fields = ["tip"]
+        model = FinancialTip
+        fields = ['category', 'tip']  # Adjust fields as necessary

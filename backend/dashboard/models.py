@@ -1,9 +1,12 @@
+from django.db import models
+
 # from django.conf import settings
 from django.contrib.auth import get_user_model
-from django.db import models
 
 # from django.contrib.auth.models import User
 # from django.contrib.auth.models import AbstractUser
+
+User = get_user_model()
 
 
 # class AIInsight(models.Model):
@@ -15,14 +18,12 @@ from django.db import models
 #     def __str__(self):
 #        return f"Insight for {self.user}"
 
-# Model to store AI-generated financial insights based on user spending
-User = get_user_model()
 
-
-class AIInsight(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    tip = models.TextField()  # The AI-generated insight
-    created_at = models.DateTimeField(auto_now_add=True)
+# New model for predefined financial tips
+class FinancialTip(models.Model):
+    category = models.CharField(max_length=255, blank=True,
+                                null=True)  # Category of the tip (e.g., groceries, entertainment)
+    tip = models.TextField(blank=False, null=False)  # The actual financial tip
 
     def __str__(self):
-        return f"AI Insight for {self.user.username} at {self.created_at}"
+        return self.category or "General Tip"

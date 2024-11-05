@@ -24,6 +24,10 @@ const AudioInputPage = () => {
 
       useEffect(() => {
         SpeechRecognition.startListening({ continuous: true })
+
+        return () => {
+          SpeechRecognition.stopListening()
+        }
       }, [])
 
       const handleContinue = () => {

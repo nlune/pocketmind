@@ -7,7 +7,7 @@ from rest_framework.response import Response
 
 from category.models import Category
 from expense.models import Expense
-from expense.serializers import ExpenseSerializer
+from expense.serializers import ExpenseSerializer, CreateExpenseSerializer
 from project.helpers.get_category import get_category
 from project.helpers.get_transaction import get_transaction
 
@@ -32,14 +32,16 @@ class AddExpense(GenericAPIView):
     Create a new expense by sending description
     """
 
-    serializer_class = ExpenseSerializer
+    serializer_class = CreateExpenseSerializer
 
     def post(self, request):
         _category = request.data.get("category", "")
         if not _category:
             _category = get_category(request.data["description"])
         category, created = Category.objects.get_or_create(name=_category)
-        request.data.update({"category": category.id, "user": request.user.id})
+        request.data.update(
+            {"category": category.id, "user": request.user.id}
+        )
 
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -57,12 +59,11 @@ class GetExpenseFromInput(GenericAPIView):
 
     def post(self, request):
         user_entry = request.data["text"]
-        logger.warning(f"user input: {user_entry}")
         data = get_transaction(user_entry)
         data = json.loads(data)
-        _category = get_category(data["description"])
-        category, created = Category.objects.get_or_create(name=_category)
-        data.update({"category": category.id, "user": request.user.id})
+        category = get_category(data["description"])
+        # category, created = Category.objects.get_or_create(name=_category)
+        data.update({"category": {"name": category}, "user": request.user.id})
 
         serializer = self.get_serializer(data=data)
         serializer.is_valid(raise_exception=True)

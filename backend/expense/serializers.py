@@ -16,20 +16,15 @@ class ExpenseSerializer(serializers.ModelSerializer):
 
     def get_category(self, obj):
         if obj.category:
-            return {
-                "id": obj.category.id,
-                "name": obj.category.name
-            }
+            return {"id": obj.category.id, "name": obj.category.name}
         return None
 
     def get_user(self, obj):
         if obj.user:
-            return {
-                "id": obj.user.id,
-                "username": obj.user.username
-            }
+            return {"id": obj.user.id, "username": obj.user.username}
         return None
-    
+
+
 class CreateExpenseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Expense

@@ -11,6 +11,7 @@ import RegistrationPage from "../pages/Registration.jsx";
 import ProfilePage from "../pages/Profile.jsx";
 import NotFoundPage from "../pages/NotFound.jsx";
 import PasswordResetPage from "../pages/PasswordReset.jsx";
+import TransactionsPage from "../pages/Transactions.jsx";
 
 
 
@@ -30,13 +31,14 @@ export default function MainRoutes() {
 
             <Route path="/login" element={<LoginPage/>}/>
             {/* <Route path="*" element={<NotFound/>} /> */}
+            <Route path="/transactions/" element={<TransactionsPage/>}/>
 
 
             <Route path='/camera-input/' element={<CamInputPage/>}/>
             <Route path='/registration/' element={<RegistrationPage/>}/>
             <Route path='/password-reset/' element={<PasswordResetPage/>}/>
             <Route path='/profile/' element={<ProfilePage/>}/>
-            <Route path='/not-found/' element={<NotFoundPage/>}/>
+            <Route path='*' element={<NotFoundPage/>}/>
         </Route >
         </Routes>
         </>

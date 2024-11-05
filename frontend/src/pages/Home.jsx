@@ -1,6 +1,13 @@
-
+import { useNavigate } from "react-router-dom";
 
 export default function HomePage() {
+  const nav = useNavigate()  
+
+    const voiceClickHandler = (e) => {
+      e.preventDefault()
+      nav("/audio-input")
+
+    }
 
     return (
 
@@ -15,7 +22,7 @@ export default function HomePage() {
         {/* Icon Upload Buttons */}
         <div className="grid grid-cols-3 gap-4 w-full max-w-lg justify-items-center">
           <button className="btn btn-lg bg-primary text-white w-full">Camera</button>
-          <button className="btn btn-lg bg-primary text-white w-full">Voice</button>
+          <button onClick={voiceClickHandler} className="btn btn-lg bg-primary text-white w-full">Voice</button>
           <button className="btn btn-lg bg-primary text-white w-full">Write</button>
         </div>
         

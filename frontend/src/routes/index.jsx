@@ -3,8 +3,10 @@ import { Routes, Route } from "react-router-dom";
 import Layout from "./Layout";
 import HomePage from "../pages/Home";
 import AudioInputPage from "../pages/AudioInputPage";
+import TransactionForm from "../pages/TransactionForm";
+import ProtectedRoutes from "./Protector";
+import LoginPage from "../pages/Login";
 import CamInputPage from "../pages/CamInputPage.jsx";
-import LoginPage from "../pages/Login.jsx";
 import RegistrationPage from "../pages/Registration.jsx";
 import ProfilePage from "../pages/Profile.jsx";
 import NotFoundPage from "../pages/NotFound.jsx";
@@ -18,14 +20,22 @@ export default function MainRoutes() {
         <>
         <Routes>
         <Route element={<Layout/>}>
+
+        <Route path="" element={<ProtectedRoutes />}>
             <Route path='/' element={<HomePage/>}/>
             <Route path='/audio-input/' element={<AudioInputPage/>}/>
+            <Route path='/new-transaction/' element={<TransactionForm/>}/>
+        </Route>
+
+            <Route path="/login" element={<LoginPage/>}/>
+            {/* <Route path="*" element={<NotFound/>} /> */}
+
+
             <Route path='/camera-input/' element={<CamInputPage/>}/>
-            <Route path='/login/' element={<LoginPage/>}/>
             <Route path='/registration/' element={<RegistrationPage/>}/>
-            <Route path='/passwordreset/' element={<PasswordResetPage/>}/>
+            <Route path='/password-reset/' element={<PasswordResetPage/>}/>
             <Route path='/profile/' element={<ProfilePage/>}/>
-            <Route path='/notfound/' element={<NotFoundPage/>}/>
+            <Route path='/not-found/' element={<NotFoundPage/>}/>
         </Route >
         </Routes>
         </>

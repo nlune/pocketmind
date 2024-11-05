@@ -9,15 +9,15 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('expense', '0001_initial'),
+        ('budget', '0002_initial'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='expense',
+            model_name='budget',
             name='user',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='expenses',
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='budgets',
                                     to=settings.AUTH_USER_MODEL),
         ),
     ]

@@ -33,7 +33,7 @@ def get_transaction(user_input):
     }
     
     Only provide the JSON dictionary in your response.
-    """    # noqa
+    """  # noqa
 
     chat_completion = client.chat.completions.create(
         messages=[

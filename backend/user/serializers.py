@@ -3,12 +3,13 @@ import random
 from django.contrib.auth import get_user_model
 from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404
-from project import settings
 from rest_framework import serializers
 from rest_framework import status
 from rest_framework.generics import CreateAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
+
+from project import settings
 
 User = get_user_model()
 

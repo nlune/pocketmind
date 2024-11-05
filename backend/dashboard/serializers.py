@@ -2,6 +2,8 @@ from rest_framework import serializers
 
 from budget.models import Budget  # Import the Budget model
 from .models import FinancialTip
+
+
 # from expense.models import Expense     # Import the Expense model
 
 

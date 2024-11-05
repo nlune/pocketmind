@@ -1,10 +1,16 @@
 # Create your views here.
+import datetime
 import json
 import logging
+from datetime import timedelta
 
+from django.db.models import Sum
+from django.utils import timezone
 from rest_framework import status
 from rest_framework.generics import ListCreateAPIView, GenericAPIView
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from category.models import Category
 from expense.models import Expense
@@ -70,3 +76,43 @@ class GetExpenseFromInput(GenericAPIView):
         serializer.is_valid(raise_exception=True)
 
         return Response(serializer.data)
+
+
+class ReportsView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        interval = request.query_params.get('interval', None)
+        start_date = request.query_params.get('start_date', None)
+        end_date = request.query_params.get('end_date', None)
+
+        expenses = Expense.objects.filter(user=user)
+
+        if interval == 'daily':
+            today = timezone.now().date()
+            expenses = expenses.filter(created__date=today)
+        elif interval == 'weekly':
+            start_of_week = timezone.now().date() - timedelta(days=timezone.now().weekday())
+            expenses = expenses.filter(created__date__gte=start_of_week)
+        elif interval == 'monthly':
+            start_of_month = timezone.now().replace(day=1)
+            expenses = expenses.filter(created__date__gte=start_of_month)
+        elif interval == 'custom' and start_date and end_date:
+            try:
+                start_date = datetime.datetime.strptime(start_date, '%Y-%m-%d').date()
+                end_date = datetime.datetime.strptime(end_date, '%Y-%m-%d').date()
+                expenses = expenses.filter(created__date__range=(start_date, end_date))
+            except ValueError:
+                return Response({"error": "Invalid date format. Use 'YYYY-MM-DD'."}, status=400)
+        else:
+            return Response({"error": "Invalid interval or missing date parameters."}, status=400)
+
+        total_expense = expenses.aggregate(total=Sum('amount'))['total'] or 0.0
+        expense_details = ExpenseSerializer(expenses, many=True).data
+
+        return Response({
+            "interval": interval,
+            "total_expense": total_expense,
+            "details": expense_details,
+        })

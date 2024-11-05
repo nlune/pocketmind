@@ -1,11 +1,12 @@
-from rest_framework.views import APIView
+from decimal import Decimal
+
+from rest_framework import status
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from budget.models import Budget
-from .serializers import BudgetSerializer, FinancialTipSerializer
 from .models import FinancialTip
-from rest_framework import status
-from decimal import Decimal
+from .serializers import BudgetSerializer, FinancialTipSerializer
 
 
 class DashboardView(APIView):

@@ -11,7 +11,7 @@ export default function LoginForm({setForgotPW}){
     const [requestError, setRequestError] = useState("")
     const [token, setToken] = useState("")
     const d = useDispatch()
-     const base_url =  "http://127.0.0.1:8000/backend/api/" // "https://luna-rizl.propulsion-learn.ch/backend/api/"
+    //  const base_url =  // "https://luna-rizl.propulsion-learn.ch/backend/api/"
 
     const emailRef = useRef("");
     const passwordRef = useRef("");
@@ -29,7 +29,7 @@ export default function LoginForm({setForgotPW}){
         }
         console.log("data", login_data)
         try {
-            const resp = await axios.post(base_url + "auth/token/", login_data)
+            const resp = await axios.post("auth/token/", login_data)
             const t = resp.data.access
             setToken(t)
             localStorage.setItem('token', t)
@@ -58,28 +58,31 @@ export default function LoginForm({setForgotPW}){
    return (
     <>
     <div className="flex flex-col w-full max-w-md p-6 bg-white rounded-lg shadow-md space-y-6">
-    <div className="m-5 relative inline-block text-center">
+    <div className="mt-2 pt-2 relative inline-block text-center">
     <span className="inline-block text-2xl">LOGIN</span>
     </div>
 
+    <form onSubmit={loginClick} className="space-y-6">
     <div className="m-2 relative">{error && error.email && <p className="text-red-400 text-xs">Error: {error.email.join(', ')}</p>}
-    <input className={`input input-bordered w-full mt-1 ${error && error.email ? 'border-red-400 border': ''}`} type="text" ref={emailRef} placeholder="Email Address" /></div>
+    <input className={`input input-bordered w-full mt-2 py-2 px-4 rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-200 ${error && error.email ? 'border-red-400 border': ''}`} type="text" ref={emailRef} placeholder="Email Address" /></div>
 
     {/* <div>{error && error.email && <p className="text-red-400 text-xs">Error: {error.email.join(', ')}</p>} */}
     {/* <input className={`p-3 ${error && error.email ? 'border-red-400 border': ''}`} type="text" ref={emailRef} placeholder="Email Address" /></div> */}
 
     <div className="m-2 relative">{error && error.password && <p className="text-red-400 text-xs">Error: {error.password.join(', ')}</p>}
-    <input className={`input input-bordered w-full mt-1 ${error && error.password ? 'border-red-400 border': ''}`} type="password" ref={passwordRef} placeholder="Password" />
+    <input className={`input input-bordered w-full mt-2 py-2 px-4 rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-200 ${error && error.password ? 'border-red-400 border': ''}`} type="password" ref={passwordRef} placeholder="Password" />
     
-    <div className="text-right mt-8">
-    <a onClick={forgotPWClick} className="absolute bottom-0 right-0 text-gray-400 text-xs mb-2">
+    <div className="text-right mt-2">
+    <a onClick={forgotPWClick} className="text-gray-400 text-xs cursor-pointer hover:underline">
       Forgot password?
     </a></div>
     </div>
 
     {error && <p className="text-red-400">Error: {error.detail}</p> }
     {requestError && <p className="text-red-400">Please check your login credentials.</p> }
-    <button onClick={loginClick} className="btn btn-primary m-10 text-white">{loading ? "Loading..." : "Login"}</button>
+    <div className="text-center">
+    <button type="submit" onClick={loginClick} className="btn btn-primary text-white">{loading ? "Loading..." : "Login"}</button></div>
+    </form>
     </div>
     </>
    )

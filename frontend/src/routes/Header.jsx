@@ -1,9 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { logoutUser } from '../store/slices/userSlice';
+import { useNavigate } from 'react-router-dom';
 
 export default function Header() {
     const d = useDispatch()
+    const nav = useNavigate()
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const dropdownRef = useRef(null);
 
@@ -36,12 +38,17 @@ export default function Header() {
         // nav('/login')
     }
 
+    const handleLogoClick = (e) => {
+        e.preventDefault()
+        nav('/')
+    }
+
 
     return (
         <>
             {/* Header */}
                 <header className="w-full md:w-3/4 flex justify-between items-center bg-white p-4 rounded-lg shadow-md relative">
-                <h1 className="text-2xl font-bold">PocketMind</h1>
+                <h1 onClick={handleLogoClick} className="text-2xl font-bold">PocketMind</h1>
                 <button
                     className="btn btn-ghost btn-square"
                     onClick={handleDropdownToggle}

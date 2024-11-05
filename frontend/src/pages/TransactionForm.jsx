@@ -9,40 +9,40 @@ export default function TransactionForm() {
 
     return (
         <>
-        <div className="flex flex-col w-full max-w-md p-6 bg-white rounded-lg shadow-md space-y-6">
-        <h2 className="text-2xl font-semibold text-center text-gray-700">Add Transaction</h2>
+        <div className="flex flex-col w-full max-w-md p-6 bg-white rounded-lg shadow-md space-y-6 ">
+        <h3 className="text-2xl font-semibold text-center text-gray-700">Add Transaction</h3>
 
-            <div>
-            <label className="block text-sm font-medium text-gray-700">Description:</label>
+            <div className="px-6">
+            <label className="block text-sm font-medium text-gray-600">Description:</label>
             <input
               type="text"
-              placeholder="Enter description"
-              className="input input-bordered w-full mt-1"
+              placeholder="e.g., Coffee at Café"
+              className="input input-bordered w-full mt-2 py-2 px-4 rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-200"
             /></div>
 
-            <div>
-            <label className="block text-sm font-medium text-gray-700">Amount:</label>
+            <div className="px-6">
+            <label className="block text-sm font-medium text-gray-600">Amount:</label>
             <input
               type="number"
-              placeholder="Enter amount"
-              className="input input-bordered w-full mt-1"
+              placeholder="e.g., 15.50"
+              className="input input-bordered w-full mt-2 py-2 px-4 rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-200"
             />
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Category</label>
-            <select defaultValue={'default'} className="select select-bordered w-full mt-1">
+          <div className="px-6">
+            <label className="block text-sm font-medium text-gray-600">Category</label>
+            <select defaultValue={'default'} 
+            className="select select-bordered w-full mt-2 py-2 px-4 rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-200">
               <option value='default' disabled>
                 Select category
               </option>
               {categories && categories.map((e, i) => <option key={i}>{e}</option>)}
-              {/* Add more categories as needed */}
             </select>
           </div>
 
-        <div className="flex flex-row w-full justify-end pt-5 p-1">
-          <button className="btn w-20 bg-gray-300 text-gray-700 hover:bg-gray-400">Cancel</button>
-          <button className="btn w-20 bg-blue-600 text-white hover:bg-blue-700">Save</button>
+        <div className="flex flex-row w-full justify-end pt-6 p-1 space-x-3 ">
+          <button className="btn btn-warning w-20 rounded-lg">Cancel</button>
+          <button className="btn btn-accent w-20 rounded-lg">Save</button>
           </div>
           
         </div>

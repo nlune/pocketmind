@@ -1,7 +1,9 @@
-from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.views import APIView
+
 from .models import AIInsights  # , UserQuestion
 from .serializers import AIInsightsSerializer  # , UserQuestionSerializer
+
 
 # from .services import handle_user_question
 
@@ -18,7 +20,6 @@ class AIInsightsView(APIView):
         ai_serializer = AIInsightsSerializer(ai_insights, many=True)
 
         return Response({"ai_insights": ai_serializer.data})
-
 
 # class AskQuestionView(APIView):
 # def post(self, request):

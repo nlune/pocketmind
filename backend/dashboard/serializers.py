@@ -1,6 +1,6 @@
 from rest_framework import serializers
-from budget.models import Budget  # Import the Budget model
 
+from budget.models import Budget  # Import the Budget model
 # from expense.models import Expense     # Import the Expense model
 from .models import AIInsight  # AIinsights is assumed
 

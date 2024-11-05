@@ -1,6 +1,17 @@
-import random
 import logging
+import random
 
+from django.contrib.auth import get_user_model
+from django.contrib.auth.hashers import make_password
+from django.core.mail import send_mail
+from django.db.models import Q
+from rest_framework import status
+from rest_framework.generics import CreateAPIView, get_object_or_404, GenericAPIView
+from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+from project import settings
 from user.models import RegistrationProfile
 from user.serializers import (
     UserProfileSerializer,
@@ -10,16 +21,6 @@ from user.serializers import (
     PasswordResetRequestSerializer,
     PasswordResetValidationSerializer,
 )
-from django.contrib.auth import get_user_model
-from django.contrib.auth.hashers import make_password
-from django.core.mail import send_mail
-from django.db.models import Q
-from project import settings
-from rest_framework import status
-from rest_framework.generics import CreateAPIView, get_object_or_404, GenericAPIView
-from rest_framework.permissions import AllowAny
-from rest_framework.response import Response
-from rest_framework.views import APIView
 
 # Get the User model
 User = get_user_model()

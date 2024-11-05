@@ -68,7 +68,8 @@ INSTALLED_APPS = [
 
     # own apps
     "user",
-    "expense",
+ #   "expense",
+    "expense.apps.ExpenseConfig",
     "category",
     "budget",
     "dashboard",

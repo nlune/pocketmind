@@ -8,8 +8,6 @@ class ExpenseSerializer(serializers.ModelSerializer):
     category = serializers.SerializerMethodField()
     user = serializers.SerializerMethodField()
 
-    category = SimpleCategorySerializer(read_only=False)
-
     class Meta:
         model = Expense
         fields = "__all__"
@@ -29,3 +27,9 @@ class CreateExpenseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Expense
         fields = "__all__"
+
+
+class GetExpenseSerializer(serializers.Serializer):
+    category = SimpleCategorySerializer(read_only=False, required=False)
+    description = serializers.CharField(max_length=500, allow_blank=True)
+    amount = serializers.FloatField()

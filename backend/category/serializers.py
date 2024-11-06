@@ -15,7 +15,5 @@ class CategorySerializer(serializers.ModelSerializer):
         return super().create(validated_data)
 
 
-class SimpleCategorySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Category
-        fields = ["name"]
+class SimpleCategorySerializer(serializers.Serializer):
+    name = serializers.CharField(max_length=100)

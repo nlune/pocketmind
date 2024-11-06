@@ -13,10 +13,12 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from category.models import Category
+from category.serializers import SimpleCategorySerializer
 from expense.models import Expense
-from expense.serializers import ExpenseSerializer, CreateExpenseSerializer
+from expense.serializers import ExpenseSerializer, CreateExpenseSerializer, GetExpenseSerializer
 from project.helpers.get_category import get_category
 from project.helpers.get_transaction import get_transaction
+from project.helpers.get_transaction_scannedTxt import get_transaction_scannedtxt
 
 logger = logging.getLogger(__name__)
 
@@ -62,15 +64,59 @@ class GetExpenseFromInput(GenericAPIView):
     send text description and get back a suggested transaction
     """
 
-    serializer_class = ExpenseSerializer
+    serializer_class = GetExpenseSerializer
 
     def post(self, request):
         user_entry = request.data["text"]
         data = get_transaction(user_entry)
         data = json.loads(data)
-        category = get_category(data["description"])
-        # category, created = Category.objects.get_or_create(name=_category)
-        data.update({"category": {"name": category}, "user": request.user.id})
+        if data['description']:
+            category = get_category(data["description"])
+            data.update({"category": {"name": category}, "user": request.user.id})
+        else:
+            data.update({"user": request.user.id})
+
+        serializer = self.get_serializer(data=data)
+        serializer.is_valid(raise_exception=True)
+
+        return Response(serializer.data)
+
+
+class GetExpenseScannedInput(GenericAPIView):
+    """
+    post:
+    send text description extracted from scanned receipt and get back a suggested transaction
+    """
+
+    serializer_class = GetExpenseSerializer
+
+    def post(self, request):
+        user_entry = request.data["text"]
+        data = get_transaction_scannedtxt(user_entry)
+        data = json.loads(data)
+        if data['description']:
+            category = get_category(data["description"])
+            data.update({"category": {"name": category}, "user": request.user.id})
+        else:
+            data.update({"user": request.user.id})
+
+        serializer = self.get_serializer(data=data)
+        serializer.is_valid(raise_exception=True)
+
+        return Response(serializer.data)
+
+
+class GetCategoryFromDescription(GenericAPIView):
+    """
+    post:
+    send description and get back generated category name
+    """
+    serializer_class = SimpleCategorySerializer
+
+    def post(self, request):
+        description = request.data["description"]
+        category = get_category(description)
+        data = {"name": category}
 
         serializer = self.get_serializer(data=data)
         serializer.is_valid(raise_exception=True)

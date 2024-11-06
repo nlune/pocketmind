@@ -2613,6 +2613,16 @@ input.tab:checked + .tab-content,
   background-color: rgb(59 130 246 / var(--tw-bg-opacity));
 }
 
+.bg-custom1 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(52 73 94 / var(--tw-bg-opacity));
+}
+
+.bg-custom2 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(170 207 208 / var(--tw-bg-opacity));
+}
+
 .bg-gray-100 {
   --tw-bg-opacity: 1;
   background-color: rgb(243 244 246 / var(--tw-bg-opacity));
@@ -2660,6 +2670,10 @@ input.tab:checked + .tab-content,
 
 .p-1 {
   padding: 0.25rem;
+}
+
+.p-2 {
+  padding: 0.5rem;
 }
 
 .p-3 {
@@ -2762,12 +2776,20 @@ input.tab:checked + .tab-content,
   font-weight: 700;
 }
 
+.font-extrabold {
+  font-weight: 800;
+}
+
 .font-medium {
   font-weight: 500;
 }
 
 .font-semibold {
   font-weight: 600;
+}
+
+.tracking-wide {
+  letter-spacing: 0.025em;
 }
 
 .text-black {
@@ -2778,6 +2800,16 @@ input.tab:checked + .tab-content,
 .text-blue-500 {
   --tw-text-opacity: 1;
   color: rgb(59 130 246 / var(--tw-text-opacity));
+}
+
+.text-custom2 {
+  --tw-text-opacity: 1;
+  color: rgb(170 207 208 / var(--tw-text-opacity));
+}
+
+.text-custom4 {
+  --tw-text-opacity: 1;
+  color: rgb(34 47 61 / var(--tw-text-opacity));
 }
 
 .text-gray-400 {

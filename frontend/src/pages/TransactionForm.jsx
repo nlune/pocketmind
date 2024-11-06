@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom"
 import useApiRequest from "../hooks/useAPI";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
 
@@ -11,35 +11,73 @@ export default function TransactionForm() {
   const headers = {'Authorization': 'Bearer ' + token}
 
     const { sendRequest, data, error, loading } = useApiRequest({ auth: true });
-    // const categories = ["Food", "Transportation", "Entertainment", "Shopping"]
     const { state } = useLocation()
-    const userInput = state.userInput
+    const userInput = state?.userInput // from audio input
+    const scannedTxt = state?.scannedTxt
 
     const [description, setDescription ] = useState("")
     const [amount, setAmount ] = useState("")
     const [category, setCategory] = useState("")
-    const [saveError, setSaveError] = useState("")
+
+    const desciptionRef = useRef(null)
+
+    const handleClickOutside = async (event) => {
+      if (desciptionRef.current && !desciptionRef.current.contains(event.target)) {
+        try {
+          const resp = await axios.post("/transactions/get-category/", {"description": description}, headers)
+          setCategory(resp.data.name)
+
+        } catch (error) {
+          console.log("get cate err ", error)
+        }
+      }
+  };
 
     useEffect(() => {
-      sendRequest("POST", "/transactions/get-via-input/", {"text": userInput})
-    }, [userInput])
+      if (userInput) {
+        sendRequest("POST", "/transactions/get-via-input/", {"text": userInput})
+      } else if (scannedTxt) {
+        sendRequest("POST", "/transactions/get-via-scan/", {"text": scannedTxt}) 
+      }
+    }, [userInput, scannedTxt])
 
     useEffect(() => {
       if (data && !error) {
         console.log(data)
           setDescription(data.description)
           setAmount(data.amount)
-          setCategory(data.category.name)
+          setCategory(data?.category.name)
       }
   }, [data, error])
+
+  useEffect(() => {
+    if (!data && description) {
+      document.addEventListener("mousedown", handleClickOutside, {once: true});
+    } else {
+        document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+  };
+  }, [description])
     
   const handleCancel = () => {
     nav('/')
   }
 
+  const handleBack = () => {
+    nav(-1)
+  }
+
   const handleSave = async () => {
     try {
-      const resp = await axios.post('/transactions/add-by-user/', data, headers)
+      const save_dat = {
+        "description": description,
+        "amount": amount,
+        "category": category
+      }
+      const resp = await axios.post('/transactions/add-by-user/', save_dat, headers)
       nav('/')
 
     } catch (error) {
@@ -55,6 +93,7 @@ export default function TransactionForm() {
             <div className="px-6">
             <label className="block text-sm font-medium text-gray-600">Description:</label>
             <input
+              ref={desciptionRef}
               type="text"
               placeholder="e.g., Coffee at Café"
               value={description}
@@ -98,6 +137,7 @@ export default function TransactionForm() {
 
         <div className="flex flex-row w-full justify-end pt-6 p-1 space-x-3 ">
           <button onClick={handleCancel} className="btn btn-warning w-20 rounded-lg">Cancel</button>
+          <button onClick={handleBack} className="btn btn-secondary w-20 rounded-lg">Back</button>
           <button onClick={handleSave} className="btn btn-accent w-20 rounded-lg">Save</button>
           </div>
           

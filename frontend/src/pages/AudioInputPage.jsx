@@ -30,11 +30,16 @@ const AudioInputPage = () => {
         }
       }, [])
 
-      const handleContinue = () => {
+      const handleContinue = (e) => {
+        e.preventDefault()
         SpeechRecognition.stopListening()
         nav('/new-transaction', {state: {userInput: transcript} })
       }
-    
+      const handleCancel = (e) => {
+        e.preventDefault()
+        SpeechRecognition.stopListening()
+        nav('/')
+      }
       return (
         <div className='flex flex-col gap-4 items-center'>
             <h2 className="text-lg font-semibold text-gray-600 mb-2">
@@ -45,7 +50,8 @@ const AudioInputPage = () => {
           {!listening && <button className='btn btn-success' onClick={() => SpeechRecognition.startListening({ continuous: true })}>Start</button>}
           <button className='btn btn-warning' onClick={SpeechRecognition.stopListening}>Stop</button>
           <button className='btn btn-secondary' onClick={resetTranscript}>Reset</button>
-          <button className='btn btn-accent' onClick={handleContinue}>Continue</button>
+          {!transcript && <button className='btn btn-info' onClick={handleContinue}>Cancel</button>}
+          {transcript && <button className='btn btn-accent' onClick={handleContinue}>Continue</button>}
           </div>
          {transcript && <div className="transcript-container bg-base-200 p-4 rounded-lg shadow-md w-full max-w-md mt-8  w-80  overflow-y-auto">
             <p className="text-sm text-gray-500 whitespace-pre-wrap break-words">

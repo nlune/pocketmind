@@ -1,11 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { logoutUser } from '../store/slices/userSlice';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export default function Header() {
     const d = useDispatch()
     const nav = useNavigate()
+    const loc = useLocation()
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const dropdownRef = useRef(null);
     const loggedIn = useSelector(s => s.User.loggedIn)
@@ -43,20 +44,28 @@ export default function Header() {
         e.preventDefault()
         nav('/')
     }
-
+    const handleLoginClick = (e) => {
+        e.preventDefault()
+        nav('/login')
+    }
 
     return (
         <>
             {/* Header */}
                 <header className="w-full md:w-3/4 flex justify-between items-center bg-white p-4 rounded-lg shadow-md relative">
-                <h1 onClick={handleLogoClick} className="text-2xl font-bold">PocketMind</h1>
-                {!loggedIn && 
-                <div className="btns">
+                <h1 onClick={handleLogoClick} className="text-2xl font-bold cursor-pointer">PocketMind</h1>
+                <div className="btns flex flex-row gap-2">
+                {!loggedIn &&
                 <button className='btn btn-secondary btn-sm text-white' >
                     SIGN UP
-                </button> 
-            </div>
-            }
+                </button> }
+                {!loggedIn && loc.pathname !== '/login' &&
+                <button 
+                onClick={handleLoginClick}
+                className='btn btn-secondary btn-sm text-white' >
+                    LOGIN
+                </button>}
+                </div>
                 {loggedIn && <button
                     className="btn btn-ghost btn-square"
                     onClick={handleDropdownToggle}

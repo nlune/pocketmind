@@ -13,7 +13,6 @@ const CamInputPage = () => {
  
 
   const startCamera = async () => {
-    stopCamera()
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ video: true });
 
@@ -58,37 +57,31 @@ const CamInputPage = () => {
   // Capture an image from the camera feed
   const captureImage = () => {
     const canvas = canvasRef.current;
-    const video = videoRef.current;
     const context = canvas.getContext('2d');
 
     // Set canvas dimensions to match video stream
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
+    canvas.width = videoRef.current.videoWidth;
+    canvas.height = videoRef.current.videoHeight;
 
     // Draw video frame to the canvas
-    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+    context.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
 
     // Get the image data URL and set it to state
     setImageData(canvas.toDataURL('image/png'));
     return canvas.toDataURL('image/png');
   };
 
-  // const captureImage = () => {
-  //     const canvas = canvasRef.current;
-  //     const context = canvas.getContext('2d');
-  //     context.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
-  //     return canvas.toDataURL('image/png');
-  // };
-
   // Process the captured image with Tesseract.js
-  const handleScan = async () => {
+  const handleScan = async (e) => {
+    e.preventDefault()
       setLoading(true);
       const image = captureImage()
       try {
-          const { data: { text } } = await Tesseract.recognize(image, 'eng', {
+          const { data: { text } } = await Tesseract.recognize(image, 'eng+deu', {
               logger: (m) => console.log(m),
           });
           setOcrText(text);
+          // stopCamera()
       } catch (err) {
           console.error('OCR processing failed', err);
       } finally {
@@ -109,13 +102,17 @@ const CamInputPage = () => {
     startCamera()
   }
 
+  const handleContinue = (e) => {
+    e.preventDefault()
+    stopCamera()
+    nav('/new-transaction', {state: {scannedTxt: ocrText} })
+  }
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
     <div className="relative w-full max-w-md bg-white rounded-lg shadow-lg p-4">
       <h2 className="text-xl font-semibold text-center mb-4">Scan Receipt</h2>
 
-      { !imageData && <div>
       <div className="relative w-full h-64 bg-gray-200 overflow-hidden rounded-lg">
         <video
           ref={videoRef}
@@ -125,17 +122,16 @@ const CamInputPage = () => {
         ></video>
         <canvas ref={canvasRef} className="hidden"></canvas>
       </div>
+      
       <div className="flex flex-row w-full justify-center pt-2 p-1 space-x-1 "> 
-
-
-      <button onClick={handleCancel} className="btn btn-warning w-24 rounded-lg">Cancel</button>
+      {!imageData && <button onClick={handleCancel} className="btn btn-warning w-24 rounded-lg">Cancel</button>}
 
       <button
         onClick={handleScan}
         className="btn btn-accent w-40 rounded-lg"
       >
         Scan Image
-      </button></div></div>}
+      </button></div>
       
   
 
@@ -146,7 +142,7 @@ const CamInputPage = () => {
           <div className="flex flex-row w-full justify-center pt-2 p-1 space-x-1 ">
           <button onClick={handleCancel} className="btn btn-warning w-24 rounded-lg">Cancel</button>
           <button onClick={handleReset} className="btn btn-secondary w-24 rounded-lg">Reset</button>
-          <button className="btn btn-accent w-24 rounded-lg">Continue</button>
+          <button onClick={handleContinue} className="btn btn-accent w-24 rounded-lg">Continue</button>
           </div>
           {/* <a
             href={imageData}
@@ -157,7 +153,7 @@ const CamInputPage = () => {
           </a> */}
         </div>
       )}
-          {loading && <p>Processing...</p>}
+          {loading  && <p className="bg-gray-100 text-gray-700 p-4 rounded-md shadow-md mt-4 max-w-md mx-auto">Processing...</p>}
          {ocrText && <pre className="bg-gray-100 text-gray-700 p-4 rounded-md shadow-md mt-4 max-w-md mx-auto">{ocrText}</pre>}
     </div>
   </div>

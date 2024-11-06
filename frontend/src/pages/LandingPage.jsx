@@ -13,7 +13,7 @@ const LandingPage = () => {
             <Link to="/registration/">
               <button
                   type="button"
-                  className="w-full tracking-wide text-lg p-2 font-bold text-custom4
+                  className="w-full tracking-wide text-lg p-2 font-bold text-white
                                 rounded-md bg-custom2 shadow-lg mb-4"
               >
                   GET STARTED

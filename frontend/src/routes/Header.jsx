@@ -1,11 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { logoutUser } from '../store/slices/userSlice';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export default function Header() {
     const d = useDispatch()
+    const nav = useNavigate()
+    const loc = useLocation()
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const dropdownRef = useRef(null);
+    const loggedIn = useSelector(s => s.User.loggedIn)
 
 
     const handleClickOutside = (event) => {
@@ -36,13 +40,33 @@ export default function Header() {
         // nav('/login')
     }
 
+    const handleLogoClick = (e) => {
+        e.preventDefault()
+        nav('/')
+    }
+    const handleLoginClick = (e) => {
+        e.preventDefault()
+        nav('/login')
+    }
 
     return (
         <>
             {/* Header */}
                 <header className="w-full md:w-3/4 flex justify-between items-center bg-white p-4 rounded-lg shadow-md relative">
-                <h1 className="text-2xl font-bold">PocketMind</h1>
-                <button
+                <h1 onClick={handleLogoClick} className="text-2xl font-bold cursor-pointer">PocketMind</h1>
+                <div className="btns flex flex-row gap-2">
+                {!loggedIn &&
+                <button className='btn btn-secondary btn-sm text-white' >
+                    SIGN UP
+                </button> }
+                {!loggedIn && loc.pathname !== '/login' &&
+                <button 
+                onClick={handleLoginClick}
+                className='btn btn-secondary btn-sm text-white' >
+                    LOGIN
+                </button>}
+                </div>
+                {loggedIn && <button
                     className="btn btn-ghost btn-square"
                     onClick={handleDropdownToggle}
                 >
@@ -60,7 +84,7 @@ export default function Header() {
                             d="M3 6h18M3 12h18M3 18h18"
                         />
                     </svg>
-                </button>
+                </button>}
 
                 {/* Dropdown Menu */}
                 {isDropdownOpen && (

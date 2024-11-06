@@ -11,6 +11,9 @@ import RegistrationPage from "../pages/Registration.jsx";
 import ProfilePage from "../pages/Profile.jsx";
 import NotFoundPage from "../pages/NotFound.jsx";
 import PasswordResetPage from "../pages/PasswordReset.jsx";
+import TransactionsPage from "../pages/Transactions.jsx";
+import CamInputPageTest from "../pages/sample_cam.jsx";
+
 
 
 export default function MainRoutes() {
@@ -26,15 +29,16 @@ export default function MainRoutes() {
         <Route path="" element={<ProtectedRoutes />}>
             <Route path='/' element={<HomePage/>}/>
             <Route path='/audio-input/' element={<AudioInputPage/>}/>
+            <Route path='/cam-input/' element={<CamInputPage/>}/>
             <Route path='/new-transaction/' element={<TransactionForm/>}/>
+            <Route path="/transactions/" element={<TransactionsPage/>}/>
         </Route>
 
-            {/* <Route path="*" element={<NotFound/>} /> */}
-
-            <Route path='/camera-input/' element={<CamInputPage/>}/>
+            {/* <Route path='/cam-input-test/' element={<CamInputPageTest/>}/> */}
+            <Route path='/registration/' element={<RegistrationPage/>}/>
             <Route path='/password-reset/' element={<PasswordResetPage/>}/>
             <Route path='/profile/' element={<ProfilePage/>}/>
-            <Route path='/not-found/' element={<NotFoundPage/>}/>
+            <Route path='*' element={<NotFoundPage/>}/>
         </Route >
         </Routes>
         </>

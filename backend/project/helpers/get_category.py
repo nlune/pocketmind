@@ -15,7 +15,7 @@ def get_category(description):
     When in doubt, choose the category that most closely aligns with the primary purpose of the expense.
     The categories available are as follows:
 
-    Food & Dining (e.g., restaurants, cafes, groceries)
+    Food & Dining (e.g., restaurants, cafes)
     Transportation (e.g., fuel, public transport, parking)
     Entertainment (e.g., movies, concerts, subscriptions)
     Utilities (e.g., electricity, water, internet)
@@ -25,9 +25,10 @@ def get_category(description):
     Education (e.g., books, courses, school supplies)
     Personal Care (e.g., haircuts, beauty products)
     Home & Rent (e.g., rent, home repairs, mortgage payments)
+    Groceries (e.g. regular grocery items)
     Miscellaneous (e.g., expenses that don’t fit other categories)
 
-    Return only the name of the single best-fitting category.
+    Return only the name of the single best-fitting category. Do not reply in full sentence, give only the category name.
     """
 
     chat_completion = client.chat.completions.create(

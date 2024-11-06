@@ -19,6 +19,8 @@ export default function MainRoutes() {
     return (
         <>
         <Routes>
+        <Route path='/registration/' element={<RegistrationPage/>}/>
+        <Route path="/login" element={<LoginPage/>}/>
         <Route element={<Layout/>}>
 
         <Route path="" element={<ProtectedRoutes />}>
@@ -27,12 +29,9 @@ export default function MainRoutes() {
             <Route path='/new-transaction/' element={<TransactionForm/>}/>
         </Route>
 
-            <Route path="/login" element={<LoginPage/>}/>
             {/* <Route path="*" element={<NotFound/>} /> */}
 
-
             <Route path='/camera-input/' element={<CamInputPage/>}/>
-            <Route path='/registration/' element={<RegistrationPage/>}/>
             <Route path='/password-reset/' element={<PasswordResetPage/>}/>
             <Route path='/profile/' element={<ProfilePage/>}/>
             <Route path='/not-found/' element={<NotFoundPage/>}/>

@@ -1,12 +1,23 @@
 const { default: daisyui } = require('daisyui');
 
 module.exports = {
-  content: ['./src/**/*.{js,ts,jsx,tsx}'],
+  mode: 'jit',
+  content: ['./src/**/*.{html,js,ts,jsx,tsx}'],
   plugins: [require('daisyui')],
-  // daisyui: {
-  //   themes: ["cmyk", "nord", "cupcake", "light", "dark", "dim"],
+  theme: {
+    extend: {
+      colors: {
+        custom1: '#34495e',
+        custom2: '#aacfd0',
+        custom3: '#46627f',
+        custom4: '#222f3d',
+        custom5: '#cbe2e2',
+        custom6: '#ffffff',
+      },
+    },
+  },
   daisyui: {
-    themes: false, // false: only light + dark | true: all themes | array: specific themes like this ["light", "dark", "cupcake"]
+    themes: ["cmyk", "nord", "cupcake", "light", "dark", "dim"], // false: only light + dark | true: all themes | array: specific themes like this ["light", "dark", "cupcake"]
     darkTheme: "dark", // name of one of the included themes for dark mode
     base: true, // applies background color and foreground color for root element by default
     styled: true, // include daisyUI colors and design decisions for all components

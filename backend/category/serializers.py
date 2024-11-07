@@ -13,3 +13,7 @@ class CategorySerializer(serializers.ModelSerializer):
         request = self.context.get('request')
         validated_data['user'] = request.user
         return super().create(validated_data)
+
+
+class SimpleCategorySerializer(serializers.Serializer):
+    name = serializers.CharField(max_length=100)

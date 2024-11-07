@@ -7,7 +7,9 @@ const useApiRequest = (options = { auth: true }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  axios.defaults.baseURL = "http://127.0.0.1:8000/backend/api/" //"https://luna-rizl.propulsion-learn.ch/backend/api/";
+  axios.defaults.baseURL = (window.location.hostname === 'localhost')
+  ? 'http://127.0.0.1:8000/backend/api/'
+  : 'https://pocketmind.propulsion-learn.ch/backend/api/';
 
   const sendRequest = (method, url, requestData, isFormData) => {
     setLoading(true);

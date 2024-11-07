@@ -14,6 +14,7 @@ import PasswordResetPage from "../pages/PasswordReset.jsx";
 import TransactionsPage from "../pages/Transactions.jsx";
 import CamInputPageTest from "../pages/sample_cam.jsx";
 
+import LandingPage from "../pages/LandingPage.jsx";
 
 
 export default function MainRoutes() {
@@ -22,6 +23,7 @@ export default function MainRoutes() {
     return (
         <>
         <Routes>
+        <Route path='' element={<LandingPage/>}/>
         <Route path='/registration/' element={<RegistrationPage/>}/>
         <Route path="/login" element={<LoginPage/>}/>
         <Route element={<Layout/>}>
@@ -35,7 +37,6 @@ export default function MainRoutes() {
         </Route>
 
             {/* <Route path='/cam-input-test/' element={<CamInputPageTest/>}/> */}
-            <Route path='/registration/' element={<RegistrationPage/>}/>
             <Route path='/password-reset/' element={<PasswordResetPage/>}/>
             <Route path='/profile/' element={<ProfilePage/>}/>
             <Route path='*' element={<NotFoundPage/>}/>

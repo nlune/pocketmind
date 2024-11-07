@@ -15,6 +15,7 @@ import TransactionsPage from "../pages/Transactions.jsx";
 import CamInputPageTest from "../pages/sample_cam.jsx";
 
 import LandingPage from "../pages/LandingPage.jsx";
+import BudgetMain from "../pages/BudgetMain.jsx";
 
 
 export default function MainRoutes() {
@@ -37,6 +38,12 @@ export default function MainRoutes() {
         </Route>
 
             {/* <Route path='/cam-input-test/' element={<CamInputPageTest/>}/> */}
+            {/*<Route path="/login" element={<LoginPage/>}/>*/}
+            {/* <Route path="*" element={<NotFound/>} /> */}
+
+            <Route path='/budget/' element={<BudgetMain/>}/>
+            <Route path='/camera-input/' element={<CamInputPage/>}/>
+            <Route path='/registration/' element={<RegistrationPage/>}/>
             <Route path='/password-reset/' element={<PasswordResetPage/>}/>
             <Route path='/profile/' element={<ProfilePage/>}/>
             <Route path='*' element={<NotFoundPage/>}/>

@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from 'react';
+import useApiRequest from '../hooks/useAPI';
+import formatDate from '../helpers/formatDate'
 
 export default function TransactionsPage() {
+    const { sendRequest, data, error, loading } = useApiRequest({ auth: true });
+
     const [activeTab, setActiveTab] = useState('recent');
     const [fromDate, setFromDate] = useState('');
     const [toDate, setToDate] = useState('');
     const [category, setCategory] = useState('');
+    const [transactions, setTransactions] = useState(null)
+
 
     useEffect(() => {
         const today = new Date();
@@ -16,6 +22,23 @@ export default function TransactionsPage() {
     }, []);
 
     const handleTabSwitch = (tab) => setActiveTab(tab);
+
+    console.log(fromDate)
+    useEffect(() => {
+        console.log("getting trans")
+        try {
+            sendRequest("GET", `/transactions/reports/?interval=custom&start_date=${fromDate}&end_date=${toDate}`)
+        } catch (error) {
+            console.log("can't get transactions err ", error)
+        }
+
+    }, [fromDate, toDate])
+
+    useEffect(() => {
+        if (data && !error) {
+            setTransactions(data.details)
+        }
+    }, [data])
 
     return (
         <div className="min-h-screen bg-gray-100 flex flex-col items-center p-6">
@@ -76,14 +99,21 @@ export default function TransactionsPage() {
 
             {/* Transactions List */}
             <div className="w-full max-w-2xl bg-white p-4 rounded-lg shadow-md">
-                <h2 className="text-xl font-semibold mb-4">
+                <div className="flex flex-row justify-between mb-3">
+                <h2 className="text-xl font-semibold p-2">
                     {activeTab === 'recent' ? 'Recent Transactions' : 'Recurring Transactions'}
                 </h2>
+                {data && <h2 className="text-xl p-2">Total: {data.total_expense.toFixed(2)}</h2>}
+
+                </div>
                 <ul className="space-y-4">
-                    {/* Example transactions (replace with dynamic data) */}
-                    <TransactionItem description="Grocery shopping" amount={-50} date="2024-11-01" />
-                    <TransactionItem description="Netflix Subscription" amount={-15} date="2024-10-25" />
-                    <TransactionItem description="Electricity Bill" amount={-100} date="2024-10-20" />
+                {transactions && transactions.map((item) => 
+                <TransactionItem description={item.description} amount={item.amount} date={formatDate(item.created)} /> 
+                 )
+                    // <TransactionItem description="Grocery shopping" amount={-50} date="2024-11-01" />
+                    // <TransactionItem description="Netflix Subscription" amount={-15} date="2024-10-25" />
+                    // <TransactionItem description="Electricity Bill" amount={-100} date="2024-10-20" />
+                }
                 </ul>
             </div>
         </div>
@@ -97,7 +127,7 @@ function TransactionItem({ description, amount, date }) {
                 <p className="text-lg font-medium">{description}</p>
                 <p className="text-sm text-gray-500">{date}</p>
             </div>
-            <p className={`text-lg font-semibold ${amount < 0 ? 'text-gray-600' : 'text-green-500'}`}>
+            <p className={`text-lg font-semibold ${amount < 0 ? 'text-red-600' : 'text-gray-600'}`}>
                 ${amount.toFixed(2)}
             </p>
         </li>

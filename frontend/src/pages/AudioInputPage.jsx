@@ -38,7 +38,7 @@ const AudioInputPage = () => {
       const handleCancel = (e) => {
         e.preventDefault()
         SpeechRecognition.stopListening()
-        nav('/')
+        nav('/home')
       }
       return (
         <div className='flex flex-col gap-4 items-center'>
@@ -50,7 +50,7 @@ const AudioInputPage = () => {
           {!listening && <button className='btn btn-success' onClick={() => SpeechRecognition.startListening({ continuous: true })}>Start</button>}
           <button className='btn btn-warning' onClick={SpeechRecognition.stopListening}>Stop</button>
           <button className='btn btn-secondary' onClick={resetTranscript}>Reset</button>
-          {!transcript && <button className='btn btn-info' onClick={handleContinue}>Cancel</button>}
+          {!transcript && <button className='btn btn-info' onClick={handleCancel}>Cancel</button>}
           {transcript && <button className='btn btn-accent' onClick={handleContinue}>Continue</button>}
           </div>
          {transcript && <div className="transcript-container bg-base-200 p-4 rounded-lg shadow-md w-full max-w-md mt-8  w-80  overflow-y-auto">

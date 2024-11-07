@@ -114,7 +114,7 @@ export default function TransactionsPage() {
                 </div>
                 <ul className="space-y-4">
                 {activeTab === "recent" && transactions && transactions.map((item, idx) => 
-                <TransactionItem key={idx} description={item.description} amount={item.amount} date={formatDate(item.created)} /> 
+                <TransactionItem key={idx} description={item.description} amount={item.amount} category={item.category?.name} date={formatDate(item.created)} /> 
                  )
                     // <TransactionItem description="Grocery shopping" amount={-50} date="2024-11-01" />
                     // <TransactionItem description="Netflix Subscription" amount={-15} date="2024-10-25" />
@@ -126,16 +126,19 @@ export default function TransactionsPage() {
     );
 }
 
-function TransactionItem({ description, amount, date }) {
+function TransactionItem({ description, amount, date , category}) {
+    console.log(category)
     return (
         <li className="flex justify-between items-center p-3 bg-gray-50 rounded-md hover:bg-gray-100">
             <div>
                 <p className="text-lg font-medium">{description}</p>
+                <div className="flex flex-row gap-2">
                 <p className="text-sm text-gray-500">{date}</p>
+                {category && <p className="text-sm text-blue-500">{category}</p>}</div>
             </div>
             <p className={`text-lg font-semibold ${amount < 0 ? 'text-red-600' : 'text-gray-600'}`}>
                 ${amount.toFixed(2)}
-            </p>
+            </p> 
         </li>
     );
 }

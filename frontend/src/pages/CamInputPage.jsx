@@ -14,7 +14,8 @@ const CamInputPage = () => {
 
   const startCamera = async () => {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      const stream = await navigator.mediaDevices.getUserMedia( {video: { facingMode: { ideal: "environment" } } // Request rear camera
+      }); //{ video: true });
 
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
@@ -92,7 +93,7 @@ const CamInputPage = () => {
   const handleCancel = (e) => {
     e.preventDefault()
     stopCamera()
-    nav('/')
+    nav('/home')
   }
 
   const handleReset = (e) => {

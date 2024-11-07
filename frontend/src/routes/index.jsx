@@ -27,7 +27,7 @@ export default function MainRoutes() {
         <Routes>
         <Route path='' element={<LandingPage/>}/>
         <Route path='/registration/' element={<RegistrationPage/>}/>
-        <Route path="/login/" element={<LoginPage/>}/>
+        {/* <Route path="/login/" element={<LoginPage/>}/> */}
         <Route element={<Layout/>}>
 
         <Route path="" element={<ProtectedRoutes />}>
@@ -41,7 +41,7 @@ export default function MainRoutes() {
         </Route>
 
             {/* <Route path='/cam-input-test/' element={<CamInputPageTest/>}/> */}
-            {/*<Route path="/login" element={<LoginPage/>}/>*/}
+            <Route path="/login" element={<LoginPage/>}/>
             {/* <Route path="*" element={<NotFound/>} /> */}
 
             <Route path='/budget/' element={<BudgetMain/>}/>

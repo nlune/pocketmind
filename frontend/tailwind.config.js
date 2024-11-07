@@ -1,7 +1,7 @@
 const { default: daisyui } = require('daisyui');
 
 module.exports = {
-  mode: 'jit',
+  // mode: 'jit',
   content: ['./src/**/*.{html,js,ts,jsx,tsx}'],
   plugins: [require('daisyui')],
   theme: {

@@ -8,7 +8,6 @@ User = get_user_model()
 
 # Create your models here.
 class Budget(models.Model):
-    name = models.TextField(blank=False, null=False)
     category = models.ForeignKey(
         Category,
         on_delete=models.PROTECT,
@@ -26,5 +25,7 @@ class Budget(models.Model):
         User, on_delete=models.CASCADE, blank=False, null=False, related_name="budgets"
     )
 
+    color = models.TextField(blank=False, null=False)
+
     def __str__(self):
-        return f"{self.name} {self.category} {self.spend}/{self.limit} "
+        return f"{self.category} {self.spend}/{self.limit} "

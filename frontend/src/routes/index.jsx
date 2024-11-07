@@ -26,11 +26,11 @@ export default function MainRoutes() {
         <Routes>
         <Route path='' element={<LandingPage/>}/>
         <Route path='/registration/' element={<RegistrationPage/>}/>
-        <Route path="/login" element={<LoginPage/>}/>
+        <Route path="/login/" element={<LoginPage/>}/>
         <Route element={<Layout/>}>
 
         <Route path="" element={<ProtectedRoutes />}>
-            <Route path='/' element={<HomePage/>}/>
+            <Route path='/home/' element={<HomePage/>}/>
             <Route path='/audio-input/' element={<AudioInputPage/>}/>
             <Route path='/cam-input/' element={<CamInputPage/>}/>
             <Route path='/new-transaction/' element={<TransactionForm/>}/>

@@ -2,9 +2,10 @@ from django.urls import path
 
 from expense.views import (
     GetExpenseFromInput,
-   
     ListAddExpenses,
-    AddExpense, ReportsView, GetExpenseScannedInput,
+    AddExpense,
+    ReportsView,
+    GetExpenseScannedInput,
     GetCategoryFromDescription,
     ListRecurringView,
     InsightsView,

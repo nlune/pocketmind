@@ -5,18 +5,13 @@ import {useEffect} from "react";
 export default function BudgetMain() {
     const nav = useNavigate()
 
-    // const entries = [
-    //     { name: "Fuel", spend: 600, limit: 1000, color: "bg-cyan-600" },
-    //     { name: "Groceries", spend: 380, limit: 500, color: "bg-emerald-500" },
-    //     { name: "Utilities", spend: 100, limit: 150, color: "bg-sky-400" },
-    //     { name: "Pet", spend: 80, limit: 200, color: "bg-yellow-400" },
-    //     { name: "Party", spend: 20, limit: 100, color: "bg-pink-300" },
-    //     { name: "Fuel", spend: 600, limit: 1000, color: "bg-cyan-600" },
-    //     { name: "Groceries", spend: 380, limit: 500, color: "bg-emerald-500" },
-    //     { name: "Utilities", spend: 100, limit: 150, color: "bg-sky-400" },
-    //     { name: "Pet", spend: 80, limit: 200, color: "bg-yellow-400" },
-    //     { name: "Party", spend: 20, limit: 100, color: "bg-pink-300" },
-    // ];
+    //added colors so tailwind already knows the colors which are applied dynamic
+    const colors = [
+        'bg-red-700','bg-orange-500', 'bg-amber-400', 'bg-lime-400',
+        'bg-green-600', 'bg-emerald-500', 'bg-teal-400', 'bg-cyan-600',
+        'bg-sky-400', 'bg-blue-700', 'bg-indigo-600', 'bg-violet-500',
+        'bg-purple-400','bg-fuchsia-400', 'bg-pink-300', 'bg-rose-600',
+    ];
 
     const { sendRequest, data: budgets, loading, error } = useApiRequest();
 
@@ -27,14 +22,13 @@ export default function BudgetMain() {
     if (loading) return <p>loading...</p>;
     if (error) return <p>error during file loading : {error.message}</p>;
 
-
     return (
 
         <>
             <div className="w-full max-w-lg flex flex-col items-center space-y-2">
                 <div className="relative flex items-center w-full">
                     <div className="flex-grow border-t border-gray-300"></div>
-                    <span className="text-xl font-semibold px-4 bg-gray-100 text-gray-800">Total Budget</span>
+                    <span className="text-xl font-semibold px-4 bg-gray-100 text-gray-800">Total Budgets</span>
                     <div className="flex-grow border-t border-gray-300"></div>
                 </div>
             </div>

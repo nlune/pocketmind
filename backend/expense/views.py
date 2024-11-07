@@ -7,7 +7,7 @@ from datetime import timedelta
 from django.db.models import Sum
 from django.utils import timezone
 from rest_framework import status
-from rest_framework.generics import ListCreateAPIView, GenericAPIView
+from rest_framework.generics import ListCreateAPIView, GenericAPIView, ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -37,7 +37,7 @@ class ListAddExpenses(ListCreateAPIView):
     Add a new expense by sending in correct json format for expense
     """
 
-    queryset = Expense.objects.all()
+    queryset = Expense.objects.all().order_by('-created')
     serializer_class = ExpenseSerializer
 
 
@@ -130,6 +130,17 @@ class GetCategoryFromDescription(GenericAPIView):
 
 
 class ReportsView(APIView):
+    """
+    get:
+    Get list of all expenses, filtered by given interval
+    you can use: daily, weekly, monthly or custom date
+    interval examples:
+    - /?interval=daily
+    - /?interval=weekly
+    - /?interval=monthly
+    - /?interval=custom&start_date=YYYY-MM-DD&end_date=YYYY-MM-DD
+    """
+
     permission_classes = [IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
@@ -138,7 +149,7 @@ class ReportsView(APIView):
         start_date = request.query_params.get("start_date", None)
         end_date = request.query_params.get("end_date", None)
 
-        expenses = Expense.objects.filter(user=user)
+        expenses = Expense.objects.filter(user=user).order_by('-created')
 
         if interval == "daily":
             today = timezone.now().date()
@@ -211,3 +222,11 @@ class InsightsView(GenericAPIView):
         resp = get_insight(serializer.data, interval)
 
         return Response({"content": resp})
+
+
+class ListRecurringView(ListAPIView):
+    serializer_class = ExpenseSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Expense.objects.filter(user=self.request.user, is_recurring=True)

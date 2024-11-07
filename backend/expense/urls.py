@@ -2,11 +2,11 @@ from django.urls import path
 
 from expense.views import (
     GetExpenseFromInput,
-    GetExpenseScannedInput,
+   
     ListAddExpenses,
-    AddExpense,
+    AddExpense, ReportsView, GetExpenseScannedInput,
     GetCategoryFromDescription,
-    ReportsView,
+    ListRecurringView,
     InsightsView,
 )
 
@@ -18,4 +18,5 @@ urlpatterns = [
     path("get-category/", GetCategoryFromDescription.as_view()),
     path("get-insight/", InsightsView.as_view()),
     path("reports/", ReportsView.as_view(), name="expense-report"),
+    path("recurring/", ListRecurringView.as_view(), name="list-recurring-expenses"),
 ]

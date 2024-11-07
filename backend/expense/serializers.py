@@ -33,3 +33,11 @@ class GetExpenseSerializer(serializers.Serializer):
     category = SimpleCategorySerializer(read_only=False, required=False)
     description = serializers.CharField(max_length=500, allow_blank=True)
     amount = serializers.FloatField()
+
+
+class InsightExpenseSerializer(serializers.ModelSerializer):
+    category = SimpleCategorySerializer(read_only=True)
+
+    class Meta:
+        model = Expense
+        fields = ["category", "description", "amount", "created"]

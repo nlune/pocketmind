@@ -15,7 +15,7 @@ export default function LoginPage(){
 
     useEffect(() => {
         if (token) {
-            nav('/')
+            nav('/home/')
         }
     }, [token, location.state])
 

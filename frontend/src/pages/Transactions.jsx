@@ -10,6 +10,9 @@ export default function TransactionsPage() {
     const [toDate, setToDate] = useState('');
     const [category, setCategory] = useState('');
     const [transactions, setTransactions] = useState(null)
+    const [trasnactionTotal, setTransactionTotal] = useState("")
+    const [recurringItems, setRecurringItems] = useState(null)
+    const [recurringTotal, setRecurringTotal] = useState("")
 
 
     useEffect(() => {
@@ -23,20 +26,22 @@ export default function TransactionsPage() {
 
     const handleTabSwitch = (tab) => setActiveTab(tab);
 
-    console.log(fromDate)
     useEffect(() => {
         console.log("getting trans")
+        if (fromDate && toDate){
         try {
             sendRequest("GET", `/transactions/reports/?interval=custom&start_date=${fromDate}&end_date=${toDate}`)
         } catch (error) {
             console.log("can't get transactions err ", error)
         }
+    }
 
     }, [fromDate, toDate])
 
     useEffect(() => {
         if (data && !error) {
             setTransactions(data.details)
+            setTransactionTotal(data.total_expense)
         }
     }, [data])
 
@@ -103,12 +108,13 @@ export default function TransactionsPage() {
                 <h2 className="text-xl font-semibold p-2">
                     {activeTab === 'recent' ? 'Recent Transactions' : 'Recurring Transactions'}
                 </h2>
-                {data && <h2 className="text-xl p-2">Total: {data.total_expense.toFixed(2)}</h2>}
+                {activeTab === 'recent' && trasnactionTotal && <h2 className="text-xl p-2">Total: {trasnactionTotal.toFixed(2)}</h2>}
+                {activeTab === 'recurring' && recurringTotal && <h2 className="text-xl p-2">Total: {recurringTotal.toFixed(2)}</h2>}
 
                 </div>
                 <ul className="space-y-4">
-                {transactions && transactions.map((item) => 
-                <TransactionItem description={item.description} amount={item.amount} date={formatDate(item.created)} /> 
+                {activeTab === "recent" && transactions && transactions.map((item, idx) => 
+                <TransactionItem key={idx} description={item.description} amount={item.amount} date={formatDate(item.created)} /> 
                  )
                     // <TransactionItem description="Grocery shopping" amount={-50} date="2024-11-01" />
                     // <TransactionItem description="Netflix Subscription" amount={-15} date="2024-10-25" />

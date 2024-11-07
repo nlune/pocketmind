@@ -68,7 +68,7 @@ export default function TransactionsPage() {
                     </label>
                     <input
                         type="date"
-                        className="input input-bordered"
+                        className="input input-bordered rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-200"
                         value={fromDate}
                         onChange={(e) => setFromDate(e.target.value)}
                     />
@@ -79,7 +79,7 @@ export default function TransactionsPage() {
                     </label>
                     <input
                         type="date"
-                        className="input input-bordered"
+                        className="input input-bordered rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-200"
                         value={toDate}
                         onChange={(e) => setToDate(e.target.value)}
                     />
@@ -89,7 +89,7 @@ export default function TransactionsPage() {
                         <span className="label-text">Category</span>
                     </label>
                     <select
-                        className="select select-bordered"
+                        className="select select-bordered rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-200"
                         value={category}
                         onChange={(e) => setCategory(e.target.value)}
                     >

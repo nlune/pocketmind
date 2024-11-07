@@ -24,8 +24,8 @@ export default function BudgetMain() {
         sendRequest("GET", "budgets/"); // Anfrage an den Budget-Endpoint
     }, []);
 
-    if (loading) return <p>Lädt...</p>;
-    if (error) return <p>Fehler beim Laden der Daten: {error.message}</p>;
+    if (loading) return <p>loading...</p>;
+    if (error) return <p>error during file loading : {error.message}</p>;
 
 
     return (

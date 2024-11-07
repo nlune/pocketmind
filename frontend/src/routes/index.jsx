@@ -43,7 +43,7 @@ export default function MainRoutes() {
 
             <Route path='/budget/' element={<BudgetMain/>}/>
             <Route path='/camera-input/' element={<CamInputPage/>}/>
-            <Route path='/registration/' element={<RegistrationPage/>}/>
+            {/*<Route path='/registration/' element={<RegistrationPage/>}/>*/}
             <Route path='/password-reset/' element={<PasswordResetPage/>}/>
             <Route path='/profile/' element={<ProfilePage/>}/>
             <Route path='*' element={<NotFoundPage/>}/>

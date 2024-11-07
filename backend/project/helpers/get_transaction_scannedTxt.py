@@ -26,7 +26,7 @@ def get_transaction_scannedtxt(user_input):
     Note the receipt can be in German or English. Be careful to find the correct total amount, which may be after 'TOTAL' or 'Gegeben Kartenzahlung', or other relevant keywords. There may be many numbers, so look for the most sensible choice for the total amount number. 
     Make sure the description field makes sense as a summary, either in German or English. It needs to be readable and understandable, just provide a short summary or empty string if you can't extract sensible details. Do not include numbers or confusing details in the description.
     If you can only extract the total amount and no specific description, set description to an empty string. Provide only the JSON dictionary in your response.
-    """  # noqaß
+    """  # noqa
 
     chat_completion = client.chat.completions.create(
         messages=[
@@ -36,7 +36,7 @@ def get_transaction_scannedtxt(user_input):
                 "content": user_input,
             },
         ],
-        model="llama3-8b-8192",
+        model="llama3-70b-8192",
         response_format={"type": "json_object"},
     )
 

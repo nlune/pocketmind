@@ -13,6 +13,7 @@ import NotFoundPage from "../pages/NotFound.jsx";
 import PasswordResetPage from "../pages/PasswordReset.jsx";
 import TransactionsPage from "../pages/Transactions.jsx";
 import CamInputPageTest from "../pages/sample_cam.jsx";
+import GraphsReportsPage from "../pages/AnalysisPage.jsx";
 
 import LandingPage from "../pages/LandingPage.jsx";
 import BudgetMain from "../pages/BudgetMain.jsx";
@@ -35,6 +36,8 @@ export default function MainRoutes() {
             <Route path='/cam-input/' element={<CamInputPage/>}/>
             <Route path='/new-transaction/' element={<TransactionForm/>}/>
             <Route path="/transactions/" element={<TransactionsPage/>}/>
+            <Route path="/reports/" element={<GraphsReportsPage/>}/>
+            <Route path='/profile/' element={<ProfilePage/>}/>
         </Route>
 
             {/* <Route path='/cam-input-test/' element={<CamInputPageTest/>}/> */}
@@ -45,7 +48,6 @@ export default function MainRoutes() {
             <Route path='/camera-input/' element={<CamInputPage/>}/>
             {/*<Route path='/registration/' element={<RegistrationPage/>}/>*/}
             <Route path='/password-reset/' element={<PasswordResetPage/>}/>
-            <Route path='/profile/' element={<ProfilePage/>}/>
             <Route path='*' element={<NotFoundPage/>}/>
         </Route >
         </Routes>

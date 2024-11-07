@@ -23,6 +23,11 @@ export default function HomePage() {
       )
     }
 
+    const navReportsHandler = (e) => {
+      e.preventDefault(
+        nav("/reports")
+      )
+    }
     return (
 
   <>
@@ -59,7 +64,7 @@ export default function HomePage() {
   
         {/* Navigation Buttons */}
         <div className="grid grid-cols-2 gap-4 w-full max-w-lg">
-          <button className="btn btn-info text-white">Graphs & reports</button>
+          <button onClick={navReportsHandler} className="btn btn-info text-white">Graphs & reports</button>
           <button onClick={navTransactionHandler} className="btn btn-info  text-white">Transactions</button>
           {/* <button className="btn bg-gray-900 text-white">Recurring expenses</button>
           <button className="btn bg-gray-900 text-white">AI-generated spending insights</button> */}

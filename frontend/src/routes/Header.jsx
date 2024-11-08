@@ -60,19 +60,25 @@ export default function Header() {
     return (
         <>
             {/* Header */}
-                <header className="w-full md:w-3/4 flex justify-between items-center bg-white p-4 rounded-lg shadow-md relative z-10">
-                <h1 onClick={handleLogoClick} className="text-2xl font-bold cursor-pointer">PocketMind</h1>
-                <div className="btns flex flex-row gap-2">
-                {!loggedIn &&
-                <button className='btn btn-secondary btn-sm text-white' >
-                    SIGN UP
-                </button> }
-                {!loggedIn && !loc.pathname.includes('login') &&
-                <button 
-                onClick={handleLoginClick}
-                className='btn btn-secondary btn-sm text-white' >
-                    LOGIN
-                </button>}
+                <header className="w-full max-w-screen-sm md:w-3/4 flex items-center justify-between bg-custom2
+                                    p-4 rounded-lg shadow-md relative">
+                    <h1 onClick={handleLogoClick} className="text-2xl font-bold text-white text-center cursor-pointer">pocketmind
+                        {/*<img className="!w-1 !h-1" src="/logo2.png" alt="Pocketmind"/>*/}
+                    </h1>
+                    <div className="btns flex flex-row gap-2">
+
+                    {/*USER WILL NEVER SEE THE HEADER WITHOUT BEING LOGGED IN*/}
+
+                {/*{!loggedIn &&*/}
+                {/*<button className='btn btn-secondary btn-sm text-white bg-custom5' >*/}
+                {/*    SIGN UP*/}
+                {/*</button> }*/}
+                {/*{!loggedIn && loc.pathname !== '/login' &&*/}
+                {/*<button */}
+                {/*onClick={handleLoginClick}*/}
+                {/*className='btn btn-secondary btn-sm text-white bg-custom5' >*/}
+                {/*    LOGIN*/}
+                {/*</button>}*/}
                 </div>
                 {loggedIn && <button
                     className="btn btn-ghost btn-square"

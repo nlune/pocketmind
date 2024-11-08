@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import useApiRequest from "../hooks/useAPI"
 import { Navigate, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -58,12 +58,13 @@ export default function LoginForm({setForgotPW}){
    return (
     <>
     <div className="flex flex-col w-full max-w-md p-6 bg-white rounded-lg shadow-md space-y-6">
-    <div className="mt-2 pt-2 relative inline-block text-center">
-    <span className="inline-block text-2xl">LOGIN</span>
-    </div>
+        <div className="mt-2 pt-2 relative inline-block text-center">
+            {/*<span className="inline-block text-2xl">LOGIN</span>*/}
+            <div className="mx-auto inline-block"><img src="/logo.png" alt="Pocketmind"/></div>
+        </div>
 
-    <form onSubmit={loginClick} className="space-y-6">
-    <div className="m-2 relative">{error && error.email && <p className="text-red-400 text-xs">Error: {error.email.join(', ')}</p>}
+        <form onSubmit={loginClick} className="space-y-6">
+            <div className="m-2 relative">{error && error.email && <p className="text-red-400 text-xs">Error: {error.email.join(', ')}</p>}
     <input className={`input input-bordered w-full mt-2 py-2 px-4 rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-200 ${error && error.email ? 'border-red-400 border': ''}`} type="text" ref={emailRef} placeholder="Email Address" /></div>
 
     {/* <div>{error && error.email && <p className="text-red-400 text-xs">Error: {error.email.join(', ')}</p>} */}
@@ -81,7 +82,7 @@ export default function LoginForm({setForgotPW}){
     {error && <p className="text-red-400">Error: {error.detail}</p> }
     {requestError && <p className="text-red-400">Please check your login credentials.</p> }
     <div className="text-center">
-    <button type="submit" onClick={loginClick} className="btn btn-primary text-white">{loading ? "Loading..." : "Login"}</button></div>
+    <button type="submit" onClick={loginClick} className="w-11/12 px-6 text-2xl py-2 font-semibold text-white bg-custom2 rounded-md shadow-lg">{loading ? "Loading..." : "Login"}</button></div>
     </form>
     </div>
     </>

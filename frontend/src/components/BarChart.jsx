@@ -25,7 +25,7 @@ const CustomBarChart = ({ categoryData }) => {
   };
 
   return (
-    <div className="flex items-center justify-center w-full p-4 bg-white rounded-xl shadow-lg max-w-screen-lg mx-auto">
+    <div className="flex items-center justify-center w-full p-4 bg-white rounded-xl max-w-screen-lg mx-auto">
       <ResponsiveContainer width="100%" height={150}>
         <BarChart data={categoryData} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
           <XAxis dataKey="name" hide />

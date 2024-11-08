@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import CustomBarChart from "../components/BarChart";
 
 export default function HomePage() {
   const nav = useNavigate()  
@@ -28,6 +29,16 @@ export default function HomePage() {
         nav("/reports")
       )
     }
+    // fake data
+    const categoryData = [
+      { name: 'Food & Drink', value: 300 },
+      { name: 'Utilities', value: 150 },
+      { name: 'Transportation', value: 100 },
+      { name: 'Entertainment', value: 75 },
+      { name: 'Shopping', value: 200 },
+      { name: 'Others', value: 125 },
+  ];
+
     return (
 
   <>
@@ -49,7 +60,10 @@ export default function HomePage() {
         <div className="w-full max-w-lg bg-white p-6 rounded-lg shadow-md">
           <h2 className="text-xl font-semibold mb-4">Categorized Spending</h2>
           {/* Placeholder for Chart */}
-          <div className="w-full h-32 bg-gray-200 rounded-lg"></div>
+          
+          <CustomBarChart categoryData={categoryData}/>
+          {/* <div className="w-full h-32 bg-gray-200 rounded-lg">
+          </div> */}
         </div>
   
         {/* Budget Overview */}

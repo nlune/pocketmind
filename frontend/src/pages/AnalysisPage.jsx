@@ -5,6 +5,7 @@ import Markdown from 'react-markdown'
 import LoadingSwirl from '../components/LoadingSwirlAnimation';
 import ChartComponent from '../components/ChartComponent';
 import CustomPieChart from '../components/PieChart';
+import CustomBarChart from '../components/BarChart';
 
 export default function GraphsReportsPage() {
     const token = useSelector(s => s.User.accessToken)

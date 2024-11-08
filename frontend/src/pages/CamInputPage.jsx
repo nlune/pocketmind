@@ -110,8 +110,8 @@ const CamInputPage = () => {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-    <div className="relative w-full max-w-md bg-white rounded-lg shadow-lg p-4">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-white">
+    <div className="relative w-full max-w-md bg-white rounded-lg p-4">
       <h2 className="text-xl font-semibold text-center mb-4">Scan Receipt</h2>
 
       <div className="relative w-full h-64 bg-gray-200 overflow-hidden rounded-lg">
@@ -125,11 +125,12 @@ const CamInputPage = () => {
       </div>
       
       <div className="flex flex-row w-full justify-center pt-2 p-1 space-x-1 "> 
-      {!imageData && <button onClick={handleCancel} className="btn btn-warning w-24 rounded-lg">Cancel</button>}
+      {!imageData && <button onClick={handleCancel} className="btn btn-lg btn-accent text-white w-1/2 max-w-lg py-4
+                            font-semibold shadow-md bg-custom2 border-gray-300 rounded-lg">Return</button>}
 
       <button
         onClick={handleScan}
-        className="btn btn-accent w-40 rounded-lg"
+        className="btn btn-lg bg-custom3 text-white w-1/2 rounded-lg"
       >
         Scan Image
       </button></div>

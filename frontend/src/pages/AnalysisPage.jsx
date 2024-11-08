@@ -135,7 +135,7 @@ export default function GraphsReportsPage() {
 
                    {/* Tabs for graphs */}
                     {activeTab === 'graphs' && 
-                                <div role="tablist" className="tabs tabs-lifted tabs-sm self-center mb-6">
+                                <div role="tablist" className="tabs tabs-lifted tabs-sm self-center mb-6 ">
                                 <a 
                                     role="tab" 
                                     onClick={() => handleGraphTabSwitch('line')}

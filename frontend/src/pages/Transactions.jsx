@@ -52,11 +52,15 @@ export default function TransactionsPage() {
             <div role="tablist" className="tabs tabs-lifted tabs-lg self-start">
             <a role="tab" 
             onClick={() => handleTabSwitch('recent')}
-            className={`tab ${activeTab === "recent" ? 'tab-active' : ''}`}>Recent Transactions</a>
+            className={`tab ${activeTab === "recent" ? 'tab-active' : ''}`}>
+                                    <span className="block md:hidden">Recent</span>
+                                    <span className="hidden md:block">Recent Transactions</span></a>
 
             <a role="tab" 
             onClick={() => handleTabSwitch('recurring')}
-            className={`tab ${activeTab === "recurring" ? 'tab-active' : ''}`}>Recurring Transactions</a>
+            className={`tab ${activeTab === "recurring" ? 'tab-active' : ''}`}>
+                                    <span className="block md:hidden">Recurring</span>
+                                    <span className="hidden md:block">Recurring Transactions</span></a>
             {/* <a role="tab" className="tab">Tab 3</a> */}
             </div>
 

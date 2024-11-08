@@ -42,13 +42,13 @@ export default function HomePage() {
     return (
 
   <>
-        <div className="w-full max-w-lg flex flex-col items-center space-y-2">
+        <div className="w-full max-w-lg flex flex-col items-center gap-4 mt-6 mb-6">
         <div className="relative flex items-center w-full">
           <div className="flex-grow border-t border-gray-300"></div>
           <span className="text-xl font-semibold px-4  text-gray-700">Upload transaction</span>
           <div className="flex-grow border-t border-gray-300"></div>
         </div>
-      </div>
+     
         {/* Icon Upload Buttons */}
         <div className="grid grid-cols-3 gap-4 w-full max-w-lg justify-items-center">
           <button onClick={camClickHandler} className="btn btn-lg bg-primary text-white w-full">Camera</button>
@@ -86,6 +86,7 @@ export default function HomePage() {
   
         {/* Ask for Insights */}
         <button className="btn btn-lg btn-accent text-black w-full max-w-lg py-4 font-semibold">Ask for insights</button>
+        </div>
         </>
 
     )

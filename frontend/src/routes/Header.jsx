@@ -60,7 +60,7 @@ export default function Header() {
     return (
         <>
             {/* Header */}
-                <header className="w-full max-w-screen-md md:w-3/4 flex items-center justify-between bg-custom2
+                <header className="w-full flex items-center justify-between bg-custom2
                                     p-4 rounded-lg shadow-md relative">
                     <h1 onClick={handleLogoClick} className="text-2xl font-bold text-white text-center cursor-pointer">pocketmind
                         {/*<img className="!w-1 !h-1" src="/logo2.png" alt="Pocketmind"/>*/}

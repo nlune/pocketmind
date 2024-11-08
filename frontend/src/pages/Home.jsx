@@ -34,7 +34,7 @@ export default function HomePage() {
         <div className="w-full max-w-lg flex flex-col items-center space-y-2">
         <div className="relative flex items-center w-full">
           <div className="flex-grow border-t border-gray-300"></div>
-          <span className="text-xl font-semibold px-4 bg-gray-100 text-gray-700">Upload transaction</span>
+          <span className="text-xl font-semibold px-4  text-gray-700">Upload transaction</span>
           <div className="flex-grow border-t border-gray-300"></div>
         </div>
       </div>

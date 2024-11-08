@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import Markdown from 'react-markdown'
 import LoadingSwirl from '../components/LoadingSwirlAnimation';
 import ChartComponent from '../components/ChartComponent';
+import CustomPieChart from '../components/PieChart';
 
 export default function GraphsReportsPage() {
     const token = useSelector(s => s.User.accessToken)
@@ -11,10 +12,14 @@ export default function GraphsReportsPage() {
     const [loading, setLoading] = useState(false)
 
     const [activeTab, setActiveTab] = useState('graphs');
+    const [graphTab, setGraphTab] = useState('line') // line, pie, forecast
     const [weeklyInsight, setWeeklyInsight] = useState('')
     const [monthlyInsight, setMonthlyInsight] = useState('')
+    console.log(activeTab)
+    console.log(graphTab)
 
     const handleTabSwitch = (tab) => setActiveTab(tab);
+    const handleGraphTabSwitch = (tab) => setGraphTab(tab);
 
 
     useEffect( () => {
@@ -24,7 +29,6 @@ export default function GraphsReportsPage() {
             const get_weekly = async () => {
                 try {
                     const resp = await axios.get("/transactions/get-insight/?interval=weekly", {"headers": headers})
-                    console.log(resp.data.content)
                     setWeeklyInsight(resp.data.content)
                 } catch (error) {
                     console.error("Error fetching:", error);
@@ -80,7 +84,15 @@ export default function GraphsReportsPage() {
     ];
     
     const filledData = fillMissingDates(data);
-    console.log(filledData);
+
+    const categoryData = [
+        { name: 'Food & Drink', value: 300 },
+        { name: 'Utilities', value: 150 },
+        { name: 'Transportation', value: 100 },
+        { name: 'Entertainment', value: 75 },
+        { name: 'Shopping', value: 200 },
+        { name: 'Others', value: 125 },
+    ];
 
     return (
         <div className="min-h-screen w-full bg-gray-100 flex flex-col items-center p-6">
@@ -119,10 +131,47 @@ export default function GraphsReportsPage() {
                         {activeTab === 'graphs' ? 'Graphs' : activeTab === 'weekly' ? 'Insights from last week transactions' : 'Insights based on transactions from past month'}
                     </h1>
                     {/* <p className="mt-2 text-gray-600 text-sm md:text-base lg:text-lg max-w-md mx-auto md:mx-0"> */}
-                   
+
+                   {/* Tabs for graphs */}
                     {activeTab === 'graphs' && 
-                     <div className="flex justify-center m-10"><ChartComponent data={filledData}/> </div>}
-                    
+                                <div role="tablist" className="tabs tabs-lifted tabs-sm self-center mb-6">
+                                <a 
+                                    role="tab" 
+                                    onClick={() => handleGraphTabSwitch('line')}
+                                    className={`tab ${graphTab === "line" ? 'tab-active' : ''}`}
+                                >
+                                    <span className="block md:hidden">Daily</span>
+                                    <span className="hidden md:block">Daily Spending</span>
+                                </a>
+                                <a 
+                                    role="tab" 
+                                    onClick={() => handleGraphTabSwitch('pie')}
+                                    className={`tab ${graphTab === "pie" ? 'tab-active' : ''}`}
+                                >
+                                    <span className="block md:hidden">Categorized</span>
+                                    <span className="hidden md:block">Categorized Spending</span>
+                                </a>
+                                <a 
+                                    role="tab" 
+                                    onClick={() => handleGraphTabSwitch('forecast')}
+                                    className={`tab ${graphTab === "forecast" ? 'tab-active' : ''}`}
+                                >
+                                    <span className="block md:hidden">Projected</span>
+                                    <span className="hidden md:block">Projected Spending</span>
+                                </a>
+                            </div>
+                     }
+
+                    {/* Display different type of graph  */}
+                    {activeTab === 'graphs' &&
+                    <div className="flex flex-col justify-center items-center m-10">
+                        {graphTab === 'pie'  &&
+                            <CustomPieChart categoryData={categoryData}/>}
+                        {graphTab === 'line' &&
+                            <ChartComponent data={filledData}/> }
+        
+                    </div>}
+
                     {loading && <LoadingSwirl/>}
                     {/* {activeTab === 'weekly' && weeklyInsight && <pre className="whitespace-pre-wrap font-sans text-base-content p-4 bg-base-200 rounded-lg shadow-md">{weeklyInsight}</pre> } */}
                     {activeTab === 'weekly' && weeklyInsight && <Markdown className="font-sans text-base-content p-4 bg-base-200 rounded-lg shadow-md">{weeklyInsight}</Markdown> }

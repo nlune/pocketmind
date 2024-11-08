@@ -56,4 +56,12 @@
     font-family: sans-serif;
   }
   
-  
+  @media (max-width: 768px) {
+    .dropdown-menu {
+        z-index: 50; /* Higher z-index only on small screens */
+        position: fixed; /* Ensures it sits above other content */
+        width: 60%; /* Full width for small screens */
+        right: 0; /* Align to left for better positioning */
+    }
+}
+ 

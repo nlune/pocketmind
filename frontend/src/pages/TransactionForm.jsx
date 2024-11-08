@@ -63,7 +63,7 @@ export default function TransactionForm() {
   }, [description])
     
   const handleCancel = () => {
-    nav('/')
+    nav('/home')
   }
 
   const handleBack = () => {
@@ -78,7 +78,7 @@ export default function TransactionForm() {
         "category": category
       }
       const resp = await axios.post('/transactions/add-by-user/', save_dat, headers)
-      nav('/')
+      nav('/home')
 
     } catch (error) {
       console.log("save err ", error)

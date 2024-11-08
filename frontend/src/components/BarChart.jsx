@@ -25,19 +25,19 @@ const CustomBarChart = ({ categoryData }) => {
   };
 
   return (
-    <div className="flex items-center justify-center w-full p-4 bg-white rounded-xl shadow-lg max-w-screen-lg mx-auto">
-      <ResponsiveContainer width="100%" height={150}>
-        <BarChart data={categoryData} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
-          <XAxis dataKey="name" hide />
-          <Tooltip content={<CustomTooltip />} /> {/* Use the custom tooltip */}
-          <Bar dataKey="value" radius={[8, 8, 0, 0]}>
-            {categoryData.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-            ))}
-          </Bar>
-        </BarChart>
-      </ResponsiveContainer>
-    </div>
+        // <div className="w-full sm:flex sm:items-center sm:justify-center sm:p-4 sm:bg-white sm:rounded-xl sm:shadow-lg sm:max-w-screen-lg sm:mx-auto">
+            <ResponsiveContainer width="100%" height={window.innerWidth < 640 ? 250 : 150}>
+                <BarChart data={categoryData} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
+                    <XAxis dataKey="name" hide />
+                    <Tooltip cursor={{ fill: 'rgba(0,0,0,0.05)' }} />
+                    <Bar dataKey="value" radius={[8, 8, 0, 0]}>
+                        {categoryData.map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                        ))}
+                    </Bar>
+                </BarChart>
+            </ResponsiveContainer>
+        // </div>
   );
 };
 

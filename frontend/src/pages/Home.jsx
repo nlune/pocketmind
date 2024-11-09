@@ -1,8 +1,13 @@
 import { useNavigate } from "react-router-dom";
 import CustomBarChart from "../components/BarChart";
+import { useRef, useState } from "react";
 
 export default function HomePage() {
-  const nav = useNavigate();
+  const nav = useNavigate()  
+  const [insightFocus, setInsightFocus] = useState(false)
+  const insightBoxRef = useRef(null)
+
+  const handleInsightFocus = () => setInsightFocus(true)
 
   const voiceClickHandler = (e) => {
     e.preventDefault();

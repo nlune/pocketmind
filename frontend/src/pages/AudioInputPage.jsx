@@ -14,21 +14,23 @@ const AudioInputPage = () => {
       } = useSpeechRecognition();
 
       if (!browserSupportsSpeechRecognition) {
-        return <span> Unfortunately we don't support speech recognition in this browser yet. Please try another (eg. chrome, safari...)</span>;
+        return <span className='error-message'>Unfortunately we don't support speech recognition in this browser yet.<br/><br/>Please try another browser (eg. chrome, safari...)</span>;
       }
 
       if (!isMicrophoneAvailable) {
         // Render some fallback content
-        return <span>Microphone is not available.</span>;
+        return <div className="error-message"><span>Microphone is not available. <br/><br/>Please check your permissions.</span></div>;
       }
 
       useEffect(() => {
-        SpeechRecognition.startListening({ continuous: true })
+        if (isMicrophoneAvailable) {
+          SpeechRecognition.startListening({ continuous: true });
+        }
 
         return () => {
-          SpeechRecognition.stopListening()
-        }
-      }, [])
+          SpeechRecognition.stopListening();
+        };
+      }, [isMicrophoneAvailable]);
 
       const handleContinue = (e) => {
         e.preventDefault()

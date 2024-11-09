@@ -35,9 +35,18 @@ export default function TransactionForm() {
 
     useEffect(() => {
       if (userInput) {
-        sendRequest("POST", "/transactions/get-via-input/", {"text": userInput})
+        try {
+          sendRequest("POST", "/transactions/get-via-input/", {"text": userInput})
+        }catch (error) {
+          console.log(error)
+        }
       } else if (scannedTxt) {
-        sendRequest("POST", "/transactions/get-via-scan/", {"text": scannedTxt}) 
+        try {
+          sendRequest("POST", "/transactions/get-via-scan/", {"text": scannedTxt}) 
+        } catch (error) {
+          console.log(error)
+        }
+  
       }
     }, [userInput, scannedTxt])
 

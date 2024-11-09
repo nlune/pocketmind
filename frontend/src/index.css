@@ -64,4 +64,20 @@
         right: 0; /* Align to left for better positioning */
     }
 }
- 
+
+.error-message {
+  display: block;
+  max-width: 90%;
+  margin: 4rem auto; /* Centered with top gap */
+  padding: 1rem 1.5rem;
+  text-align: center;
+  color: #6b7280; /* Cool gray */
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.5;
+  background-color: #f9fafb; /* Light gray background */
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
+  border: 1px solid #e5e7eb; /* Subtle border */
+  font-family: 'Helvetica Neue', sans-serif;
+}

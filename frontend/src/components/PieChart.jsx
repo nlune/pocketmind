@@ -45,7 +45,7 @@ const CustomPieChart = ({ categoryData }) => {
                 cx="50%"
                 cy="50%"
                 innerRadius={isMobile ? 50 : 40}
-                outerRadius={isMobile ? 120 : 90}
+                outerRadius={isMobile ? 100 : 90}
                 fill="#8884d8"
                 dataKey="value"
                 label={isMobile ? renderCustomLabel : (entry) => entry.name} // Use the custom label function

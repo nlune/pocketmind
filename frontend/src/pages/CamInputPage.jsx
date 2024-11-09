@@ -110,7 +110,7 @@ const CamInputPage = () => {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-white">
+    <div className="flex flex-col items-center min-h-screen bg-white">
     <div className="relative w-full max-w-md bg-white rounded-lg p-4">
       <h2 className="text-xl font-semibold text-center mb-4">Scan Receipt</h2>
 
@@ -138,25 +138,21 @@ const CamInputPage = () => {
   
 
       {imageData && (
-        <div className="mt-4">
-          {/* <h3 className="text-center text-lg font-semibold">Captured Image:</h3> */}
-          <img src={imageData} alt="Captured document" className="mt-2 w-full rounded-md border" />
-          <div className="flex flex-row w-full justify-center pt-2 p-1 space-x-1 ">
-          <button onClick={handleCancel} className="btn btn-warning w-24 rounded-lg">Cancel</button>
-          <button onClick={handleReset} className="btn btn-secondary w-24 rounded-lg">Reset</button>
-          <button onClick={handleContinue} className="btn btn-accent w-24 rounded-lg">Continue</button>
-          </div>
-          {/* <a
-            href={imageData}
-            download="document.png"
-            className="block text-center mt-2 bg-green-500 text-white py-2 rounded-md hover:bg-green-600 transition"
-          >
-            Save Image
-          </a> */}
+        <>
+        <div className="mt-4 relative w-full h-64 bg-gray-200 rounded-lg">
+          <img src={imageData} alt="Captured document" className="mt-2 w-full rounded-md border w-full h-full object-cover" />
         </div>
+          <div className="flex flex-row w-full justify-center pt-2 p-1 space-x-1 ">
+          <button onClick={handleCancel} className="btn btn-warning w-24 rounded-lg ">Cancel</button>
+          <button onClick={handleReset} className="btn btn-secondary w-24 rounded-lg">Reset</button>
+          {ocrText && <button onClick={handleContinue} className="btn btn-accent w-24 rounded-lg">Continue</button>}
+        </div>
+        </>
       )}
+      {/* <div className='relative w-full max-w-md '> */}
           {loading  && <p className="bg-gray-100 text-gray-700 p-4 rounded-md shadow-md mt-4 max-w-md mx-auto">Processing...</p>}
-         {ocrText && <pre className="bg-gray-100 text-gray-700 p-4 rounded-md shadow-md mt-4 max-w-md mx-auto">{ocrText}</pre>}
+         {ocrText && <pre className="bg-gray-100 text-gray-700 p-4 rounded-md shadow-md mt-4 max-w-md mx-auto sm:text-xs">{ocrText}</pre>}
+         {/* </div> */}
     </div>
   </div>
   );

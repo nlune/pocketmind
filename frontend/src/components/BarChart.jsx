@@ -26,7 +26,7 @@ const CustomBarChart = ({ categoryData }) => {
 
   return (
         // <div className="w-full sm:flex sm:items-center sm:justify-center sm:p-4 sm:bg-white sm:rounded-xl sm:shadow-lg sm:max-w-screen-lg sm:mx-auto">
-            <ResponsiveContainer width="100%" height={window.innerWidth < 640 ? 250 : 150}>
+            <ResponsiveContainer width="100%" height={window.innerWidth < 640 ? 120 : 200}>
                 <BarChart data={categoryData} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
                     <XAxis dataKey="name" hide />
                     <Tooltip cursor={{ fill: 'rgba(0,0,0,0.05)' }} />

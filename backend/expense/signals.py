@@ -11,9 +11,9 @@ logger = logging.getLogger(__name__)
 
 TOTAL_BUDGET_CATEGORY_NAME = "Expenses"
 
+
 @receiver(post_save, sender=Expense)
 def update_budget_spend(sender, instance, created, **kwargs):
-
     if instance.is_recurring:
         logger.debug(f"Recurring expense with amount {instance.amount} - not updating budget.")
         return

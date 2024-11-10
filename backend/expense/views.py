@@ -4,7 +4,7 @@ import json
 import logging
 from datetime import timedelta
 
-from django.db.models import Sum, Max
+from django.db.models import Sum
 from django.utils import timezone
 from rest_framework import status
 from rest_framework.generics import ListCreateAPIView, GenericAPIView, ListAPIView

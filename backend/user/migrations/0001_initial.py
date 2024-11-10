@@ -69,7 +69,8 @@ class Migration(migrations.Migration):
                 ('is_validated', models.BooleanField(default=False)),
                 ('code', models.CharField(editable=False, max_length=6)),
                 (
-                'user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                    'user',
+                    models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
         ),
     ]

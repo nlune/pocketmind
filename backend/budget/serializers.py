@@ -32,7 +32,6 @@ class BudgetSerializer(serializers.ModelSerializer):
 
         return data
 
-
     def create(self, validated_data):
         color = validated_data.pop("color", None)
         category = validated_data["category"]

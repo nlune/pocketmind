@@ -1,4 +1,5 @@
-from django.shortcuts import get_object_or_404
+import logging
+
 from rest_framework import generics
 from rest_framework.exceptions import NotFound
 from rest_framework.permissions import IsAuthenticated
@@ -6,7 +7,7 @@ from rest_framework.permissions import IsAuthenticated
 from color.models import Color
 from .models import Category
 from .serializers import CategorySerializer
-import logging
+
 
 class ListCreateCategoryView(generics.ListCreateAPIView):
     queryset = Category.objects.all()
@@ -16,7 +17,7 @@ class ListCreateCategoryView(generics.ListCreateAPIView):
         category = serializer.save(user=self.request.user)
         total_colors = Color.objects.count()
         if total_colors > 0:
-            entry_number = (category.id - 1) % total_colors # modolo to start from start if not enough colors available
+            entry_number = (category.id - 1) % total_colors  # modolo to start from start if not enough colors available
             try:
                 color = Color.objects.get(entry_number=entry_number)
                 category.color = color

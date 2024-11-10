@@ -5,7 +5,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
@@ -18,7 +17,9 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=50)),
                 ('entry_number', models.IntegerField()),
-                ('hexcode', models.CharField(help_text='Color in hex format, e.g., #FF5733', max_length=7, validators=[django.core.validators.RegexValidator(message='Enter a valid hex color.', regex='^#([A-Fa-f0-9]{6})$')])),
+                ('hexcode', models.CharField(help_text='Color in hex format, e.g., #FF5733', max_length=7, validators=[
+                    django.core.validators.RegexValidator(message='Enter a valid hex color.',
+                                                          regex='^#([A-Fa-f0-9]{6})$')])),
             ],
         ),
     ]

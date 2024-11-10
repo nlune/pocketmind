@@ -1,6 +1,8 @@
 from django.contrib import admin
 from django.db.models import Max
+
 from .models import Color
+
 
 class ColorAdmin(admin.ModelAdmin):
     list_display = ('name', 'entry_number', 'hexcode')
@@ -30,5 +32,6 @@ class ColorAdmin(admin.ModelAdmin):
             for color in colors_to_update:
                 color.entry_number -= 1
                 color.save()
+
 
 admin.site.register(Color, ColorAdmin)

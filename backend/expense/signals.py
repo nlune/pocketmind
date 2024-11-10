@@ -22,6 +22,7 @@ def update_budget_spend(sender, instance, created, **kwargs):
         except Budget.DoesNotExist:
             logger.warning(f"No Budget found for category {instance.category}")
 
+
 @receiver(pre_save, sender=Expense)
 def update_budget_on_update(sender, instance, **kwargs):
     if instance.pk:

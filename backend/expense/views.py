@@ -22,11 +22,11 @@ from expense.serializers import (
     GetExpenseSerializer,
     InsightExpenseSerializer,
 )
+from project.helpers.get_ask_insight import get_ask_insight
 from project.helpers.get_category import get_category
+from project.helpers.get_insight import get_insight
 from project.helpers.get_transaction import get_transaction
 from project.helpers.get_transaction_scannedTxt import get_transaction_scannedtxt
-from project.helpers.get_insight import get_insight
-from project.helpers.get_ask_insight import get_ask_insight
 
 logger = logging.getLogger(__name__)
 

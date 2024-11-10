@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from .models import Color
 from .serializers import ColorSerializer
 
+
 class ListCreateColorView(ListCreateAPIView):
     queryset = Color.objects.all()
     serializer_class = ColorSerializer

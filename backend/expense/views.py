@@ -55,13 +55,9 @@ class AddExpense(GenericAPIView):
         _category = request.data.get("category", "")
         if not _category:
             _category = get_category(request.data["description"])
-        category, created = Category.objects.get_or_create(name=_category)
+        category, created = Category.objects.get_or_create(name=_category, user=request.user)
 
         if created:
-            max_entry_number = Category.objects.aggregate(Max('entry_number'))['entry_number__max']
-            category.entry_number = 0 if max_entry_number is None else max_entry_number + 1
-            category.save()
-
             total_colors = Color.objects.count()
 
             if total_colors > 0:

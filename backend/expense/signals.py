@@ -13,17 +13,20 @@ logger = logging.getLogger(__name__)
 @receiver(post_save, sender=Expense)
 def update_budget_spend(sender, instance, created, **kwargs):
     if created:
+        logger.debug(f"Signal triggered: New Expense created with amount {instance.amount}")
         try:
             budget = Budget.objects.get(category=instance.category)
             budget.spend += Decimal(instance.amount)
             budget.save()
+            logger.debug(f"Budget updated: New spend is {budget.spend}")
         except Budget.DoesNotExist:
-            pass
+            logger.warning(f"No Budget found for category {instance.category}")
 
 
 @receiver(pre_save, sender=Expense)
 def update_budget_on_update(sender, instance, **kwargs):
     if instance.pk:
+        logger.debug(f"Signal triggered: Expense updated with new amount {instance.amount}")
         old_instance = Expense.objects.get(pk=instance.pk)
         budget = Budget.objects.filter(category=instance.category).first()
 
@@ -31,3 +34,4 @@ def update_budget_on_update(sender, instance, **kwargs):
             budget.spend -= Decimal(old_instance.amount)
             budget.spend += Decimal(instance.amount)
             budget.save()
+            logger.debug(f"Budget updated: New spend after update is {budget.spend}")

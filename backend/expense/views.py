@@ -4,7 +4,7 @@ import json
 import logging
 from datetime import timedelta
 
-from django.db.models import Sum
+from django.db.models import Sum, Max
 from django.utils import timezone
 from rest_framework import status
 from rest_framework.generics import ListCreateAPIView, GenericAPIView, ListAPIView
@@ -14,6 +14,7 @@ from rest_framework.views import APIView
 
 from category.models import Category
 from category.serializers import SimpleCategorySerializer
+from color.models import Color
 from expense.models import Expense
 from expense.serializers import (
     ExpenseSerializer,
@@ -21,11 +22,11 @@ from expense.serializers import (
     GetExpenseSerializer,
     InsightExpenseSerializer,
 )
+from project.helpers.get_ask_insight import get_ask_insight
 from project.helpers.get_category import get_category
+from project.helpers.get_insight import get_insight
 from project.helpers.get_transaction import get_transaction
 from project.helpers.get_transaction_scannedTxt import get_transaction_scannedtxt
-from project.helpers.get_insight import get_insight
-from project.helpers.get_ask_insight import get_ask_insight
 
 logger = logging.getLogger(__name__)
 
@@ -55,6 +56,26 @@ class AddExpense(GenericAPIView):
         if not _category:
             _category = get_category(request.data["description"])
         category, created = Category.objects.get_or_create(name=_category)
+
+        if created:
+            max_entry_number = Category.objects.aggregate(Max('entry_number'))['entry_number__max']
+            category.entry_number = 0 if max_entry_number is None else max_entry_number + 1
+            category.save()
+
+            total_colors = Color.objects.count()
+
+            if total_colors > 0:
+                entry_number = (category.id - 1) % total_colors
+
+                try:
+                    color = Color.objects.get(entry_number=entry_number)
+                    category.color = color
+                    category.save()
+                except Color.DoesNotExist:
+                    logging.error(f'No color found for entry_number {entry_number}. Category ID: {category.id}')
+            else:
+                logging.error('No available colors to assign to category.')
+
         request.data.update({"category": category.id, "user": request.user.id})
 
         serializer = self.get_serializer(data=request.data)
@@ -141,8 +162,8 @@ class ReportsView(APIView):
     - /?interval=weekly
     - /?interval=monthly
     - /?interval=custom&start_date=YYYY-MM-DD&end_date=YYYY-MM-DD
-    Optional category filter:
-    - /?category=<category_id>
+    Optional category filter add:
+    - &category=<category_id>
     """
 
     permission_classes = [IsAuthenticated]

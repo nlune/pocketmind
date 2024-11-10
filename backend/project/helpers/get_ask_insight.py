@@ -1,8 +1,9 @@
+import logging
 import os
 
-from project.helpers.get_insight import parse_transacions
 from groq import Groq
-import logging
+
+from project.helpers.get_insight import parse_transacions
 
 logger = logging.getLogger(__name__)
 
@@ -54,6 +55,6 @@ The list given is for {0} transactions.
 if __name__ == "__main__":
     print(
         get_ask_insight(
-           "How can I save more", "'description': food, 'amount': 10, 'category': 'Food' ... ", "weekly"
+            "How can I save more", "'description': food, 'amount': 10, 'category': 'Food' ... ", "weekly"
         )
     )

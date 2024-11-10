@@ -45,6 +45,8 @@ urlpatterns = [
     path(BASE_URL + "budgets/", include("budget.urls")),
     path(BASE_URL + "categories/", include("category.urls")),
     path(BASE_URL + "user/", include("user.urls")),
+    path(BASE_URL + "colors/", include("color.urls")),
+
     path(
         BASE_URL + "auth/token/",
         jwt_views.TokenObtainPairView.as_view(),

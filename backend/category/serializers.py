@@ -1,13 +1,16 @@
 from rest_framework import serializers
 
 from category.models import Category
+from color.serializers import ColorSerializer
 
 
 class CategorySerializer(serializers.ModelSerializer):
+    color = ColorSerializer(read_only=True)
+
     class Meta:
         model = Category
-        fields = ['id', 'name', 'user']
-        read_only_fields = ['user']
+        fields = ['id', 'name', 'user', 'color']
+        read_only_fields = ['user', 'color']
 
     def create(self, validated_data):
         request = self.context.get('request')

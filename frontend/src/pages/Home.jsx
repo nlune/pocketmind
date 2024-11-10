@@ -1,13 +1,61 @@
 import { useNavigate } from "react-router-dom";
 import CustomBarChart from "../components/BarChart";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import useApiRequest from "../hooks/useAPI";
 
 export default function HomePage() {
+  const { sendRequest, data, error, loading } = useApiRequest({ auth: true });
   const nav = useNavigate()  
-  const [insightFocus, setInsightFocus] = useState(false)
-  const insightBoxRef = useRef(null)
 
-  const handleInsightFocus = () => setInsightFocus(true)
+  const [insightFocus, setInsightFocus] = useState(false)
+  const [inputValue, setInputValue] = useState("");
+  const [insightResp, setInsightResp] = useState("")
+
+  const insightBoxRef = useRef(null)
+  const cancelBtnRef = useRef(null)
+  const submitBtnRef = useRef(null)
+
+  useEffect(() => {
+    if (data && !error) {
+      console.log(data.content)
+      setInsightResp(data.content)
+    }
+  }, [data, error])
+
+  const handleFocusInsightClick = (e) => {
+    e.preventDefault()
+    if (cancelBtnRef.current && cancelBtnRef.current.contains(e.target)) {
+      // cancel insight container
+      setInsightFocus(false)
+    } else if (submitBtnRef.current && submitBtnRef.current.contains(e.target)) {
+      // *** send user ask request
+      try {
+        sendRequest('POST', '/transactions/get-ask-insight/', {"user_context": inputValue})
+      } catch (error) {
+        console.log(error)
+      }
+    } else {
+      // set insight container focus
+      setInsightFocus(true)
+    }
+  }
+
+  const handleClickOutside = (event) => {
+    if (insightBoxRef.current && !insightBoxRef.current.contains(event.target)) {
+      setInsightFocus(false);
+    }
+  };
+
+  useEffect(() => {
+    if (insightFocus && !insightResp) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [insightFocus]);
 
   const voiceClickHandler = (e) => {
     e.preventDefault();
@@ -32,6 +80,7 @@ export default function HomePage() {
     e.preventDefault();
     nav("/reports");
   };
+
 
   // fake data
   const categoryData = [
@@ -108,12 +157,59 @@ export default function HomePage() {
             Transactions
           </button>
         </div>
+      {/* Ask for Insights */}
+      <div
+          ref={insightBoxRef}
+          className={`w-full max-w-lg p-4 font-semibold shadow-md bg-custom2 border border-gray-300 rounded-lg transition-all duration-300 ease-in-out ${
+            insightFocus ? "py-6" : "cursor-pointer"
+          }`}
+          onClick={handleFocusInsightClick}
+        >
+          <div className="text-white">Ask for Insights</div>
+          
+          {insightFocus && (
+            <div className="mt-4 space-y-2">
+              <input
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                type="text"
+                className="w-full p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
+                placeholder="Type your question here..."
+              />
 
-        {/* Ask for Insights */}
-        <button className="btn btn-lg btn-accent text-white w-full max-w-lg py-4 font-semibold shadow-md bg-custom2
-                            border-gray-300 rounded-lg">
-          Ask for Insights
-        </button>
+              <div className="flex justify-end">
+                <button
+                  ref={cancelBtnRef}
+                  className="bg-gray-200 text-gray-700 font-semibold py-2 px-4 rounded-lg hover:bg-gray-300"
+                >
+                  Cancel
+                </button>
+
+                <button
+                  ref={submitBtnRef}
+                  disabled={!inputValue.trim()}
+         
+                  className={`py-2 px-4 font-semibold rounded-lg ml-2 ${
+                    inputValue.trim()
+                      ? "bg-accent text-white hover:bg-accent-dark"
+                      : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                  }`}
+                >
+                  Submit
+                </button>
+              </div>
+
+              {insightResp && (
+                <div className="mt-8 p-4 border rounded-lg shadow-sm">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-2">Response:</h3>
+                  <p className="text-gray-600 leading-relaxed">
+                    {insightResp}
+                  </p>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
       </div>
     </>
   );

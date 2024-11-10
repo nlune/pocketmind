@@ -10,4 +10,5 @@ class ExpenseConfig(AppConfig):
     name = "expense"
 
     def ready(self):
+        import expense.signals
         logger.info("Expenses signals loaded")

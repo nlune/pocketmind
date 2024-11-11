@@ -1,19 +1,44 @@
 import React, { useEffect, useState } from 'react';
 import useApiRequest from '../hooks/useAPI';
 import formatDate from '../helpers/formatDate'
+import { useSelector } from 'react-redux';
+import axios from 'axios';
 
 export default function TransactionsPage() {
     const { sendRequest, data, error, loading } = useApiRequest({ auth: true });
 
+    const token = useSelector(s => s.User.accessToken)
+    const headers = {'Authorization': 'Bearer ' + token}
+
     const [activeTab, setActiveTab] = useState('recent');
     const [fromDate, setFromDate] = useState('');
     const [toDate, setToDate] = useState('');
+    const [categories, setCategories] = useState(null)
     const [category, setCategory] = useState('');
     const [transactions, setTransactions] = useState(null)
     const [trasnactionTotal, setTransactionTotal] = useState("")
     const [recurringItems, setRecurringItems] = useState(null)
     const [recurringTotal, setRecurringTotal] = useState("")
 
+    console.log(category)
+
+    const getCategories = async () => {
+        try {
+            const resp = await axios.get("/categories/", {"headers": headers})
+            setCategories(resp.data)
+        }catch (error) {
+            console.log(error)
+        }
+    }
+
+    const getRecurring = async () => {
+        try {
+            const resp = await axios.get("/transactions/recurring/", {"headers": headers})
+            setRecurringItems(resp.data)
+        }catch (error) {
+            console.log(error)
+        }
+    }
 
     useEffect(() => {
         const today = new Date();
@@ -22,28 +47,36 @@ export default function TransactionsPage() {
 
         setToDate(today.toISOString().split('T')[0]);
         setFromDate(thirtyDaysAgo.toISOString().split('T')[0]);
+
+        getCategories()
+        getRecurring()
+
     }, []);
 
     const handleTabSwitch = (tab) => setActiveTab(tab);
 
     useEffect(() => {
-        console.log("getting trans")
         if (fromDate && toDate){
         try {
-            sendRequest("GET", `/transactions/reports/?interval=custom&start_date=${fromDate}&end_date=${toDate}`)
+            if (!category) {
+                sendRequest("GET", `/transactions/reports/?interval=custom&start_date=${fromDate}&end_date=${toDate}`)
+            } else {
+                sendRequest("GET", `/transactions/reports/?interval=custom&start_date=${fromDate}&end_date=${toDate}&category=${category}`) 
+            }
+            
         } catch (error) {
             console.log("can't get transactions err ", error)
         }
     }
 
-    }, [fromDate, toDate])
+    }, [fromDate, toDate, category])
 
     useEffect(() => {
         if (data && !error) {
             setTransactions(data.details)
             setTransactionTotal(data.total_expense)
         }
-    }, [data])
+    }, [data, error])
 
     return (
         <div className="min-h-screen bg-white flex flex-col items-center p-6">
@@ -97,11 +130,8 @@ export default function TransactionsPage() {
                         value={category}
                         onChange={(e) => setCategory(e.target.value)}
                     >
-                        <option value="">All Categories</option>
-                        <option value="food">Food</option>
-                        <option value="travel">Travel</option>
-                        <option value="entertainment">Entertainment</option>
-                        <option value="utilities">Utilities</option>
+                        <option value="">Select Category</option>
+                        {categories && categories.map((dat, i) => <option key={i} value={dat.id}>{dat.name}</option>)}
                     </select>
                 </div>
             </div>
@@ -119,11 +149,11 @@ export default function TransactionsPage() {
                 <ul className="space-y-4">
                 {activeTab === "recent" && transactions && transactions.map((item, idx) => 
                 <TransactionItem key={idx} description={item.description} amount={item.amount} category={item.category?.name} date={formatDate(item.created)} /> 
-                 )
-                    // <TransactionItem description="Grocery shopping" amount={-50} date="2024-11-01" />
-                    // <TransactionItem description="Netflix Subscription" amount={-15} date="2024-10-25" />
-                    // <TransactionItem description="Electricity Bill" amount={-100} date="2024-10-20" />
-                }
+                 )}
+
+                {activeTab === "recurring" && recurringItems && recurringItems.map((item, idx) => 
+                <TransactionItem key={idx} description={item.description} amount={item.amount} category={item.category?.name} date={formatDate(item.created)} /> 
+                 )}
                 </ul>
             </div>
         </div>
@@ -131,7 +161,6 @@ export default function TransactionsPage() {
 }
 
 function TransactionItem({ description, amount, date , category}) {
-    console.log(category)
     return (
         <li className="flex justify-between items-center p-3 bg-gray-50 rounded-md hover:bg-gray-100">
             <div>

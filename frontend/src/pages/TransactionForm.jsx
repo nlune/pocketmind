@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom"
 import useApiRequest from "../hooks/useAPI";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
 
@@ -145,11 +145,23 @@ export default function TransactionForm() {
           </div> */}
 
         <div className="flex flex-row w-full justify-end pt-6 p-1 space-x-3 ">
-          <button onClick={handleCancel} className="btn btn-warning w-20 rounded-lg">Cancel</button>
-          <button onClick={handleBack} className="btn btn-secondary w-20 rounded-lg">Back</button>
-          <button onClick={handleSave} className="btn btn-accent w-20 rounded-lg">Save</button>
-          </div>
-          
+          <button className="btn btn-info bg-custom2 text-white w-20 rounded-lg border-gray-300
+          hover:bg-opacity-90 hover:border-opacity-100 hover:border-custom2 hover:bg-custom2"
+                  onClick={handleCancel}>
+            Home
+          </button>
+          <button className="btn btn-secondary bg-custom3 text-white w-20 rounded-lg
+        hover:bg-opacity-90 hover:border-opacity-100 hover:border-custom3 hover:bg-custom3"
+                  onClick={handleBack}>
+            Back
+          </button>
+          <button className="btn btn-accent bg-blue-600 text-white w-20 rounded-lg border-gray-300
+          hover:bg-opacity-90 hover:border-opacity-100 hover:border-blue-600 hover:bg-blue-600"
+                  onClick={handleSave}>
+          Submit
+          </button>
+        </div>
+
         </div>
         </>
     )

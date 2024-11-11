@@ -107,19 +107,22 @@ export default function HomePage() {
         <div className="grid grid-cols-3 gap-4 w-full max-w-lg justify-items-center">
           <button
             onClick={camClickHandler}
-            className="btn btn-lg bg-custom3 text-white w-full rounded-lg"
+            className="btn btn-lg bg-custom3 text-white w-full rounded-lg border-gray-300
+          hover:bg-opacity-90 hover:border-opacity-100 hover:border-custom3 hover:bg-custom3"
           >
             Camera
           </button>
           <button
             onClick={voiceClickHandler}
-            className="btn btn-lg bg-custom3 text-white w-full rounded-lg"
+            className="btn btn-lg bg-custom3 text-white w-full rounded-lg border-gray-300
+          hover:bg-opacity-90 hover:border-opacity-100 hover:border-custom3 hover:bg-custom3"
           >
             Voice
           </button>
           <button
             onClick={penClickHandler}
-            className="btn btn-lg bg-custom3 text-white w-full rounded-lg"
+            className="btn btn-lg bg-custom3 text-white w-full rounded-lg border-gray-300
+          hover:bg-opacity-90 hover:border-opacity-100 hover:border-custom3 hover:bg-custom3"
           >
             Write
           </button>
@@ -134,7 +137,8 @@ export default function HomePage() {
 
         {/* Budget Overview */}
         <div className="w-full max-w-lg bg-white p-6 rounded-lg border-2 flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-4">
-          <button className="btn btn-warning btn-circle text-white px-6 py-2 font-semibold bg-custom3 border-gray-300">
+          <button className="btn btn-warning btn-circle text-white px-6 py-2 font-semibold bg-custom3 border-gray-300
+          hover:bg-opacity-90 hover:border-opacity-100 hover:border-custom3 hover:bg-custom3">
             Add
           </button>
           <div className="flex flex-col text-left">
@@ -146,13 +150,15 @@ export default function HomePage() {
         <div className="grid grid-cols-2 gap-4 w-full max-w-lg">
           <button
             onClick={navReportsHandler}
-            className="btn btn-info text-white shadow-md bg-custom4 border-gray-300 rounded-lg"
+            className="btn btn-info text-white shadow-md bg-custom4 border-gray-300 rounded-lg
+          hover:bg-opacity-90 hover:border-opacity-100 hover:border-custom4 hover:bg-custom4"
           >
             Graphs & reports
           </button>
           <button
             onClick={navTransactionHandler}
-            className="btn btn-info text-white shadow-md bg-custom4 border-gray-300 rounded-lg"
+            className="btn btn-info text-white shadow-md bg-custom4 border-gray-300 rounded-lg
+          hover:bg-opacity-90 hover:border-opacity-100 hover:border-custom4 hover:bg-custom4"
           >
             Transactions
           </button>
@@ -160,12 +166,13 @@ export default function HomePage() {
       {/* Ask for Insights */}
       <div
           ref={insightBoxRef}
-          className={`w-full max-w-lg p-4 font-semibold shadow-md bg-custom2 border border-gray-300 rounded-lg transition-all duration-300 ease-in-out ${
+          className={`w-full max-w-lg p-4 font-semibold shadow-md bg-custom5 border border-gray-300 rounded-lg transition-all duration-300 ease-in-out ${
             insightFocus ? "py-6" : "cursor-pointer"
           }`}
           onClick={handleFocusInsightClick}
         >
-          <div className="text-white">Ask for Insights</div>
+          <div className="btn btn-info text-white shadow-md bg-custom3 border-custom3 rounded-lg
+          hover:bg-opacity-90 hover:border-opacity-100 hover:border-custom3 hover:bg-custom3">Ask for Insights</div>
           
           {insightFocus && (
             <div className="mt-4 space-y-2">
@@ -180,7 +187,7 @@ export default function HomePage() {
               <div className="flex justify-end">
                 <button
                   ref={cancelBtnRef}
-                  className="bg-gray-200 text-gray-700 font-semibold py-2 px-4 rounded-lg hover:bg-gray-300"
+                  className="bg-gray-400 text-white font-semibold py-2 px-4 rounded-lg hover:bg-opacity-90 hover:border-opacity-100 hover:border-gray-400 hover:bg-gray-400"
                 >
                   Cancel
                 </button>
@@ -191,7 +198,7 @@ export default function HomePage() {
          
                   className={`py-2 px-4 font-semibold rounded-lg ml-2 ${
                     inputValue.trim()
-                      ? "bg-accent text-white hover:bg-accent-dark"
+                      ? "bg-blue-600 text-white hover:bg-opacity-90 hover:border-opacity-100 hover:border-blue-600 hover:bg-blue-600"
                       : "bg-gray-300 text-gray-500 cursor-not-allowed"
                   }`}
                 >

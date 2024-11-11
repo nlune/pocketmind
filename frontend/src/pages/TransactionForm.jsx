@@ -35,9 +35,18 @@ export default function TransactionForm() {
 
     useEffect(() => {
       if (userInput) {
-        sendRequest("POST", "/transactions/get-via-input/", {"text": userInput})
+        try {
+          sendRequest("POST", "/transactions/get-via-input/", {"text": userInput})
+        }catch (error) {
+          console.log(error)
+        }
       } else if (scannedTxt) {
-        sendRequest("POST", "/transactions/get-via-scan/", {"text": scannedTxt}) 
+        try {
+          sendRequest("POST", "/transactions/get-via-scan/", {"text": scannedTxt}) 
+        } catch (error) {
+          console.log(error)
+        }
+  
       }
     }, [userInput, scannedTxt])
 
@@ -63,7 +72,7 @@ export default function TransactionForm() {
   }, [description])
     
   const handleCancel = () => {
-    nav('/')
+    nav('/home')
   }
 
   const handleBack = () => {
@@ -78,7 +87,7 @@ export default function TransactionForm() {
         "category": category
       }
       const resp = await axios.post('/transactions/add-by-user/', save_dat, headers)
-      nav('/')
+      nav('/home')
 
     } catch (error) {
       console.log("save err ", error)

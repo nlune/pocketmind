@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 from django.db import models
 
 from category.models import Category
+from color.models import Color
 
 User = get_user_model()
 
@@ -18,14 +19,19 @@ class Budget(models.Model):
     limit = models.DecimalField(
         max_digits=100, decimal_places=2, blank=False, null=False
     )
-    spend = models.DecimalField(
-        max_digits=100, decimal_places=2, blank=False, null=False
-    )
+
+    spend = models.DecimalField(max_digits=100, decimal_places=2, default=0, blank=False, null=False)
+
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, blank=False, null=False, related_name="budgets"
     )
 
-    color = models.TextField(blank=False, null=False)
+    color = models.ForeignKey(Color, on_delete=models.PROTECT, related_name="budgets")
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=["category", "user"], name="unique_category_per_user")
+        ]
 
     def __str__(self):
-        return f"{self.category} {self.spend}/{self.limit} "
+        return f"{self.category} {self.spend}/{self.limit}"

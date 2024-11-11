@@ -1,17 +1,14 @@
+import logging
 import os
 
 from groq import Groq
-import logging
 
 logger = logging.getLogger(__name__)
 
 
-def get_insight(data, interval):
-    client = Groq(
-        api_key=os.environ.get("GROQ_API_KEY"),
-    )
+def parse_transacions(data):
     description = "Expenses List:\n"
-    for idx, exp in enumerate(data):
+    for exp in data:
         # logger.warning(exp['category']['name'])
         _cate = exp.get("category") or {}
         cate = _cate.get("name", "")
@@ -20,8 +17,14 @@ def get_insight(data, interval):
         amount = [exp["amount"]]
         amount = amount[0] if isinstance(amount, list) else amount
         description += f"Date: {date} - Category: {cate} - Description: {desc} - Amount: ${str(amount)}\n"
+    return description
 
-    logger.warning(description)
+
+def get_insight(data, interval):
+    client = Groq(
+        api_key=os.environ.get("GROQ_API_KEY"),
+    )
+    description = parse_transacions(data)
 
     SYS_PROMPT = """
 You are a financial assistant. Speak in a informal tone and make it more interesting to read. Your task is to analyze a list of transactions presented in the following format:

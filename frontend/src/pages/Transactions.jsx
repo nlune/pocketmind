@@ -46,17 +46,21 @@ export default function TransactionsPage() {
     }, [data])
 
     return (
-        <div className="min-h-screen bg-gray-100 flex flex-col items-center p-6">
+        <div className="min-h-screen bg-white flex flex-col items-center p-6">
             {/* <h1 className="text-2xl font-bold mb-6">Transactions</h1> */}
 
             <div role="tablist" className="tabs tabs-lifted tabs-lg self-start">
             <a role="tab" 
             onClick={() => handleTabSwitch('recent')}
-            className={`tab ${activeTab === "recent" ? 'tab-active' : ''}`}>Recent Transactions</a>
+            className={`tab ${activeTab === "recent" ? 'tab-active' : ''}`}>
+                                    <span className="block md:hidden">Recent</span>
+                                    <span className="hidden md:block">Recent Transactions</span></a>
 
             <a role="tab" 
             onClick={() => handleTabSwitch('recurring')}
-            className={`tab ${activeTab === "recurring" ? 'tab-active' : ''}`}>Recurring Transactions</a>
+            className={`tab ${activeTab === "recurring" ? 'tab-active' : ''}`}>
+                                    <span className="block md:hidden">Recurring</span>
+                                    <span className="hidden md:block">Recurring Transactions</span></a>
             {/* <a role="tab" className="tab">Tab 3</a> */}
             </div>
 
@@ -68,7 +72,7 @@ export default function TransactionsPage() {
                     </label>
                     <input
                         type="date"
-                        className="input input-bordered"
+                        className="input input-bordered rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-200"
                         value={fromDate}
                         onChange={(e) => setFromDate(e.target.value)}
                     />
@@ -79,7 +83,7 @@ export default function TransactionsPage() {
                     </label>
                     <input
                         type="date"
-                        className="input input-bordered"
+                        className="input input-bordered rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-200"
                         value={toDate}
                         onChange={(e) => setToDate(e.target.value)}
                     />
@@ -89,7 +93,7 @@ export default function TransactionsPage() {
                         <span className="label-text">Category</span>
                     </label>
                     <select
-                        className="select select-bordered"
+                        className="select select-bordered rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-200"
                         value={category}
                         onChange={(e) => setCategory(e.target.value)}
                     >
@@ -114,7 +118,7 @@ export default function TransactionsPage() {
                 </div>
                 <ul className="space-y-4">
                 {activeTab === "recent" && transactions && transactions.map((item, idx) => 
-                <TransactionItem key={idx} description={item.description} amount={item.amount} date={formatDate(item.created)} /> 
+                <TransactionItem key={idx} description={item.description} amount={item.amount} category={item.category?.name} date={formatDate(item.created)} /> 
                  )
                     // <TransactionItem description="Grocery shopping" amount={-50} date="2024-11-01" />
                     // <TransactionItem description="Netflix Subscription" amount={-15} date="2024-10-25" />
@@ -126,16 +130,19 @@ export default function TransactionsPage() {
     );
 }
 
-function TransactionItem({ description, amount, date }) {
+function TransactionItem({ description, amount, date , category}) {
+    console.log(category)
     return (
         <li className="flex justify-between items-center p-3 bg-gray-50 rounded-md hover:bg-gray-100">
             <div>
                 <p className="text-lg font-medium">{description}</p>
+                <div className="flex flex-row gap-2">
                 <p className="text-sm text-gray-500">{date}</p>
+                {category && <p className="text-sm text-blue-500">{category}</p>}</div>
             </div>
             <p className={`text-lg font-semibold ${amount < 0 ? 'text-red-600' : 'text-gray-600'}`}>
                 ${amount.toFixed(2)}
-            </p>
+            </p> 
         </li>
     );
 }

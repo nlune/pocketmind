@@ -9,6 +9,7 @@ from expense.views import (
     GetCategoryFromDescription,
     ListRecurringView,
     InsightsView,
+    AskInsightView,
 )
 
 urlpatterns = [
@@ -18,6 +19,7 @@ urlpatterns = [
     path("get-via-scan/", GetExpenseScannedInput.as_view()),
     path("get-category/", GetCategoryFromDescription.as_view()),
     path("get-insight/", InsightsView.as_view()),
+    path("get-ask-insight/", AskInsightView.as_view()),
     path("reports/", ReportsView.as_view(), name="expense-report"),
     path("recurring/", ListRecurringView.as_view(), name="list-recurring-expenses"),
 ]

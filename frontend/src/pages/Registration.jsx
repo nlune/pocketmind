@@ -13,7 +13,7 @@ const RegistrationPage = () => {
   return (
       <div className="flex items-center flex-col justify-center min-h-screen bg-white">
         <div className=""><img src="/logo_big.png" alt="Pocketmind"/></div>
-        <div className="max-w-md p-8 space-y-4 bg-white rounded-lg shadow-lg">
+        <div className="max-w-md p-8 space-y-4 bg-white rounded-lg">
           <h2 className="text-2xl font-semibold text-center text-gray-800">
             The best app to keep a record of your expenses</h2>
           <form onSubmit={handleRegister} className="space-y-4">
@@ -40,9 +40,9 @@ const RegistrationPage = () => {
             />
             <button
                 type="submit"
-                className="w-full text-2xl py-2 font-semibold text-gray-800 bg-custom1 rounded-md hover:bg-blue-600"
+                className="w-full text-2xl py-2 font-semibold text-white bg-custom2 rounded-md shadow-lg"
             >
-              Get Started
+              Sign Up
             </button>
           </form>
         </div>

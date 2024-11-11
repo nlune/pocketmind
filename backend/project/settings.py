@@ -74,6 +74,7 @@ INSTALLED_APPS = [
     "budget",
     "dashboard",
     "settings",
+    "color",
 
     # 3rd party
     "rest_framework",

@@ -8,18 +8,20 @@ export default function Header() {
     const nav = useNavigate()
     const loc = useLocation()
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const btnRef = useRef(null)
     const dropdownRef = useRef(null);
     const loggedIn = useSelector(s => s.User.loggedIn)
+    console.log(isDropdownOpen)
 
 
     const handleClickOutside = (event) => {
-        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target) && !btnRef.current.contains(event.target)) {
             setIsDropdownOpen(false);
         }
     };
     useEffect(() => {
         if (isDropdownOpen) {
-            document.addEventListener("mousedown", handleClickOutside);
+            document.addEventListener("mousedown", handleClickOutside, {once: true});
         } else {
             document.removeEventListener("mousedown", handleClickOutside);
         }
@@ -29,7 +31,8 @@ export default function Header() {
         };
     }, [isDropdownOpen]);
 
-    const handleDropdownToggle = () => {
+    const handleDropdownToggle = (e) => {
+        e.preventDefault()
         setIsDropdownOpen(!isDropdownOpen);
     };
 
@@ -37,12 +40,17 @@ export default function Header() {
         e.preventDefault()
         d(logoutUser())
         localStorage.clear()
-        // nav('/login')
+        nav('/')
     }
 
     const handleLogoClick = (e) => {
         e.preventDefault()
-        nav('/')
+        if (loggedIn) {
+            nav('/home/')
+        } else {
+            nav('/')
+        }
+ 
     }
     const handleLoginClick = (e) => {
         e.preventDefault()
@@ -52,23 +60,30 @@ export default function Header() {
     return (
         <>
             {/* Header */}
-                <header className="w-full md:w-3/4 flex justify-between items-center bg-white p-4 rounded-lg shadow-md relative">
-                <h1 onClick={handleLogoClick} className="text-2xl font-bold cursor-pointer">PocketMind</h1>
-                <div className="btns flex flex-row gap-2">
-                {!loggedIn &&
-                <button className='btn btn-secondary btn-sm text-white' >
-                    SIGN UP
-                </button> }
-                {!loggedIn && loc.pathname !== '/login' &&
-                <button 
-                onClick={handleLoginClick}
-                className='btn btn-secondary btn-sm text-white' >
-                    LOGIN
-                </button>}
+                <header className="w-full flex items-center justify-between bg-custom2
+                                    p-4 rounded-lg shadow-md relative">
+                    <h1 onClick={handleLogoClick} className="text-2xl font-bold text-white text-center cursor-pointer">pocketmind
+                        {/*<img className="!w-1 !h-1" src="/logo2.png" alt="Pocketmind"/>*/}
+                    </h1>
+                    <div className="btns flex flex-row gap-2">
+
+                    {/*USER WILL NEVER SEE THE HEADER WITHOUT BEING LOGGED IN*/}
+
+                {/*{!loggedIn &&*/}
+                {/*<button className='btn btn-secondary btn-sm text-white bg-custom5' >*/}
+                {/*    SIGN UP*/}
+                {/*</button> }*/}
+                {/*{!loggedIn && loc.pathname !== '/login' &&*/}
+                {/*<button */}
+                {/*onClick={handleLoginClick}*/}
+                {/*className='btn btn-secondary btn-sm text-white bg-custom5' >*/}
+                {/*    LOGIN*/}
+                {/*</button>}*/}
                 </div>
                 {loggedIn && <button
                     className="btn btn-ghost btn-square"
                     onClick={handleDropdownToggle}
+                    ref={btnRef}
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -88,8 +103,8 @@ export default function Header() {
 
                 {/* Dropdown Menu */}
                 {isDropdownOpen && (
-                    <div ref={dropdownRef} className="absolute right-4 top-16 bg-white shadow-lg rounded-lg w-40 py-2">
-                        <ul>
+                    <div ref={dropdownRef} className="absolute right-4 top-16 bg-white shadow-lg rounded-lg w-40 py-2 dropdown-menu">
+                        <ul >
                             <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Profile</li>
                             <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Settings</li>
                             <li onClick={logoutHandler} className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Logout</li>

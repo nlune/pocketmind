@@ -15,4 +15,5 @@ class Category(models.Model):
     color = models.ForeignKey(Color, on_delete=models.PROTECT, related_name="categories", null=True)
 
     def __str__(self):
-        return f'{self.name} Color: {self.color.name} - {self.color.hexcode}'
+        color_str = f"Color: {self.color.name} - {self.color.hexcode}" if self.color else "No Color"
+        return f'{self.name} {color_str}'

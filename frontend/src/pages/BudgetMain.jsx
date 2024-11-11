@@ -8,9 +8,13 @@ export default function BudgetMain() {
     const {sendRequest: fetchCategories, data: categories, loading: loadingCategories, error: errorCategories} = useApiRequest()
     const {sendRequest: fetchColors, data: colors, loading: loadingColors, error: errorColors} = useApiRequest()
     const {sendRequest: createBudget} = useApiRequest();
+    const { sendRequest: updateBudget } = useApiRequest();
 
     const [showModal, setShowModal] = useState(false)
     const toggleModal = () => setShowModal(!showModal)
+    const [showTotalBudgetModal, setShowTotalBudgetModal] = useState(false);
+    const toggleTotalBudgetModal = () => setShowTotalBudgetModal(!showTotalBudgetModal);
+
 
     const [availableCategories, setAvailableCategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState("")
@@ -29,7 +33,20 @@ export default function BudgetMain() {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
 
+    const [expensesBudget, setExpensesBudget] = useState(null);
     const [shouldRefresh, setShouldRefresh] = useState(false);
+
+    const resetModalFields = () => {
+        setSelectedCategoryId(""); // Reset category
+        setSelectedColor({ id: null, hexcode: "" }); // Reset color
+        setLimit(""); // Reset limit
+        setStartingAmount(""); // Reset starting amount
+        setEditingLimitValue(""); // Reset editing value for limit
+        setEditingStartAmountValue(""); // Reset editing value for starting amount
+        setIsEditingLimit(false); // Reset editing state for limit
+        setIsEditingStartAmount(false); // Reset editing state for starting amount
+    };
+
 
     useEffect(() => {
         fetchBudgets("GET", "budgets/");
@@ -44,9 +61,24 @@ export default function BudgetMain() {
             const filteredCategories = categories.filter(category => !budgetedCategoryIds.includes(category.id));
             setAvailableCategories(filteredCategories);
         }
+
+        if (budgets) {
+            const expensesBudgetItem = budgets.find((budget) => budget.category.name === "Expenses");
+            if (expensesBudgetItem) {
+                setExpensesBudget(expensesBudgetItem);
+                setLimit(formatCurrency(expensesBudgetItem.limit));
+                setStartingAmount(formatCurrency(expensesBudgetItem.spend));
+            }
+        }
     }, [budgets, categories]);
 
 
+
+    const handleCancel = () => {
+        resetModalFields();
+        setShowModal(false);
+        setShowTotalBudgetModal(false)
+    };
 
 // const handleCategoryChange = (e) => {
 //     const categoryId = e.target.value;
@@ -205,11 +237,43 @@ export default function BudgetMain() {
 
         try {
             await createBudget("POST", "budgets/", budgetData);
-            toggleModal(); // Close modal on success
+            toggleModal();
+            resetModalFields();
             setShouldRefresh(true);
         } catch (error) {
             console.error("Error creating budget:", error);
             alert(`Failed to create budget. Reason: ${error.message || "Unknown"}`);
+        }
+    };
+
+    const handleSubmitTotalBudget = async () => {
+        const limitWithoutDot = limit.replace(".", "");
+        const parsedLimit = parseFloat(limitWithoutDot.replace(",", "."));
+
+        let startAmountNoDot = startingAmount.replace(".", "");
+        let parsedStartAmount = parseFloat(startAmountNoDot.replace(",", "."));
+
+        if (isNaN(parsedLimit)) {
+            alert("Please enter a valid limit.");
+            return;
+        }
+        if (isNaN(parsedStartAmount)) {
+            parsedStartAmount = 0;
+        }
+
+        const updatedBudgetData = {
+            limit: parsedLimit,
+            spend: parsedStartAmount,
+        };
+
+        try {
+            await updateBudget("PATCH", `budgets/${expensesBudget.id}/`, updatedBudgetData);
+            toggleTotalBudgetModal();
+            resetModalFields();
+            setShouldRefresh(true);
+        } catch (error) {
+            console.error("Error updating budget:", error);
+            alert(`Failed to update total budget. Reason: ${error.message || "Unknown"}`);
         }
     };
 
@@ -218,7 +282,6 @@ export default function BudgetMain() {
     if (errorCategories) return <p>Error loading categories: {errorCategories.message}</p>;
 
     console.log(selectedColor)
-    console.log(selectedCategory.color)
     console.log("limit: " + limit)
 
     return (
@@ -231,33 +294,86 @@ export default function BudgetMain() {
                     <div className="flex-grow border-t border-gray-300"></div>
                 </div>
             </div>
-            {/* Total Budget */}
-            <div className="w-full max-w-lg bg-white p-6 rounded-lg shadow-md">
+   {/* Total Budget Box */}
+        {expensesBudget && (
+            <div className="w-full max-w-lg bg-white p-6 rounded-lg shadow-md relative">
                 <div className="w-full h-15 bg-gray-200 rounded-lg flex items-center justify-center">
                     <div className="relative mx-5 my-10 w-full max-w-lg">
                         <div className="w-full h-6 bg-gray-800  relative">
-                            <div className="h-full bg-gradient-to-r from-red-200 to-red-500 "
-                                 style={{width: '100%'}}></div>
-                            {/* insert progress value at the end in [value%]*/}
-                            <div className="h-full bg-gray-800  absolute top-0 right-0 bottom-0 left-[60%]"></div>
-                            <div
-                                className="absolute top-0 left-0 right-0 bottom-0 flex items-center justify-center text-white font-semibold">
-                                <span>60%</span>
+                            <div className="h-full bg-gradient-to-r from-red-200 to-red-500 " style={{ width: '100%' }}></div>
+                            <div className="h-full bg-gray-800  absolute top-0 right-0 bottom-0"
+                            style={{ left: `${(expensesBudget.spend / expensesBudget.limit) * 100}%` }}></div>
+                            <div className="absolute top-0 left-0 right-0 bottom-0 flex items-center justify-center text-white font-semibold">
+                                <span>{`${((expensesBudget.spend / expensesBudget.limit) * 100).toFixed(1)}%`}</span>
                             </div>
                         </div>
                         <div className="mb-2 mt-2 flex items-center justify-between text-sm">
                             <div className="flex-col">
                                 <div className="text-gray-600 font-bold">SPEND</div>
-                                <div className="text-gray-600 ">600.00</div>
+                                <div className="text-gray-600 ">{formatCurrency(expensesBudget.spend)}</div>
                             </div>
+                            <div>
+                                <button
+                                    onClick={toggleTotalBudgetModal}
+                                    className="absolute left-1/2 transform -translate-x-1/2 px-4 py-2 bg-primary text-white font-bold rounded-lg"
+                                >
+                                    Set Budget
+                                </button>
+                            </div>
+
                             <div className="flex-col">
                                 <div className="text-gray-600 font-bold text-right">LIMIT</div>
-                                <div className="text-gray-600 text-right">1000.00</div>
+                                <div className="text-gray-600 text-right">{formatCurrency(expensesBudget.limit)}</div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>)}
+
+            {/* Total Budget Modal */}
+            {showTotalBudgetModal && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                    <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+                        <h2 className="text-2xl font-semibold mb-4 text-center">Set Total Budget</h2>
+
+                        <div className="mb-4">
+                            <label className="block text-sm font-medium text-gray-800 mb-1">Limit:</label>
+                            <input
+                                type="text"
+                                className="w-full p-2 border-2 border-gray-300 rounded-md focus:outline-none focus:border-blue-500 placeholder-gray-400"
+                                placeholder="Enter budget limit"
+                                value={isEditingLimit ? editingLimitValue : limit}
+                                onFocus={handleFocusLimit}
+                                onBlur={handleBlurLimit}
+                                onChange={handleLimitChange}
+                            />
+                        </div>
+
+                        <div className="mb-4">
+                            <label className="block text-sm font-medium text-gray-800 mb-1">Starting Amount:</label>
+                            <input
+                                type="text"
+                                className="w-full p-2 border-2 border-gray-300 rounded-md focus:outline-none focus:border-blue-500 placeholder-gray-400"
+                                placeholder="Enter starting amount (Optional)"
+                                value={isEditingStartAmount ? editingStartAmountValue : startingAmount}
+                                onFocus={handleFocusStartAmount}
+                                onBlur={handleBlurStartAmount}
+                                onChange={handleStartAmountChange}
+                            />
+                        </div>
+
+                        <div className="flex justify-end space-x-3">
+                            <button onClick={handleCancel} className="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg">
+                                Cancel
+                            </button>
+                            <button onClick={handleSubmitTotalBudget} className="px-4 py-2 bg-blue-600 text-white rounded-lg">
+                                Save
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             <div className="w-full max-w-lg flex flex-col items-center space-y-2">
                 <div className="relative flex items-center w-full pt-2">
                     <div className="flex-grow border-t border-gray-300"></div>
@@ -269,7 +385,7 @@ export default function BudgetMain() {
             <div
                 className="w-full max-w-lg bg-white p-2 mb-6 rounded-lg shadow-md min-h-[calc(5*48px)] max-h-[calc(5*48px)] overflow-y-scroll">
                 {Array.isArray(budgets) && budgets.length > 0 ? (
-                    budgets.map((budget, index) => (
+                    budgets.filter(budget => budget.category.name !== "Expenses").map((budget, index) => (
                         <div key={index} className="mb-2">
                             <div className="flex items-center relative">
                                 <div className="w-1/3 text-gray-700 font-medium">
@@ -299,7 +415,8 @@ export default function BudgetMain() {
             </div>
             <div className="flex justify-between items-center w-full max-w-lg space-x-5 pt-4">
                 <button
-                    onClick={toggleModal}
+
+                    onClick={() => { resetModalFields(); toggleModal(); }}
                     disabled={availableCategories.length === 0}
                     className={`flex-1 btn btn-lg py-2 px-4 rounded-lg ${availableCategories.length === 0 ? "bg-gray-300 cursor-not-allowed" : "bg-secondary text-white"}`}
                 >
@@ -394,7 +511,7 @@ export default function BudgetMain() {
 
                         {/* Submit Buttons */}
                         <div className="flex justify-end space-x-3">
-                            <button onClick={() => setShowModal(false)} className="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg">
+                            <button onClick={handleCancel} className="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg">
                                 Cancel
                             </button>
                             <button onClick={handleSubmit} className="px-4 py-2 bg-blue-600 text-white rounded-lg">

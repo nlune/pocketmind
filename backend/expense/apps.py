@@ -10,4 +10,5 @@ class ExpenseConfig(AppConfig):
     name = "expense"
 
     def ready(self):
+        import expense.signals  # noqa: F401
         logger.info("Expenses signals loaded")

@@ -126,11 +126,13 @@ const CamInputPage = () => {
       
       <div className="flex flex-row w-full justify-center pt-2 p-1 space-x-1 "> 
       {!imageData && <button onClick={handleCancel} className="btn btn-lg btn-accent text-white w-1/2 max-w-lg py-4
-                            font-semibold shadow-md bg-custom2 border-gray-300 rounded-lg">Return</button>}
+                            font-semibold bg-custom2 rounded-lg border-gray-300
+                            hover:bg-opacity-90 hover:border-opacity-100 hover:border-custom2 hover:bg-custom2">Return</button>}
 
       <button
         onClick={handleScan}
-        className="btn btn-lg bg-custom3 text-white w-1/2 rounded-lg"
+        className="btn btn-lg bg-custom3 text-white w-1/2 rounded-lg border-gray-300
+        hover:bg-opacity-90 hover:border-opacity-100 hover:border-custom3 hover:bg-custom3"
       >
         Scan Image
       </button></div>
@@ -143,15 +145,28 @@ const CamInputPage = () => {
           <img src={imageData} alt="Captured document" className="mt-2 w-full rounded-md border w-full h-full object-cover" />
         </div>
           <div className="flex flex-row w-full justify-center pt-2 p-1 space-x-1 ">
-          <button onClick={handleCancel} className="btn btn-warning w-24 rounded-lg ">Cancel</button>
-          <button onClick={handleReset} className="btn btn-secondary w-24 rounded-lg">Reset</button>
-          {ocrText && <button onClick={handleContinue} className="btn btn-accent w-24 rounded-lg">Continue</button>}
-        </div>
+            <button className="btn btn-info bg-custom2 text-white w-1/3 rounded-lg border-gray-300
+          hover:bg-opacity-90 hover:border-opacity-100 hover:border-custom2 hover:bg-custom2"
+                    onClick={handleCancel}>
+              Return
+            </button>
+            <button className="btn btn-secondary bg-custom3 text-white w-1/3 rounded-lg
+        hover:bg-opacity-90 hover:border-opacity-100 hover:border-custom3 hover:bg-custom3"
+                    onClick={handleReset}>
+              Reset
+            </button>
+            {ocrText && <button className="btn btn-accent bg-blue-600 text-white w-1/3 rounded-lg border-gray-300
+          hover:bg-opacity-90 hover:border-opacity-100 hover:border-blue-600 hover:bg-blue-600"
+                                onClick={handleContinue}>
+            Submit
+          </button>}
+          </div>
         </>
       )}
       {/* <div className='relative w-full max-w-md '> */}
-          {loading  && <p className="bg-gray-100 text-gray-700 p-4 rounded-md shadow-md mt-4 max-w-md mx-auto">Processing...</p>}
-         {ocrText && <pre className="bg-gray-100 text-gray-700 p-4 rounded-md shadow-md mt-4 max-w-md mx-auto sm:text-xs">{ocrText}</pre>}
+      {loading &&
+          <p className="bg-gray-100 text-gray-700 p-4 rounded-md shadow-md mt-4 max-w-md mx-auto">Processing...</p>}
+      {ocrText && <pre className="bg-gray-100 text-gray-700 p-4 rounded-md shadow-md mt-4 max-w-md mx-auto sm:text-xs">{ocrText}</pre>}
          {/* </div> */}
     </div>
   </div>

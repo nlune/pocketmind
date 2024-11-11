@@ -56,19 +56,50 @@ const AudioInputPage = () => {
     );
   }
 
-  return (
+return (
     <div className="flex flex-col gap-4 items-center">
       <h2 className="text-lg font-semibold text-gray-600 mb-2">
         Describe your latest expense
       </h2>
+
       <AnimatedGlowingOrb isRecording={listening} />
+
       <div className="flex flex-row gap-1 justify-center">
-        {!listening && <button className="btn btn-success" onClick={() => SpeechRecognition.startListening({ continuous: true })}>Start</button>}
-        <button className="btn btn-warning" onClick={SpeechRecognition.stopListening}>Stop</button>
-        <button className="btn btn-secondary" onClick={resetTranscript}>Reset</button>
-        {!transcript && <button className="btn btn-info" onClick={handleCancel}>Cancel</button>}
-        {transcript && <button className="btn btn-accent" onClick={handleContinue}>Continue</button>}
+        {listening ? (
+          <button className="btn btn-warning bg-red-600 text-white w-1/3 rounded-lg
+          hover:bg-opacity-90 hover:border-opacity-100 hover:border-red-600 hover:bg-red-600"
+                  onClick={SpeechRecognition.stopListening}>
+            Stop
+          </button>
+        ) : (
+          <button className="btn btn-success bg-green-500 text-white w-1/3 rounded-lg
+          hover:bg-opacity-90 hover:border-opacity-100 hover:border-green-500 hover:bg-green-500"
+                  onClick={() => SpeechRecognition.startListening({ continuous: true })}>
+            Start
+          </button>
+        )}
+
+        <button className="btn btn-secondary bg-custom3 text-white w-1/3 rounded-lg
+        hover:bg-opacity-90 hover:border-opacity-100 hover:border-custom3 hover:bg-custom3"
+                onClick={resetTranscript}>
+          Reset
+        </button>
+
+        {!transcript ? (
+          <button className="btn btn-info bg-custom2 text-white w-1/3 rounded-lg border-gray-300
+          hover:bg-opacity-90 hover:border-opacity-100 hover:border-custom2 hover:bg-custom2"
+                  onClick={handleCancel}>
+            Return
+          </button>
+        ) : (
+          <button className="btn btn-accent bg-blue-600 text-white w-1/3 rounded-lg border-gray-300
+          hover:bg-opacity-90 hover:border-opacity-100 hover:border-blue-600 hover:bg-blue-600"
+                  onClick={handleContinue}>
+            Submit
+          </button>
+        )}
       </div>
+
       {transcript && (
         <div className="transcript-container bg-base-200 p-4 rounded-lg shadow-md w-full max-w-md mt-8 overflow-y-auto">
           <p className="text-sm text-gray-500 whitespace-pre-wrap break-words">
@@ -77,7 +108,7 @@ const AudioInputPage = () => {
         </div>
       )}
     </div>
-  );
+);
 };
 
 export default AudioInputPage;

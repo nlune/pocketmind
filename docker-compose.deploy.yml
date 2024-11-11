@@ -29,6 +29,7 @@ services:
       - frontend_build:/frontend/dist
     depends_on:
       - postgres
+    pull_policy: always
     #command: "python manage.py runserver 0:8000"
 
   postgres:

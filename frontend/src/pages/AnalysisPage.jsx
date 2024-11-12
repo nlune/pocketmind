@@ -16,8 +16,8 @@ export default function GraphsReportsPage() {
     const [graphTab, setGraphTab] = useState('line') // line, pie, forecast
     const [weeklyInsight, setWeeklyInsight] = useState('')
     const [monthlyInsight, setMonthlyInsight] = useState('')
-    console.log(activeTab)
-    console.log(graphTab)
+    // console.log(activeTab)
+    // console.log(graphTab)
 
     const handleTabSwitch = (tab) => setActiveTab(tab);
     const handleGraphTabSwitch = (tab) => setGraphTab(tab);

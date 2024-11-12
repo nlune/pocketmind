@@ -28,6 +28,8 @@ from project.helpers.get_insight import get_insight
 from project.helpers.get_transaction import get_transaction
 from project.helpers.get_transaction_scannedTxt import get_transaction_scannedtxt
 
+from django.db import transaction
+
 logger = logging.getLogger(__name__)
 
 
@@ -55,22 +57,26 @@ class AddExpense(GenericAPIView):
         _category = request.data.get("category", "")
         if not _category:
             _category = get_category(request.data["description"])
-        category, created = Category.objects.get_or_create(name=_category, user=request.user)
 
-        if created:
-            total_colors = Color.objects.count()
+        with transaction.atomic():
+            category, created = Category.objects.get_or_create(name=_category)
 
-            if total_colors > 0:
-                entry_number = (category.id - 1) % total_colors
+            if created:
+                total_colors = Color.objects.count()
 
-                try:
-                    color = Color.objects.get(entry_number=entry_number)
-                    category.color = color
-                    category.save()
-                except Color.DoesNotExist:
-                    logging.error(f'No color found for entry_number {entry_number}. Category ID: {category.id}')
-            else:
-                logging.error('No available colors to assign to category.')
+                if total_colors > 0:
+                    entry_number = (category.id - 1) % total_colors
+
+                    try:
+                        color = Color.objects.get(entry_number=entry_number)
+                        category.color = color
+                        category.save(update_fields=["color"])
+                    except Color.DoesNotExist:
+                        logging.error(
+                            f"No color found for entry_number {entry_number}. Category ID: {category.id}"
+                        )
+                else:
+                    logging.error("No available colors to assign to category.")
 
         request.data.update({"category": category.id, "user": request.user.id})
 

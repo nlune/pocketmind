@@ -16,7 +16,7 @@ import GraphsReportsPage from "../pages/AnalysisPage.jsx";
 
 import LandingPage from "../pages/LandingPage.jsx";
 import BudgetMain from "../pages/BudgetMain.jsx";
-
+import SettingsPage from "../pages/SettingsPage"
 
 export default function MainRoutes() {
 
@@ -37,6 +37,7 @@ export default function MainRoutes() {
             <Route path="/transactions/" element={<TransactionsPage/>}/>
             <Route path="/reports/" element={<GraphsReportsPage/>}/>
             <Route path='/profile/' element={<ProfilePage/>}/>
+            <Route path="/home/settings" element={<SettingsPage />} />  {/* include settingspath */}
         </Route>
 
             <Route path="/login" element={<LoginPage/>}/>

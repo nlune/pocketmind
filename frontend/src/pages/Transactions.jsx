@@ -35,6 +35,7 @@ export default function TransactionsPage() {
         try {
             const resp = await axios.get("/transactions/recurring/", {"headers": headers})
             setRecurringItems(resp.data)
+            console.log(resp.data)
         }catch (error) {
             console.log(error)
         }
@@ -48,10 +49,12 @@ export default function TransactionsPage() {
         setToDate(today.toISOString().split('T')[0]);
         setFromDate(thirtyDaysAgo.toISOString().split('T')[0]);
 
-        getCategories()
-        getRecurring()
+        if (token) {
+            getCategories()
+            getRecurring()
+        }
 
-    }, []);
+    }, [token]);
 
     const handleTabSwitch = (tab) => setActiveTab(tab);
 
@@ -148,11 +151,11 @@ export default function TransactionsPage() {
                 </div>
                 <ul className="space-y-4">
                 {activeTab === "recent" && transactions && transactions.map((item, idx) => 
-                <TransactionItem key={idx} description={item.description} amount={item.amount} category={item.category?.name} date={formatDate(item.created)} /> 
+                <TransactionItem key={idx} description={item.description} amount={item.amount} category={item.category?.name} color={item.category?.color?.hexcode} date={formatDate(item.created)} /> 
                  )}
 
                 {activeTab === "recurring" && recurringItems && recurringItems.map((item, idx) => 
-                <TransactionItem key={idx} description={item.description} amount={item.amount} category={item.category?.name} date={formatDate(item.created)} /> 
+                <TransactionItem key={idx} description={item.description} amount={item.amount} category={item.category?.name} color={item.category?.color?.hexcode} date={formatDate(item.created)} /> 
                  )}
                 </ul>
             </div>
@@ -160,18 +163,27 @@ export default function TransactionsPage() {
     );
 }
 
-function TransactionItem({ description, amount, date , category}) {
+function TransactionItem({ description, amount, date, category, color }) {
     return (
-        <li className="flex justify-between items-center p-3 bg-gray-50 rounded-md hover:bg-gray-100">
-            <div>
-                <p className="text-lg font-medium">{description}</p>
-                <div className="flex flex-row gap-2">
-                <p className="text-sm text-gray-500">{date}</p>
-                {category && <p className="text-sm text-blue-500">{category}</p>}</div>
-            </div>
-            <p className={`text-lg font-semibold ${amount < 0 ? 'text-red-600' : 'text-gray-600'}`}>
-                ${amount.toFixed(2)}
-            </p> 
-        </li>
+      <li className="flex justify-between items-center p-3 bg-gray-50 rounded-md hover:bg-gray-100">
+        <div>
+          <p className="text-lg font-medium">{description}</p>
+          <div className="flex flex-row gap-2">
+            <p className="text-sm text-gray-500">{date}</p>
+            {category && (
+              <p className="text-sm" style={{ color: color || "#000" }}>
+                {category}
+              </p>
+            )}
+          </div>
+        </div>
+        <p
+          className={`text-lg font-semibold ${
+            amount < 0 ? "text-red-600" : "text-gray-600"
+          }`}
+        >
+          ${amount.toFixed(2)}
+        </p>
+      </li>
     );
-}
+  }

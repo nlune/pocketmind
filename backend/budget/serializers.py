@@ -24,12 +24,11 @@ class BudgetSerializer(serializers.ModelSerializer):
         read_only_fields = ["id", "user"]
 
     def validate(self, data):
-        category = data.get('category')
-        user = self.context["request"].user
-
-        # if Budget.objects.filter(category=category, user=user).exists():
-        #     raise serializers.ValidationError("There is already a budget with that category.")
-
+        # category = data.get('category')
+        # user = self.context["request"].user
+        #
+        # # if Budget.objects.filter(category=category, user=user).exists():
+        # #     raise serializers.ValidationError("There is already a budget with that category.")
         return data
 
     def create(self, validated_data):

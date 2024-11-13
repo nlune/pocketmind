@@ -32,7 +32,7 @@ export default function HomePage() {
 
   const navBudgetHandler = (e) => {
     e.preventDefault();
-    nav("/reports");
+    nav("/budget");
   };
 
   // fake data

@@ -1,13 +1,47 @@
 import { FaHome, FaListAlt, FaPlusCircle, FaChartBar, FaSignOutAlt } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 function MobileFooter({ onHome, onTransactions, onAddNew, onReports, onLogout }) {
+  const d = useDispatch()
+  const nav = useNavigate()
+  const loggedIn = useSelector(s => s.User.loggedIn)
+
+  const handleHomeClick = (e) => {
+    e.preventDefault()
+    if (loggedIn) {
+        nav('/home/')
+    } else {
+        nav('/')
+    }
+
+}
+
+const logoutHandler = (e) => {
+  e.preventDefault()
+  d(logoutUser())
+  localStorage.clear()
+  nav('/')
+}
+
+const navTransactionHandler = (e) => {
+  e.preventDefault();
+  nav("/transactions");
+};
+
+const navReportsHandler = (e) => {
+  e.preventDefault();
+  nav("/reports");
+};
+
+  
   return (
     <div className="fixed bottom-0 w-full bg-white border-t border-gray-200 shadow-lg flex justify-around py-2">
-      <button onClick={onHome} className="flex flex-col items-center text-gray-600 hover:text-accent">
+      <button onClick={handleHomeClick} className="flex flex-col items-center text-gray-600 hover:text-accent">
         <FaHome size={24} />
         <span className="text-xs">Home</span>
       </button>
-      <button onClick={onTransactions} className="flex flex-col items-center text-gray-600 hover:text-accent">
+      <button onClick={navTransactionHandler} className="flex flex-col items-center text-gray-600 hover:text-accent">
         <FaListAlt size={24} />
         <span className="text-xs">Transactions</span>
       </button>
@@ -15,11 +49,11 @@ function MobileFooter({ onHome, onTransactions, onAddNew, onReports, onLogout })
         <FaPlusCircle size={32} className="bg-white rounded-full shadow-lg" />
         <span className="text-xs">Add New</span>
       </button>
-      <button onClick={onReports} className="flex flex-col items-center text-gray-600 hover:text-accent">
+      <button onClick={navReportsHandler} className="flex flex-col items-center text-gray-600 hover:text-accent">
         <FaChartBar size={24} />
         <span className="text-xs">Reports</span>
       </button>
-      <button onClick={onLogout} className="flex flex-col items-center text-gray-600 hover:text-red-500">
+      <button onClick={logoutHandler} className="flex flex-col items-center text-gray-600 hover:text-red-500">
         <FaSignOutAlt size={24} />
         <span className="text-xs">Logout</span>
       </button>

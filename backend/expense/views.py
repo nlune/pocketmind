@@ -1,11 +1,10 @@
 # Create your views here.
-import datetime
 import json
 import logging
 from datetime import timedelta
 
 from django.db import transaction
-from django.db.models import Sum
+from django.db.models import Sum, Q
 from django.utils import timezone
 from rest_framework import status
 from rest_framework.exceptions import NotFound
@@ -177,25 +176,23 @@ class ReportsView(APIView):
         start_date = request.query_params.get("start_date", None)
         end_date = request.query_params.get("end_date", None)
         category_id = request.query_params.get("category", None)
+        is_recurring = request.query_params.get("is_recurring", None)
 
         expenses = Expense.objects.filter(user=user).order_by("-created")
 
+        query_start_date = None
+        query_end_date = timezone.now().date()
+
         if interval == "daily":
-            today = timezone.now().date()
-            expenses = expenses.filter(created__date=today)
+            query_start_date = query_end_date
         elif interval == "weekly":
-            start_of_week = timezone.now().date() - timedelta(
-                days=timezone.now().weekday()
-            )
-            expenses = expenses.filter(created__date__gte=start_of_week)
+            query_start_date = query_end_date - timedelta(days=query_end_date.weekday())
         elif interval == "monthly":
-            start_of_month = timezone.now().replace(day=1)
-            expenses = expenses.filter(created__date__gte=start_of_month)
+            query_start_date = query_end_date.replace(day=1)
         elif interval == "custom" and start_date and end_date:
             try:
-                start_date = datetime.datetime.strptime(start_date, "%Y-%m-%d").date()
-                end_date = datetime.datetime.strptime(end_date, "%Y-%m-%d").date()
-                expenses = expenses.filter(created__date__range=(start_date, end_date))
+                query_start_date = timezone.datetime.strptime(start_date, "%Y-%m-%d").date()
+                query_end_date = timezone.datetime.strptime(end_date, "%Y-%m-%d").date()
             except ValueError:
                 return Response(
                     {"error": "Invalid date format. Use 'YYYY-MM-DD'."}, status=400
@@ -203,6 +200,18 @@ class ReportsView(APIView):
         else:
             return Response(
                 {"error": "Invalid interval or missing date parameters."}, status=400
+            )
+
+        if is_recurring is not None:
+            if is_recurring.lower() == "true":
+                expenses = expenses.filter(is_recurring=True)
+            elif is_recurring.lower() == "false":
+                expenses = expenses.filter(is_recurring=False)
+
+        if query_start_date:
+            expenses = expenses.filter(
+                Q(is_recurring=False, created__date__range=(query_start_date, query_end_date)) |
+                Q(is_recurring=True, start_date__lte=query_end_date, end_date__gte=query_start_date, )
             )
 
         if category_id:
@@ -215,6 +224,7 @@ class ReportsView(APIView):
             {
                 "interval": interval,
                 "category": category_id if category_id else "all",
+                "is_recurring": is_recurring,
                 "total_expense": total_expense,
                 "details": expense_details,
             }

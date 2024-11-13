@@ -1,32 +1,42 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateSettings } from '../store/slices/settingsSlice';
+import { updateUserSettings } from '../store/slices/settingsSlice';
 
 const SettingsForm = () => {
   const dispatch = useDispatch();
-  const { goals, pocket_enabled } = useSelector((state) => state.settings);
+  const { name, email, goals, pocket_enabled } = useSelector((state) => state.settings);
 
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    goals: goals || '',
-    pocket_enabled: pocket_enabled || false,
+    name: name ?? '',  // Use nullish coalescing operator (??) to handle undefined
+    email: email ?? '',
+    goals: goals ?? '',
+    pocket_enabled: pocket_enabled ?? false, // Default to false
   });
+
+  // Sync formData with the settings when they are updated
+  useEffect(() => {
+    console.log('Current settings:', { name, email, goals, pocket_enabled });
+    setFormData({
+      name: name ?? '',
+      email: email ?? '',
+      goals: goals ?? '',
+      pocket_enabled: pocket_enabled ?? false,
+    });
+  }, [name, email, goals, pocket_enabled]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
   const handleToggle = () => {
-    setFormData({ ...formData, pocket_enabled: !formData.pocket_enabled });
+    setFormData((prevData) => ({ ...prevData, pocket_enabled: !prevData.pocket_enabled }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(updateSettings(formData));
-    console.log("Updated settings:", formData);
+    dispatch(updateUserSettings(formData));
+    console.log('Updated settings:', formData);
   };
 
   return (
@@ -35,7 +45,7 @@ const SettingsForm = () => {
       <input
         type="text"
         name="name"
-        value={formData.name}
+        value={formData.name}  // Controlled input
         onChange={handleChange}
         style={{ marginBottom: '10px' }}
       />
@@ -44,16 +54,7 @@ const SettingsForm = () => {
       <input
         type="email"
         name="email"
-        value={formData.email}
-        onChange={handleChange}
-        style={{ marginBottom: '10px' }}
-      />
-
-      <label>Password</label>
-      <input
-        type="password"
-        name="password"
-        value={formData.password}
+        value={formData.email}  // Controlled input
         onChange={handleChange}
         style={{ marginBottom: '10px' }}
       />
@@ -62,19 +63,19 @@ const SettingsForm = () => {
       <input
         type="text"
         name="goals"
-        value={formData.goals}
+        value={formData.goals}  // Controlled input
         onChange={handleChange}
         style={{ marginBottom: '10px' }}
       />
 
-      <label>Pocket</label>
+      <label>Pocket Enabled</label>
       <div style={{ marginBottom: '10px' }}>
         <button type="button" onClick={handleToggle}>
           {formData.pocket_enabled ? 'On' : 'Off'}
         </button>
       </div>
 
-      <button type="submit">Add</button>
+      <button type="submit">Save</button>
     </form>
   );
 };

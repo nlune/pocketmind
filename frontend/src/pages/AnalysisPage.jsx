@@ -81,13 +81,13 @@ export default function GraphsReportsPage() {
     
     // Example data input (some days are missing)
     const data = [
-        { date: "2024-11-01", amount: 1 },
-        { date: "2024-11-02", amount: 2 },
+        { date: "2024-11-01", amount: 10 },
+        { date: "2024-11-02", amount: 24 },
         { date: "2024-11-03", amount: 15 },
-        { date: "2024-11-04", amount: 30 },
-        { date: "2024-11-05", amount: 5 },
-        { date: "2024-11-06", amount: 45 },
-        { date: "2024-11-07", amount: 60 }
+        { date: "2024-11-04", amount: 15 },
+        { date: "2024-11-05", amount: 15 },
+        { date: "2024-11-06", amount: 15 },
+        { date: "2024-11-07", amount: 15 }
         // Add more data as needed
     ];
     

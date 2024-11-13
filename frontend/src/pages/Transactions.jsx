@@ -3,6 +3,7 @@ import useApiRequest from '../hooks/useAPI';
 import formatDate from '../helpers/formatDate'
 import { useSelector } from 'react-redux';
 import axios from 'axios';
+import LoadingSwirl from '../components/LoadingSwirlAnimation';
 
 export default function TransactionsPage() {
     const { sendRequest, data, error, loading } = useApiRequest({ auth: true });
@@ -138,7 +139,7 @@ export default function TransactionsPage() {
                     </select>
                 </div>
             </div>
-
+            {loading && <LoadingSwirl/>} 
             {/* Transactions List */}
             <div className="w-full max-w-2xl bg-white p-4 rounded-lg shadow-md">
                 <div className="flex flex-row justify-between mb-3">

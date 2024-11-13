@@ -18,6 +18,7 @@ from color.models import Color
 from expense.models import Expense
 from expense.serializers import (
     ExpenseSerializer,
+    ReportsExpenseSerializer,
     CreateExpenseSerializer,
     GetExpenseSerializer,
     InsightExpenseSerializer,
@@ -208,7 +209,7 @@ class ReportsView(APIView):
             expenses = expenses.filter(category_id=category_id)
 
         total_expense = expenses.aggregate(total=Sum("amount"))["total"] or 0.0
-        expense_details = ExpenseSerializer(expenses, many=True).data
+        expense_details = ReportsExpenseSerializer(expenses, many=True).data
 
         return Response(
             {
@@ -283,7 +284,7 @@ class AskInsightView(GenericAPIView):
 
 
 class ListRecurringView(ListAPIView):
-    serializer_class = ExpenseSerializer
+    serializer_class = ReportsExpenseSerializer
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):

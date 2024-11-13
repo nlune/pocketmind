@@ -1,9 +1,10 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 import AnimatedGlowingOrb from '../components/AudioAnimation';
 
-const AudioInputPage = () => {
+const AudioInputComponent = ({focus, sendRequest, updateInputValue, updateInsightFocus}) => {
   const nav = useNavigate();
   const {
     transcript,
@@ -12,6 +13,7 @@ const AudioInputPage = () => {
     browserSupportsSpeechRecognition,
     isMicrophoneAvailable
   } = useSpeechRecognition();
+
 
   useEffect(() => {
     if (isMicrophoneAvailable) {
@@ -27,13 +29,20 @@ const AudioInputPage = () => {
   const handleContinue = (e) => {
     e.preventDefault();
     SpeechRecognition.stopListening();
-    nav('/new-transaction', { state: { userInput: transcript } });
+    updateInputValue(transcript)
+    try {
+        sendRequest('POST', '/transactions/get-ask-insight/', {"user_context": transcript})
+      } catch (error) {
+        console.log(error)
+      }
+    
   };
   
   const handleCancel = (e) => {
     e.preventDefault();
     SpeechRecognition.stopListening();
-    nav('/home');
+    updateInsightFocus(false)
+    console.log('should have updated focus..')
   };
 
   // Conditionally render based on speech support and microphone availability
@@ -58,16 +67,15 @@ const AudioInputPage = () => {
 
 return (
     <div className="flex flex-col gap-4 items-center">
-      <h2 className="text-lg font-semibold mt-16 text-gray-600 mb-2">
-        Describe your latest expense
-      </h2>
 
-      <AnimatedGlowingOrb isRecording={listening} />
-      <p className="text-gray-600">{listening ? "Listening..." : "Microphone Off"}</p>
+      <AnimatedGlowingOrb isRecording={listening}/>
+
+      <p className="text-gray-200">{listening ? "Listening..." : "Microphone Off"}</p>
+
       <div className="flex flex-row gap-1 justify-center">
         {listening ? (
           <button className="btn btn-warning bg-red-600 text-white w-1/3 rounded-lg
-          hover:bg-opacity-90 hover:border-opacity-100 hover:border-red-600 hover:bg-red-600"
+          hover:bg-opacity-90 hover:border-opacity-90 hover:border-red-600 hover:bg-red-600"
                   onClick={SpeechRecognition.stopListening}>
             Stop
           </button>
@@ -79,25 +87,25 @@ return (
           </button>
         )}
 
-        <button className="btn btn-secondary bg-custom3 text-white w-1/3 rounded-lg
-        hover:bg-opacity-90 hover:border-opacity-100 hover:border-custom3 hover:bg-custom3"
+        <button className="btn btn-secondary  text-white w-1/3 rounded-lg
+        hover:bg-opacity-90 hover:border-opacity-100"
                 onClick={resetTranscript}>
           Reset
         </button>
 
-        {!transcript ? (
-          <button className="btn btn-info bg-custom2 text-white w-1/3 rounded-lg border-gray-300
-          hover:bg-opacity-90 hover:border-opacity-100 hover:border-custom2 hover:bg-custom2"
-                  onClick={handleCancel}>
-            Return
-          </button>
-        ) : (
-          <button className="btn btn-accent bg-blue-600 text-white w-1/3 rounded-lg border-gray-300
-          hover:bg-opacity-90 hover:border-opacity-100 hover:border-blue-600 hover:bg-blue-600"
+
+          <button 
+          disabled={!transcript}
+          className={`text-sm p-3 rounded-lg  w-1/3 ${
+            transcript
+              ? "bg-blue-600 text-white hover:bg-opacity-90 hover:border-opacity-100 hover:border-blue-400 hover:bg-blue-400"
+              : "bg-gray-300 text-gray-400 cursor-not-allowed"
+          }`}
+        //   className="btn btn-accent bg-blue-600 text-white w-1/3 rounded-lg"
                   onClick={handleContinue}>
             Submit
           </button>
-        )}
+
       </div>
 
       {transcript && (
@@ -111,5 +119,5 @@ return (
 );
 };
 
-export default AudioInputPage;
+export default AudioInputComponent;
 

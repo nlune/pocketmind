@@ -47,7 +47,7 @@ export default function HomePage() {
 
   return (
     <>
-      <div className="w-full max-w-lg flex flex-col items-center gap-4 mt-6 mb-6">
+      <div className="w-full max-w-lg flex flex-col items-center gap-4 ">
         <div className="relative flex items-center w-full mt-4">
           <div className="flex-grow border-t border-gray-300"></div>
           <span className="text-xl font-semibold px-4 text-gray-700">
@@ -89,7 +89,7 @@ export default function HomePage() {
         </div>
 
         {/* Budget Overview */}
-        <div className="w-full max-w-lg bg-white p-6 rounded-lg border-2 flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-4">
+        <div className="w-full max-w-lg bg-white p-2 py-4 rounded-lg border-2 flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-4">
           <button onClick={navBudgetHandler} className="btn btn-warning btn-circle text-white px-6 py-2 font-semibold bg-custom3 border-gray-300
           hover:bg-opacity-90 hover:border-opacity-100 hover:border-custom3 hover:bg-custom3">
             Add

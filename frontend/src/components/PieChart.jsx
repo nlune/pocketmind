@@ -38,7 +38,7 @@ const CustomPieChart = ({ categoryData }) => {
         <h2 className="text-2xl font-semibold text-gray-700 mb-4">Spending by Category</h2>
         <p className="text-sm text-gray-500 mb-6">Track and analyze your spending habits</p>
         <div className="w-full" style={{ height: '300px' }}>
-          <ResponsiveContainer width="100%" height="100%">
+          <ResponsiveContainer width="110%" height="100%">
             <PieChart>
               <Pie
                 data={categoryData}

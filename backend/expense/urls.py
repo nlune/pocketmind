@@ -10,6 +10,7 @@ from expense.views import (
     ListRecurringView,
     InsightsView,
     AskInsightView,
+    DailyTotalMonthView
 )
 
 urlpatterns = [
@@ -22,4 +23,5 @@ urlpatterns = [
     path("get-ask-insight/", AskInsightView.as_view()),
     path("reports/", ReportsView.as_view(), name="expense-report"),
     path("recurring/", ListRecurringView.as_view(), name="list-recurring-expenses"),
+    path("daily-totals/", DailyTotalMonthView.as_view())
 ]

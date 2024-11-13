@@ -1,12 +1,14 @@
 import { FaHome, FaListAlt, FaPlusCircle, FaChartBar, FaSignOutAlt } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
+import { logoutUser } from '../store/slices/userSlice';
 
 function MobileFooter({ onHome, onTransactions, onAddNew, onReports, onLogout }) {
   const d = useDispatch()
   const nav = useNavigate()
   const loc = useLocation()
   const loggedIn = useSelector(s => s.User.loggedIn)
+  
 
   const isActive = (path) => loc.pathname === path
 

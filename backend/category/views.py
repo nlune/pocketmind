@@ -3,10 +3,13 @@ import logging
 from rest_framework import generics
 from rest_framework.exceptions import NotFound
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.generics import GenericAPIView
+from rest_framework.response import Response
+from django.db.models import Sum
 
 from color.models import Color
 from .models import Category
-from .serializers import CategorySerializer
+from .serializers import CategorySerializer, TotalExpCategorySerializer
 
 
 class ListCreateCategoryView(generics.ListCreateAPIView):
@@ -17,15 +20,19 @@ class ListCreateCategoryView(generics.ListCreateAPIView):
         category = serializer.save(user=self.request.user)
         total_colors = Color.objects.count()
         if total_colors > 0:
-            entry_number = (category.id - 1) % total_colors  # modolo to start from start if not enough colors available
+            entry_number = (
+                (category.id - 1) % total_colors
+            )  # modolo to start from start if not enough colors available
             try:
                 color = Color.objects.get(entry_number=entry_number)
                 category.color = color
                 category.save()
             except Color.DoesNotExist:
-                logging.error(f'No color found for entry_number {entry_number}. Category ID: {category.id}')
+                logging.error(
+                    f"No color found for entry_number {entry_number}. Category ID: {category.id}"
+                )
         else:
-            logging.error('No available colors to assign to category.')
+            logging.error("No available colors to assign to category.")
 
 
 class RetrieveUpdateDestroyCategoryView(generics.RetrieveUpdateDestroyAPIView):
@@ -43,3 +50,17 @@ class RetrieveUpdateDestroyCategoryView(generics.RetrieveUpdateDestroyAPIView):
 
     def get_queryset(self):
         return Category.objects.filter(user=self.request.user)
+
+
+class CategoryTotalView(GenericAPIView):
+    serializer_class = TotalExpCategorySerializer
+
+    def get(self, request):
+        categories = Category.objects.filter(expenses__is_recurring=False)
+        total = (
+            categories.aggregate(grand_total=Sum("expenses__amount"))["grand_total"]
+            or 0
+        )
+        serializer = self.get_serializer(categories, many=True)
+
+        return Response({"total": total, "categories": serializer.data})

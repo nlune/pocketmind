@@ -12,6 +12,7 @@ from rest_framework.generics import ListCreateAPIView, GenericAPIView, ListAPIVi
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from django.db.models.functions import TruncDate
 
 from category.models import Category
 from category.serializers import SimpleCategorySerializer
@@ -288,3 +289,21 @@ class ListRecurringView(ListAPIView):
 
     def get_queryset(self):
         return Expense.objects.filter(user=self.request.user, is_recurring=True)
+
+
+class DailyTotalMonthView(APIView):
+    def get(self, request):
+        user = request.user
+        expenses = Expense.objects.filter(user=user, is_recurring=False)
+        start_of_month = timezone.now().replace(day=1)
+        expenses = expenses.filter(created__date__gte=start_of_month)
+
+        daily_totals = (
+            expenses.annotate(date=TruncDate("created"))
+            .values("date")
+            .annotate(amount=Sum("amount"))
+        )
+        data = [
+            {"date": entry["date"], "amount": entry["amount"]} for entry in daily_totals
+        ]
+        return Response(data)

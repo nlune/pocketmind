@@ -30,6 +30,10 @@ export default function HomePage() {
     nav("/reports");
   };
 
+  const navBudgetHandler = (e) => {
+    e.preventDefault();
+    nav("/reports");
+  };
 
   // fake data
   const categoryData = [
@@ -86,7 +90,7 @@ export default function HomePage() {
 
         {/* Budget Overview */}
         <div className="w-full max-w-lg bg-white p-6 rounded-lg border-2 flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-4">
-          <button className="btn btn-warning btn-circle text-white px-6 py-2 font-semibold bg-custom3 border-gray-300
+          <button onClick={navBudgetHandler} className="btn btn-warning btn-circle text-white px-6 py-2 font-semibold bg-custom3 border-gray-300
           hover:bg-opacity-90 hover:border-opacity-100 hover:border-custom3 hover:bg-custom3">
             Add
           </button>

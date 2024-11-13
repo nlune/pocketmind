@@ -4,6 +4,7 @@ import json
 import logging
 from datetime import timedelta
 
+from django.db import transaction
 from django.db.models import Sum
 from django.utils import timezone
 from rest_framework import status
@@ -28,8 +29,6 @@ from project.helpers.get_category import get_category
 from project.helpers.get_insight import get_insight
 from project.helpers.get_transaction import get_transaction
 from project.helpers.get_transaction_scannedTxt import get_transaction_scannedtxt
-
-from django.db import transaction
 
 logger = logging.getLogger(__name__)
 

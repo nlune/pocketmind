@@ -8,6 +8,7 @@ from django.db import transaction
 from django.db.models import Sum
 from django.utils import timezone
 from rest_framework import status
+from rest_framework.exceptions import NotFound
 from rest_framework.generics import ListCreateAPIView, GenericAPIView, ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -288,3 +289,32 @@ class ListRecurringView(ListAPIView):
 
     def get_queryset(self):
         return Expense.objects.filter(user=self.request.user, is_recurring=True)
+
+
+class UpdateExpenseCreatedDateView(APIView):
+    """
+    patch:
+    update expense created date by id and providing date
+    body = { "created": "YYYY-MM-DDThh:mm:ss"}
+    example = { "created": "2024-01-01T12:00:00"}
+    """
+
+    permission_classes = [IsAuthenticated]
+
+    def patch(self, request, pk):
+        try:
+            expense = Expense.objects.get(pk=pk)
+        except Expense.DoesNotExist:
+            raise NotFound("Expense entry not found.")
+
+        new_created_date = request.data.get('created')
+        if new_created_date:
+            try:
+                expense.created = timezone.datetime.fromisoformat(new_created_date)
+                expense.save()
+                return Response({"success": "Created date updated successfully."}, status=status.HTTP_200_OK)
+            except ValueError:
+                return Response({"error": "Invalid date format. Use ISO format (YYYY-MM-DDThh:mm:ss)."},
+                                status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response({"error": "Created date not provided."}, status=status.HTTP_400_BAD_REQUEST)

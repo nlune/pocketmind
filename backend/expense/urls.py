@@ -9,7 +9,7 @@ from expense.views import (
     GetCategoryFromDescription,
     ListRecurringView,
     InsightsView,
-    AskInsightView,
+    AskInsightView, UpdateExpenseCreatedDateView,
     DailyTotalMonthView
 )
 
@@ -23,5 +23,6 @@ urlpatterns = [
     path("get-ask-insight/", AskInsightView.as_view()),
     path("reports/", ReportsView.as_view(), name="expense-report"),
     path("recurring/", ListRecurringView.as_view(), name="list-recurring-expenses"),
-    path("daily-totals/", DailyTotalMonthView.as_view())
+    path("daily-totals/", DailyTotalMonthView.as_view()),
+    path("<int:pk>/update/", UpdateExpenseCreatedDateView.as_view(), name="expense-date-update"),
 ]

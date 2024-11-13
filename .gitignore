@@ -3,7 +3,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-frontend/src/output.css
+./frontend/src/output.css
 # Environments
 .env
 .venv

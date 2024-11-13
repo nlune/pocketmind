@@ -27,8 +27,8 @@ class BudgetSerializer(serializers.ModelSerializer):
         category = data.get('category')
         user = self.context["request"].user
 
-        if Budget.objects.filter(category=category, user=user).exists():
-            raise serializers.ValidationError("There is already a budget with that category.")
+        # if Budget.objects.filter(category=category, user=user).exists():
+        #     raise serializers.ValidationError("There is already a budget with that category.")
 
         return data
 

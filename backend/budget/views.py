@@ -51,3 +51,19 @@ class RetrieveUpdateDestroyBudgetView(RetrieveUpdateDestroyAPIView):
 
     def get_queryset(self):
         return Budget.objects.filter(user=self.request.user)
+
+    def perform_update(self, serializer):
+        budget = self.get_object()
+        category = budget.category
+
+        color_id = self.request.data.get("color_id")
+        if color_id:
+            color = get_object_or_404(Color, id=color_id)
+
+            if category.color != color:
+                category.color = color
+                category.save()
+
+            serializer.save(color=color)
+        else:
+            serializer.save()

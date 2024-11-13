@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 import AnimatedGlowingOrb from '../components/AudioAnimation';
 
-const AudioInputComponent = ({focus, sendRequest, updateInputValue, updateInsightFocus}) => {
+const AudioInputComponent = ({sendRequest, updateInputValue, updateInsightFocus}) => {
   const nav = useNavigate();
   const {
     transcript,
@@ -14,6 +14,29 @@ const AudioInputComponent = ({focus, sendRequest, updateInputValue, updateInsigh
     isMicrophoneAvailable
   } = useSpeechRecognition();
 
+  const transcriptRef = useRef(null)
+  const orbRef = useRef(null)
+
+  useEffect(() => {
+      if (orbRef.current){
+       orbRef.current.scrollIntoView({
+        behaviour: "smooth",
+        block: "center"
+      }) 
+      }
+  }, [])
+
+  useEffect(() => {
+    if (transcript) {
+      updateInputValue(transcript)
+      if (transcriptRef.current) {
+        transcriptRef.current.scrollIntoView({
+          behaviour: "smooth",
+          // block: "center"
+        })
+      }
+    }
+  }, [transcript])
 
   useEffect(() => {
     if (isMicrophoneAvailable) {
@@ -29,7 +52,6 @@ const AudioInputComponent = ({focus, sendRequest, updateInputValue, updateInsigh
   const handleContinue = (e) => {
     e.preventDefault();
     SpeechRecognition.stopListening();
-    updateInputValue(transcript)
     try {
         sendRequest('POST', '/transactions/get-ask-insight/', {"user_context": transcript})
       } catch (error) {
@@ -38,12 +60,6 @@ const AudioInputComponent = ({focus, sendRequest, updateInputValue, updateInsigh
     
   };
   
-  const handleCancel = (e) => {
-    e.preventDefault();
-    SpeechRecognition.stopListening();
-    updateInsightFocus(false)
-    console.log('should have updated focus..')
-  };
 
   // Conditionally render based on speech support and microphone availability
   if (!browserSupportsSpeechRecognition) {
@@ -70,7 +86,7 @@ return (
 
       <AnimatedGlowingOrb isRecording={listening}/>
 
-      <p className="text-gray-200">{listening ? "Listening..." : "Microphone Off"}</p>
+      <p ref={orbRef} className="text-gray-200">{listening ? "Listening..." : "Microphone Off"}</p>
 
       <div className="flex flex-row gap-1 justify-center">
         {listening ? (
@@ -109,7 +125,9 @@ return (
       </div>
 
       {transcript && (
-        <div className="transcript-container bg-base-200 p-4 rounded-lg shadow-md w-full max-w-md mt-8 overflow-y-auto">
+        <div 
+        ref={transcriptRef}
+        className="transcript-container bg-base-200 p-4 rounded-lg shadow-md w-full max-w-md mt-8 overflow-y-auto">
           <p className="text-sm text-gray-500 whitespace-pre-wrap break-words">
             {transcript}
           </p>

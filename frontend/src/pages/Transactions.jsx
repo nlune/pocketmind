@@ -3,6 +3,7 @@ import useApiRequest from '../hooks/useAPI';
 import formatDate from '../helpers/formatDate'
 import { useSelector } from 'react-redux';
 import axios from 'axios';
+import LoadingSwirl from '../components/LoadingSwirlAnimation';
 
 export default function TransactionsPage() {
     const { sendRequest, data, error, loading } = useApiRequest({ auth: true });
@@ -138,7 +139,7 @@ export default function TransactionsPage() {
                     </select>
                 </div>
             </div>
-
+            {loading && <LoadingSwirl/>} 
             {/* Transactions List */}
             <div className="w-full max-w-2xl bg-white p-4 rounded-lg shadow-md">
                 <div className="flex flex-row justify-between mb-3">
@@ -168,22 +169,26 @@ function TransactionItem({ description, amount, date, category, color }) {
       <li className="flex justify-between items-center p-3 bg-gray-50 rounded-md hover:bg-gray-100">
         <div>
           <p className="text-lg font-medium">{description}</p>
-          <div className="flex flex-row gap-2">
+ 
             <p className="text-sm text-gray-500">{date}</p>
-            {category && (
-              <p className="text-sm" style={{ color: color || "#000" }}>
-                {category}
-              </p>
-            )}
-          </div>
         </div>
+
+        <div className="flex flex-col items-end gap-1">
         <p
-          className={`text-lg font-semibold ${
+          className={`text-md font-semibold ${
             amount < 0 ? "text-red-600" : "text-gray-600"
           }`}
         >
           ${amount.toFixed(2)}
         </p>
+        {category && (
+              <p className="text-sm" style={{ color: color || "#000" }}>
+                {category}
+              </p>
+            )}
+        </div>
       </li>
     );
   }
+
+  

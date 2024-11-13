@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from "react";
+import Markdown from 'react-markdown'
+
 import useApiRequest from "../hooks/useAPI";
 import AudioInputComponent from "./AudioInputComponent";
 import LoadingSwirl from "./LoadingSwirlAnimation";
@@ -11,12 +13,20 @@ export default function AskInsightComponent() {
     const [audioMode, setAudioMode] = useState(false)
 
     const insightBoxRef = useRef(null)
+    const respBoxRef = useRef(null)
     const cancelBtnRef = useRef(null)
     const submitBtnRef = useRef(null)
 
+
     useEffect(() => {
-        console.log('focus ', insightFocus)
-    }, [insightFocus])
+      if (insightResp && respBoxRef.current) {
+       respBoxRef.current.scrollIntoView({
+        behaviour: "smooth",
+        // block: "center"
+      }) 
+      }
+
+    }, [insightResp])
 
     useEffect(() => {
         if (data && !error) {
@@ -44,6 +54,13 @@ export default function AskInsightComponent() {
       }
 
       useEffect(() => {
+        if (insightFocus && insightBoxRef.current) {
+          insightBoxRef.current.scrollIntoView({
+            behaviour: "smooth",
+            block: "center"
+          })
+        }
+
         if (insightFocus && !insightResp) {
           document.addEventListener("mousedown", handleClickOutside);
         } else {
@@ -139,12 +156,15 @@ export default function AskInsightComponent() {
           
           {loading && <LoadingSwirl/>} 
 
-              {insightResp && (
+              {!loading && insightResp && (
                 <div className="mt-8 p-4 border rounded-lg shadow-sm">
-                  <h3 className="text-lg font-semibold text-gray-300 mb-2">Response:</h3>
-                  <p className="text-gray-300 leading-relaxed">
+                  <h3 
+                  ref={respBoxRef}
+                  className="text-lg font-semibold text-gray-300 mb-2">Response:</h3>
+                  {/* <p className="text-gray-300 leading-relaxed">
                     {insightResp}
-                  </p>
+                  </p> */}
+                  <Markdown className="text-gray-300 leading-relaxed">{insightResp}</Markdown>
 
                   <div className="flex flex-row justify-end gap-2 mt-4">
                     <button className="btn btn-warning" >share</button>

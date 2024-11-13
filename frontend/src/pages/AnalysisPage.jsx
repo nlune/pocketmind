@@ -6,6 +6,8 @@ import LoadingSwirl from '../components/LoadingSwirlAnimation';
 import ChartComponent from '../components/ChartComponent';
 import CustomPieChart from '../components/PieChart';
 import CustomBarChart from '../components/BarChart';
+import SpendingLineGraph from '../components/LineGraph';
+import ChartProjection from '../components/ChartProjection';
 
 export default function GraphsReportsPage() {
     const token = useSelector(s => s.User.accessToken)
@@ -70,7 +72,7 @@ export default function GraphsReportsPage() {
                 filledData.push(sortedData[i])
                 i++
             } else {
-                const dataPoint =  { date: dateStr, value: 0 };
+                const dataPoint =  { date: dateStr, amount: 0 };
                 filledData.push(dataPoint);
             }
         }
@@ -79,9 +81,14 @@ export default function GraphsReportsPage() {
     
     // Example data input (some days are missing)
     const data = [
-        { date: "2024-11-01", value: 10 },
-        { date: "2024-11-03", value: 15 },
-        { date: "2024-11-04", value: 7 }
+        { date: "2024-11-01", amount: 10 },
+        { date: "2024-11-02", amount: 24 },
+        { date: "2024-11-03", amount: 15 },
+        { date: "2024-11-04", amount: 15 },
+        { date: "2024-11-05", amount: 15 },
+        { date: "2024-11-06", amount: 15 },
+        { date: "2024-11-07", amount: 15 }
+        // Add more data as needed
     ];
     
     const filledData = fillMissingDates(data);
@@ -170,7 +177,9 @@ export default function GraphsReportsPage() {
                             <CustomPieChart categoryData={categoryData}/>}
                         {graphTab === 'line' &&
                             <ChartComponent data={filledData}/> }
-        
+                         {/* <SpendingLineGraph data={filledData}/>} */}
+                         {graphTab === 'forecast' &&
+                          <ChartProjection data={filledData}/>}
                     </div>}
 
                     {loading && <LoadingSwirl/>}

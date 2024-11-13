@@ -50,7 +50,7 @@ const ChartComponent = ({ data }) =>  {
   
             <Line 
               type="monotone" 
-              dataKey="value" 
+              dataKey="amount" 
               stroke="#8884d8" 
               strokeWidth={2.5} 
               dot={{ r: 5, stroke: "#8884d8", strokeWidth: 2, fill: '#fff' }} 

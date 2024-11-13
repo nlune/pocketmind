@@ -32,7 +32,7 @@ const ChartProjection = ({ data }) => {
     const projectionData = getProjectionData(data, regressionFn);
 
     return (
-        <ResponsiveContainer width="100%" height={isMobile ? 220 : 400}>
+        <ResponsiveContainer width="110%" height={isMobile ? 300 : 400}>
             <LineChart 
                 margin={{ top: 20, right: isMobile ? 10 : 30, left: isMobile ? 5 : 20, bottom: 10 }}
             >

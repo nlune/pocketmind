@@ -103,7 +103,7 @@ export default function GraphsReportsPage() {
     ];
 
     return (
-        <div className="min-h-screen w-full bg-gray-100 flex flex-col items-center p-6">
+        <div className=" w-full flex flex-col items-center">
             {/* Tabs Section */}
             <div role="tablist" className="tabs tabs-bordered tabs-lg self-center mb-6">
                 <a 

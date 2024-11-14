@@ -58,7 +58,7 @@ class CategoryTotalView(GenericAPIView):
     def get(self, request):
         categories = Category.objects.annotate(
             total=Sum("expenses__amount", filter=Q(expenses__is_recurring=False))
-        ).distinct()
+        ).filter(total__gt=0)
         grand_total = categories.aggregate(grand_total=Sum("total"))["grand_total"] or 0
 
         serializer = self.get_serializer(categories, many=True)

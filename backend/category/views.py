@@ -13,7 +13,8 @@ from .serializers import CategorySerializer, TotalExpCategorySerializer
 
 
 class ListCreateCategoryView(generics.ListCreateAPIView):
-    queryset = Category.objects.all()
+    queryset = Category.objects.all().order_by("name")
+   # queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
     def perform_create(self, serializer):

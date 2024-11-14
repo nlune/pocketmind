@@ -1,7 +1,11 @@
 from rest_framework import serializers
 
+from django.db.models import Sum
+
 from category.models import Category
 from color.serializers import ColorSerializer
+# import logging
+# logger = logging.getLogger(__name__)
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -28,3 +32,19 @@ class ExpCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = ["id", "name", "color"]
+
+
+class TotalExpCategorySerializer(serializers.ModelSerializer):
+    color = ColorSerializer(read_only=True)
+    total = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Category
+        fields = ["id", "name", "color", "total"]
+
+    def get_total(self, obj):
+        if obj.expenses:
+            # logger.warning(obj.expenses.aggregate(sum=Sum('amount')))
+            return obj.expenses.aggregate(sum=Sum("amount"))["sum"]
+        else:
+            return 0

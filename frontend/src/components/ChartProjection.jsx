@@ -5,17 +5,25 @@ const prepareDataForRegression = (data) => {
     return data.map((point, index) => [index + 1, point.amount]);
 };
 
-// TODO use real datapts then fill in rest until day goes to last day of month
+const toTimestamp = (dateStr) => new Date(dateStr).getDate();
+
 const getProjectionData = (data, regressionFn) => {
-    const totalDays = 30;
+    const monthend = new Date(data[data.length - 1].date);
+    monthend.setMonth(monthend.getMonth() + 1)
+    console.log(monthend.getMonth())
+    monthend.setDate(0)
+    
+    const totalDays = monthend.getDate();
     const projectionData = [...data];
     const lastRealDataIndex = data.length;
 
-    for (let i = lastRealDataIndex + 1; i <= totalDays - lastRealDataIndex; i++) {
+    for (let i = lastRealDataIndex + 1; i <= totalDays; i++) {
         const amount = regressionFn(i);
-        const date = `2024-11-${i.toString().padStart(2, '0')}`;
+        let date = `${monthend.getFullYear()}-${monthend.getMonth() + 1}-${i.toString().padStart(2, '0')}`;
+        date = toTimestamp(date)
         projectionData.push({ date, amount });
     }
+
 
     return projectionData;
 };
@@ -23,13 +31,26 @@ const getProjectionData = (data, regressionFn) => {
 const ChartProjection = ({ data }) => {
     const isMobile = window.innerWidth < 640;
 
+
+    const dat = data.map((d) => ({
+        ...d,
+        date: toTimestamp(d.date),
+    }));
+
+
     // Calculate linear regression using Simple Statistics
-    const regressionInput = prepareDataForRegression(data);
+    const regressionInput = prepareDataForRegression(dat);
     const regressionModel = linearRegression(regressionInput);
     const regressionFn = linearRegressionLine(regressionModel);
 
     // Generate projection data only from the last actual data point onward
-    const projectionData = getProjectionData(data, regressionFn);
+    const projectionData = getProjectionData(dat, regressionFn);
+
+    const lastDayMonth = projectionData[projectionData.length - 1].date
+
+    console.log(data)
+
+    console.log(projectionData)
 
     return (
         <ResponsiveContainer width="110%" height={isMobile ? 300 : 400}>
@@ -43,11 +64,15 @@ const ChartProjection = ({ data }) => {
                     tick={{ fill: "#555", fontSize: 9 }} 
                     axisLine={{ stroke: '#ccc' }} 
                     tickLine={false}
+                    domain={[1, lastDayMonth]}
+                    type="number"
+                    ticks={Array.from({ length: lastDayMonth }, (_, i) => i + 1)} // Create ticks for each day
+                    tickFormatter={(day) => day}
                 >
                     <Label 
-                        value="Date" 
+                        value="Day" 
                         position="insideBottom" 
-                        offset={-10} 
+                        offset={-1} 
                         style={{ fill: '#888', fontSize: isMobile ? 9: 12 }}
                     />
                 </XAxis>
@@ -73,19 +98,19 @@ const ChartProjection = ({ data }) => {
                     itemStyle={{ color: '#eee' }}
                     cursor={{ stroke: 'rgba(0, 0, 0, 0.1)', strokeWidth: 2 }}
                 />
-                
+
                 {/* Actual Spending Line */}
                 <Line 
                     type="monotone" 
                     dataKey="amount" 
-                    data={data} 
+                    data={dat} 
                     stroke="#8884d8" 
                     strokeWidth={2.5} 
                     dot={{ r: 5, stroke: "#8884d8", strokeWidth: 2, fill: '#fff' }} 
                     activeDot={{ r: 6, fill: "#8884d8" }}
                 />
                 
-                {/* Projection Line */}
+                               {/* Projection Line */}
                 <Line 
                     type="monotone" 
                     dataKey="amount" 
@@ -95,6 +120,9 @@ const ChartProjection = ({ data }) => {
                     strokeWidth={2} 
                     dot={false}
                 />
+                
+
+ 
             </LineChart>
         </ResponsiveContainer>
     );

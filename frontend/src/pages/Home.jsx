@@ -1,9 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import CustomBarChart from "../components/BarChart";
 import AskInsightComponent from "../components/AskInsightComponent";
+import { useEffect, useState } from "react";
+import useApiRequest from "../hooks/useAPI";
+import LoadingSwirl from "../components/LoadingSwirlAnimation";
 
 
 export default function HomePage() {
+  const { sendRequest, data, error, loading } = useApiRequest({ auth: true });
+  const [categoryDat, setCategoryDat] = useState(null)
   const nav = useNavigate()  
 
   const voiceClickHandler = (e) => {
@@ -35,15 +40,19 @@ export default function HomePage() {
     nav("/budget");
   };
 
-  // fake data
-  const categoryData = [
-    { name: "Food & Drink", amount: 300 },
-    { name: "Utilities", amount: 150 },
-    { name: "Transportation", amount: 100 },
-    { name: "Entertainment", amount: 75 },
-    { name: "Shopping", amount: 200 },
-    { name: "Others", amount: 125 },
-  ];
+  useEffect(() => {
+    sendRequest('GET', '/categories/totals/')
+  }, [])
+
+
+  useEffect(() => {
+    if (data && !error) {
+      console.log(data.categories[0].color)
+      setCategoryDat(data.categories)
+
+  }
+  }, [data, error])
+
 
   return (
     <>
@@ -81,12 +90,14 @@ export default function HomePage() {
           </button>
         </div>
 
+        {loading && <LoadingSwirl/>} 
+
         {/* Categorized Spending Chart */}
-        <div className="w-full max-w-lg bg-white p-6 rounded-lg border-2">
+        {categoryDat && !loading && <div className="w-full max-w-lg bg-white p-6 rounded-lg border-2">
           <h2 className="text-xl font-semibold mb-4">Categorized Spending</h2>
           {/* Placeholder for Chart */}
-          <CustomBarChart categoryData={categoryData} />
-        </div>
+          <CustomBarChart categoryData={categoryDat} />
+        </div>}
 
         {/* Budget Overview */}
         <div className="w-full max-w-lg bg-white p-2 py-4 rounded-lg border-2 flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-4">

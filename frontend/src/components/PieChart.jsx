@@ -36,7 +36,7 @@ const CustomPieChart = ({ categoryData }) => {
     return (
       <div className="flex flex-col items-center w-full p-2 sm:p-0 bg-white rounded-lg">
         <h2 className="text-2xl font-semibold text-gray-700 mb-4">Spending by Category</h2>
-        <p className="text-sm text-gray-500 mb-6">Track and analyze your spending habits</p>
+        <p className="text-sm text-gray-500 mb-6">Overview of your spending habits by category</p>
         <div className="w-full" style={{ height: '300px' }}>
           <ResponsiveContainer width="110%" height="100%">
             <PieChart>
@@ -47,7 +47,7 @@ const CustomPieChart = ({ categoryData }) => {
                 innerRadius={isMobile ? 50 : 40}
                 outerRadius={isMobile ? 100 : 90}
                 fill="#8884d8"
-                dataKey="value"
+                dataKey="total"
                 label={isMobile ? renderCustomLabel : (entry) => entry.name} // Use the custom label function
                 labelLine={false}
               >

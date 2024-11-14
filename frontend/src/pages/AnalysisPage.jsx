@@ -12,18 +12,46 @@ import ChartProjection from '../components/ChartProjection';
 export default function GraphsReportsPage() {
     const token = useSelector(s => s.User.accessToken)
     const headers = {'Authorization': 'Bearer ' + token}
+
+    const [categoryDat, setCategoryDat] = useState(null)
+    const [dailyDat, setDailyDat] = useState(null)
+
     const [loading, setLoading] = useState(false)
 
     const [activeTab, setActiveTab] = useState('graphs');
     const [graphTab, setGraphTab] = useState('line') // line, pie, forecast
     const [weeklyInsight, setWeeklyInsight] = useState('')
     const [monthlyInsight, setMonthlyInsight] = useState('')
-    // console.log(activeTab)
-    // console.log(graphTab)
+ 
 
     const handleTabSwitch = (tab) => setActiveTab(tab);
     const handleGraphTabSwitch = (tab) => setGraphTab(tab);
 
+    const getCategoryDat = async () => {
+        try {
+            const resp = await axios.get("/categories/totals", {"headers": headers})
+            // console.log(resp.data.total)
+            setCategoryDat(resp.data.categories)
+        }catch (error) {
+            console.log(error)
+        }
+    }
+
+    const getDailyDat = async () => {
+        try {
+            const resp = await axios.get("/transactions/daily-totals/", {"headers": headers})
+            console.log(resp.data)
+            const filledData = fillMissingDates(resp.data);
+            setDailyDat(filledData)
+        }catch (error) {
+            console.log(error)
+        }
+    }
+
+    useEffect(() => {
+        getCategoryDat()
+        getDailyDat()
+    }, [])
 
     useEffect( () => {
 
@@ -61,6 +89,7 @@ export default function GraphsReportsPage() {
     function fillMissingDates(data) {
         const sortedData = data.sort((a, b) => new Date(a.date) - new Date(b.date));
         const startDate = new Date(sortedData[0].date);
+        startDate.setDate(1)
         const endDate = new Date(sortedData[sortedData.length - 1].date);
         const filledData = [];
 
@@ -91,7 +120,7 @@ export default function GraphsReportsPage() {
         // Add more data as needed
     ];
     
-    const filledData = fillMissingDates(data);
+   
 
     const categoryData = [
         { name: 'Food & Drink', value: 300 },
@@ -173,13 +202,13 @@ export default function GraphsReportsPage() {
                     {/* Display different type of graph  */}
                     {activeTab === 'graphs' &&
                     <div className="flex flex-col justify-center items-center sm:m-0 md:m-5 lg:m-8 xl:m-10 2xl:m-10">
-                        {graphTab === 'pie'  &&
-                            <CustomPieChart categoryData={categoryData}/>}
-                        {graphTab === 'line' &&
-                            <ChartComponent data={filledData}/> }
+                        {graphTab === 'pie'  && categoryDat &&
+                            <CustomPieChart categoryData={categoryDat}/>}
+                        {graphTab === 'line' && dailyDat &&
+                            <ChartComponent data={dailyDat}/> }
                          {/* <SpendingLineGraph data={filledData}/>} */}
-                         {graphTab === 'forecast' &&
-                          <ChartProjection data={filledData}/>}
+                         {graphTab === 'forecast' && dailyDat &&
+                          <ChartProjection data={dailyDat}/>}
                     </div>}
 
                     {loading && <LoadingSwirl/>}

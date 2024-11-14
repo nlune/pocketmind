@@ -53,8 +53,8 @@ export default function TransactionForm() {
     useEffect(() => {
       if (data && !error) {
         console.log(data)
-          setDescription(data.description)
-          setAmount(data.amount)
+          setDescription(data?.description)
+          setAmount(data?.amount)
           setCategory(data?.category.name)
       }
   }, [data, error])

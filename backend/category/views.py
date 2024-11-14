@@ -5,7 +5,7 @@ from rest_framework.exceptions import NotFound
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
-from django.db.models import Sum
+from django.db.models import Sum, Q
 
 from color.models import Color
 from .models import Category
@@ -56,11 +56,11 @@ class CategoryTotalView(GenericAPIView):
     serializer_class = TotalExpCategorySerializer
 
     def get(self, request):
-        categories = Category.objects.filter(expenses__is_recurring=False)
-        total = (
-            categories.aggregate(grand_total=Sum("expenses__amount"))["grand_total"]
-            or 0
-        )
+        categories = Category.objects.annotate(
+            total=Sum("expenses__amount", filter=Q(expenses__is_recurring=False))
+        ).distinct()
+        grand_total = categories.aggregate(grand_total=Sum("total"))["grand_total"] or 0
+
         serializer = self.get_serializer(categories, many=True)
 
-        return Response({"total": total, "categories": serializer.data})
+        return Response({"total": grand_total, "categories": serializer.data})

@@ -21,7 +21,7 @@ export default function TransactionsPage() {
     const [recurringItems, setRecurringItems] = useState(null)
     const [recurringTotal, setRecurringTotal] = useState("")
 
-    console.log(category)
+    console.log(trasnactionTotal)
 
     const getCategories = async () => {
         try {
@@ -134,7 +134,7 @@ export default function TransactionsPage() {
                         value={category}
                         onChange={(e) => setCategory(e.target.value)}
                     >
-                        <option value="">Select Category</option>
+                        <option value="">All</option>
                         {categories && categories.map((dat, i) => <option key={i} value={dat.id}>{dat.name}</option>)}
                     </select>
                 </div>
@@ -146,8 +146,8 @@ export default function TransactionsPage() {
                 <h2 className="text-xl font-semibold p-2">
                     {activeTab === 'recent' ? 'Recent Transactions' : 'Recurring Transactions'}
                 </h2>
-                {activeTab === 'recent' && trasnactionTotal && <h2 className="text-xl p-2">Total: {trasnactionTotal.toFixed(2)}</h2>}
-                {activeTab === 'recurring' && recurringTotal && <h2 className="text-xl p-2">Total: {recurringTotal.toFixed(2)}</h2>}
+                {activeTab === 'recent' && trasnactionTotal > 0 && <h2 className="text-xl p-2">Total: {trasnactionTotal.toFixed(2)}</h2>}
+                {activeTab === 'recurring' && recurringTotal > 0 && <h2 className="text-xl p-2">Total: {recurringTotal.toFixed(2)}</h2>}
 
                 </div>
                 <ul className="space-y-4">

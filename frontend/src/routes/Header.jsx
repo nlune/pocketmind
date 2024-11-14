@@ -61,10 +61,13 @@ export default function Header() {
         <>
             {/* Header */}
                 <header className="w-full flex items-center justify-between bg-custom2
-                                    p-2 px-3 rounded-lg shadow-md relative">
-                    <h1 onClick={handleLogoClick} className="text-2xl font-bold text-white text-center cursor-pointer">pocketmind
-                        {/*<img className="!w-1 !h-1" src="/logo2.png" alt="Pocketmind"/>*/}
-                    </h1>
+                                    p-2 px-3 rounded-lg shadow-md">
+                                       
+                    <div className='flex flex-row items-center gap-1'>
+                     <img className="h-6" src="/logo2.png" alt="Pocketmind"/> 
+                    <h1 onClick={handleLogoClick} className="text-2xl font-bold text-white text-center cursor-pointer">
+                        pocketmind
+                    </h1></div>
                     <div className="btns flex flex-row gap-2">
 
                     {/*USER WILL NEVER SEE THE HEADER WITHOUT BEING LOGGED IN*/}
@@ -107,7 +110,7 @@ export default function Header() {
                         <ul >
                             <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Profile</li>
                             <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Settings</li>
-                            <li onClick={logoutHandler} className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Logout</li>
+                            {/* <li onClick={logoutHandler} className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Logout</li> */}
                         </ul>
                     </div>
                 )}

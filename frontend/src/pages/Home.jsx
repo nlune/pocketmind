@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import useApiRequest from "../hooks/useAPI";
 import LoadingSwirl from "../components/LoadingSwirlAnimation";
 
+import {  CameraIcon, MicrophoneIcon, PencilIcon} from '@heroicons/react/24/outline';
 
 export default function HomePage() {
   const { sendRequest, data, error, loading } = useApiRequest({ auth: true });
@@ -56,7 +57,7 @@ export default function HomePage() {
 
   return (
     <>
-      <div className="w-full max-w-lg flex flex-col items-center gap-4 ">
+      <div className="w-full p-3 max-w-lg flex flex-col items-center gap-4 ">
         <div className="relative flex items-center w-full mt-4">
           <div className="flex-grow border-t border-gray-300"></div>
           <span className="text-xl font-semibold px-4 text-gray-700">
@@ -66,27 +67,27 @@ export default function HomePage() {
         </div>
 
         {/* Icon Upload Buttons */}
-        <div className="grid grid-cols-3 gap-4 w-full max-w-lg justify-items-center">
+        <div className="grid grid-cols-3 gap-6 w-full max-w-lg justify-items-center px-1">
           <button
             onClick={camClickHandler}
-            className="btn btn-lg bg-custom3 text-white w-full rounded-lg border-gray-300
+            className="btn btn-lg bg-custom3 text-white w-full rounded-lg  border-gray-300
           hover:bg-opacity-90 hover:border-opacity-100 hover:border-custom3 hover:bg-custom3"
           >
-            Camera
+            <CameraIcon className="h-8"/>
           </button>
           <button
             onClick={voiceClickHandler}
             className="btn btn-lg bg-custom3 text-white w-full rounded-lg border-gray-300
           hover:bg-opacity-90 hover:border-opacity-100 hover:border-custom3 hover:bg-custom3"
           >
-            Voice
+            <MicrophoneIcon className="h-8"/>
           </button>
           <button
             onClick={penClickHandler}
             className="btn btn-lg bg-custom3 text-white w-full rounded-lg border-gray-300
           hover:bg-opacity-90 hover:border-opacity-100 hover:border-custom3 hover:bg-custom3"
           >
-            Write
+            <PencilIcon className="h-8"/>
           </button>
         </div>
 

@@ -65,6 +65,14 @@
     }
 }
 
+.transition-all {
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease;
+}
+
+.shadow-md {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
 .error-message {
   display: block;
   max-width: 90%;

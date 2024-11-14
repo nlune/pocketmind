@@ -146,9 +146,9 @@ export default function GraphsReportsPage() {
     ];
 
     return (
-        <div className=" w-full flex flex-col items-center">
+        <div className=" w-full flex flex-col items-center mt-2">
             {/* Tabs Section */}
-            <div role="tablist" className="tabs tabs-bordered tabs-lg self-center mb-6">
+            <div role="tablist" className="tabs tabs-bordered tabs-lg self-center mb-2">
                 <a 
                     role="tab" 
                     onClick={() => handleTabSwitch('graphs')}
@@ -179,7 +179,7 @@ export default function GraphsReportsPage() {
             <div className="flex flex-col md:flex-row justify-between items-center gap-4 w-full max-w-3xl bg-white p-6 sm:p-1 rounded-lg shadow-lg transition-all duration-300 ease-in-out">
                 <div className="form-control w-full text-center md:text-left">
                     <h1 className="text-xl py-2 md:text-2xl lg:text-3xl font-semibold text-gray-700 transition-all duration-300 ease-in-out">
-                        {activeTab === 'graphs' ? 'Graphs' : activeTab === 'weekly' ? 'Insights from last week transactions' : 'Insights based on transactions from past month'}
+                        {activeTab === 'graphs' ? '' : activeTab === 'weekly' ? 'Insights from last week transactions' : 'Insights based on transactions from past month'}
                     </h1>
                     {/* <p className="mt-2 text-gray-600 text-sm md:text-base lg:text-lg max-w-md mx-auto md:mx-0"> */}
 

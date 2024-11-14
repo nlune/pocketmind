@@ -28,16 +28,27 @@ export default function GraphsReportsPage() {
     const handleGraphTabSwitch = (tab) => setGraphTab(tab);
 
     const getCategoryDat = async () => {
+        if (activeTab === 'graphs' && graphTab === 'pie'){
+            setLoading(true)
+        }
+        if (token) {
         try {
             const resp = await axios.get("/categories/totals", {"headers": headers})
             // console.log(resp.data.total)
             setCategoryDat(resp.data.categories)
         }catch (error) {
             console.log(error)
+        }finally {
+            setLoading(false)
         }
+    }
     }
 
     const getDailyDat = async () => {
+        if (activeTab === 'graphs' && graphTab === 'line'){
+            setLoading(true)
+        }
+        if (token) {
         try {
             const resp = await axios.get("/transactions/daily-totals/", {"headers": headers})
             console.log(resp.data)
@@ -45,13 +56,16 @@ export default function GraphsReportsPage() {
             setDailyDat(filledData)
         }catch (error) {
             console.log(error)
+        } finally {
+            setLoading(false)
         }
+    }
     }
 
     useEffect(() => {
         getCategoryDat()
         getDailyDat()
-    }, [])
+    }, [token])
 
     useEffect( () => {
 

@@ -1,11 +1,11 @@
 import logging
 
+from django.db.models import Sum, Q
 from rest_framework import generics
 from rest_framework.exceptions import NotFound
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.generics import GenericAPIView
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from django.db.models import Sum, Q
 
 from color.models import Color
 from .models import Category
@@ -14,7 +14,7 @@ from .serializers import CategorySerializer, TotalExpCategorySerializer
 
 class ListCreateCategoryView(generics.ListCreateAPIView):
     queryset = Category.objects.all().order_by("name")
-   # queryset = Category.objects.all()
+    # queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
     def perform_create(self, serializer):
@@ -22,7 +22,7 @@ class ListCreateCategoryView(generics.ListCreateAPIView):
         total_colors = Color.objects.count()
         if total_colors > 0:
             entry_number = (
-                (category.id - 1) % total_colors
+                    (category.id - 1) % total_colors
             )  # modolo to start from start if not enough colors available
             try:
                 color = Color.objects.get(entry_number=entry_number)

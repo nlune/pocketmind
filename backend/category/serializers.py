@@ -1,9 +1,10 @@
-from rest_framework import serializers
-
 from django.db.models import Sum
+from rest_framework import serializers
 
 from category.models import Category
 from color.serializers import ColorSerializer
+
+
 # import logging
 # logger = logging.getLogger(__name__)
 

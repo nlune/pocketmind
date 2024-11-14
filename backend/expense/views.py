@@ -5,6 +5,7 @@ from datetime import timedelta
 
 from django.db import transaction
 from django.db.models import Sum, Q
+from django.db.models.functions import TruncDate
 from django.utils import timezone
 from rest_framework import status
 from rest_framework.exceptions import NotFound
@@ -12,7 +13,6 @@ from rest_framework.generics import ListCreateAPIView, GenericAPIView, ListAPIVi
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from django.db.models.functions import TruncDate
 
 from category.models import Category
 from category.serializers import SimpleCategorySerializer

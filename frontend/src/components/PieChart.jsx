@@ -18,7 +18,8 @@ const CustomPieChart = ({ categoryData }) => {
       const y = cy + radius * Math.sin(-midAngle * RADIAN);
   
       return (
-        <text
+        <>
+        { percent > 0.02 && <text
           x={x}
           y={y}
           fill="lightgray"
@@ -29,14 +30,15 @@ const CustomPieChart = ({ categoryData }) => {
         >
           {/* {`${name}: ${(percent * 100).toFixed(0)}%`} */}
           {name}
-        </text>
+        </text>}
+        </>
       );
     };
   
     return (
       <div className="flex flex-col items-center w-full p-2 sm:p-0 bg-white rounded-lg">
-        <h2 className="text-2xl font-semibold text-gray-700 mb-4">Spending by Category</h2>
-        <p className="text-sm text-gray-500 mb-6">Overview of your spending habits by category</p>
+        <h2 className="text-2xl font-semibold text-gray-700 mb-4">Expense Distribution</h2>
+        <p className="text-sm text-gray-500 mb-6">Overview of your spending by category</p>
         <div className="w-full" style={{ height: '300px' }}>
           <ResponsiveContainer width="110%" height="100%">
             <PieChart>
@@ -52,7 +54,7 @@ const CustomPieChart = ({ categoryData }) => {
                 labelLine={false}
               >
                 {categoryData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                  <Cell key={`cell-${index}`} fill={entry.color.hexcode} />
                 ))}
               </Pie>
               <Tooltip 

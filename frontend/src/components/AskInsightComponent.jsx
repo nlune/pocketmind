@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import Markdown from 'react-markdown'
+import {  Camera, Microphone, PencilSimpleLine, PencilSimple,  } from 'phosphor-react';
 
 import useApiRequest from "../hooks/useAPI";
 import AudioInputComponent from "./AudioInputComponent";
@@ -83,6 +84,8 @@ export default function AskInsightComponent() {
         setInsightResp("")
       }
 
+      const iconSize = 22
+
 
     return (
         <>
@@ -101,12 +104,12 @@ export default function AskInsightComponent() {
           {insightFocus && (
             <div className="flex flex-col gap-4 mt-4 space-y-2 ">
 
-            {audioMode && <div className="flex flex-col gap-2 justify-center">
+            {audioMode && <div className="flex flex-col justify-center">
 
               <button 
               onClick={() => setAudioMode(false)}
-              className="btn btn-accent btn-circle text-white font-semibold py-2 px-4 self-end mx-6">
-                Pen
+              className="btn btn-accent btn-circle text-white self-end mx-2">
+               <PencilSimpleLine size={iconSize}/>
               </button>
 
               <AudioInputComponent focus={insightFocus} sendRequest={sendRequest} updateInputValue={setInputValue} updateInsightFocus={setInsightFocus}/>
@@ -123,8 +126,8 @@ export default function AskInsightComponent() {
 
               <button 
               onClick={() => setAudioMode(true)}
-              className="btn btn-accent btn-circle text-white font-semibold py-2 px-4">
-                Mic
+              className="btn btn-accent btn-circle text-white font-semibold ">
+                <Microphone size={iconSize}/>
               </button>
 
             </div>

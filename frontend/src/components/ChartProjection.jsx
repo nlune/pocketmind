@@ -7,17 +7,26 @@ const prepareDataForRegression = (data) => {
 
 const toTimestamp = (dateStr) => new Date(dateStr).getDate();
 
+const getAvg = (arr) => arr.reduce((sum, val) => sum + val.amount, 0) / arr.length
+
 const getProjectionData = (data, regressionFn) => {
+    const avg_daily_spend = getAvg(data)
+
+    const avg_datapts = data.map((d) => ({
+        ...d,
+        amount: avg_daily_spend,
+    }))
+
     const monthend = new Date(data[data.length - 1].date);
     monthend.setMonth(monthend.getMonth() + 1)
     console.log(monthend.getMonth())
     monthend.setDate(0)
     
     const totalDays = monthend.getDate();
-    const projectionData = [...data];
+    const projectionData = [];
     const lastRealDataIndex = data.length;
 
-    for (let i = lastRealDataIndex + 1; i <= totalDays; i++) {
+    for (let i = lastRealDataIndex; i <= totalDays; i++) {
         const amount = regressionFn(i);
         let date = `${monthend.getFullYear()}-${monthend.getMonth() + 1}-${i.toString().padStart(2, '0')}`;
         date = toTimestamp(date)

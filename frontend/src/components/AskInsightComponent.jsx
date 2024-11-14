@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import {  CameraIcon, MicrophoneIcon, PencilIcon} from '@heroicons/react/24/outline';
 import Markdown from 'react-markdown'
+import {  Camera, Microphone, PencilSimpleLine, PencilSimple,  } from 'phosphor-react';
 
 import useApiRequest from "../hooks/useAPI";
 import AudioInputComponent from "./AudioInputComponent";
@@ -84,6 +84,8 @@ export default function AskInsightComponent() {
         setInsightResp("")
       }
 
+      const iconSize = 22
+
 
     return (
         <>
@@ -107,7 +109,7 @@ export default function AskInsightComponent() {
               <button 
               onClick={() => setAudioMode(false)}
               className="btn btn-accent btn-circle text-white self-end mx-2">
-                <PencilIcon className="h-6"/>
+               <PencilSimpleLine size={iconSize}/>
               </button>
 
               <AudioInputComponent focus={insightFocus} sendRequest={sendRequest} updateInputValue={setInputValue} updateInsightFocus={setInsightFocus}/>
@@ -125,7 +127,7 @@ export default function AskInsightComponent() {
               <button 
               onClick={() => setAudioMode(true)}
               className="btn btn-accent btn-circle text-white font-semibold ">
-                <MicrophoneIcon className="h-6"/>
+                <Microphone size={iconSize}/>
               </button>
 
             </div>

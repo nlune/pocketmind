@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import useApiRequest from "../hooks/useAPI";
 import LoadingSwirl from "../components/LoadingSwirlAnimation";
 
-import {  CameraIcon, MicrophoneIcon, PencilIcon} from '@heroicons/react/24/outline';
+import {  Camera, Microphone, Pencil,  } from 'phosphor-react';
 
 export default function HomePage() {
   const { sendRequest, data, error, loading } = useApiRequest({ auth: true });
@@ -54,10 +54,11 @@ export default function HomePage() {
   }
   }, [data, error])
 
+  const iconSize = 27
 
   return (
     <>
-      <div className="w-full p-3 max-w-lg flex flex-col items-center gap-4 ">
+      <div className="w-full p-1 max-w-lg flex flex-col items-center gap-4 ">
         <div className="relative flex items-center w-full mt-4">
           <div className="flex-grow border-t border-gray-300"></div>
           <span className="text-xl font-semibold px-4 text-gray-700">
@@ -73,21 +74,21 @@ export default function HomePage() {
             className="btn btn-lg bg-custom3 text-white w-full rounded-lg  border-gray-300
           hover:bg-opacity-90 hover:border-opacity-100 hover:border-custom3 hover:bg-custom3"
           >
-            <CameraIcon className="h-8"/>
+            <Camera size={iconSize}/>
           </button>
           <button
             onClick={voiceClickHandler}
             className="btn btn-lg bg-custom3 text-white w-full rounded-lg border-gray-300
           hover:bg-opacity-90 hover:border-opacity-100 hover:border-custom3 hover:bg-custom3"
           >
-            <MicrophoneIcon className="h-8"/>
+            <Microphone size={iconSize}/>
           </button>
           <button
             onClick={penClickHandler}
             className="btn btn-lg bg-custom3 text-white w-full rounded-lg border-gray-300
           hover:bg-opacity-90 hover:border-opacity-100 hover:border-custom3 hover:bg-custom3"
           >
-            <PencilIcon className="h-8"/>
+            <Pencil size={iconSize}/>
           </button>
         </div>
 

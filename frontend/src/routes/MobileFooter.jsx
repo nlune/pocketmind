@@ -1,5 +1,4 @@
-import { HomeIcon, PlusCircleIcon, DocumentTextIcon, CameraIcon, MicrophoneIcon, ChartBarIcon, PencilIcon} from '@heroicons/react/24/outline';
-import { FaHome, FaListAlt, FaPlusCircle, FaChartBar, FaSignOutAlt, FaCamera, FaMicrophone, FaPen } from 'react-icons/fa';
+import { House, PlusCircle, List, Camera, Microphone, FileText, ChartBar, SignOut , Pencil} from 'phosphor-react';
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { logoutUser } from '../store/slices/userSlice';
@@ -87,7 +86,7 @@ const iconSize = 22
       className={`flex flex-col items-center text-gray-600 ${
         isActive('/home') ? 'text-accent' : 'hover:text-accent'
       }`}>
-        <HomeIcon className="h-6 w-6" />
+        <House size={iconSize}/>
         <span className="text-xs">Home</span>
       </button>
 
@@ -95,7 +94,7 @@ const iconSize = 22
       className={`flex flex-col items-center text-gray-600 ${
         isActive('/transactions') ? 'text-accent' : 'hover:text-accent'
       }`}>
-        <DocumentTextIcon className="h-6 w-6" />
+        <FileText size={iconSize} />
         <span className="text-xs">Transactions</span>
       </button>
 
@@ -107,7 +106,7 @@ const iconSize = 22
         {/* Main Add New Button */}
          <div className="relative flex flex-col items-center">
         <button ref={addBtnRef} onClick={toggleAddOptions} className="flex flex-col items-center text-blue-600">
-          <PlusCircleIcon className="h-8 w-8 bg-white rounded-full shadow-lg" />
+        <PlusCircle size={32} className="bg-white rounded-full shadow-lg" />
           <span className="text-xs">Add New</span>
         </button>
 
@@ -115,13 +114,13 @@ const iconSize = 22
         {showAddOptions && (
           <div ref={popUpRef} className="absolute bottom-14 left-1/2 transform -translate-x-1/2 flex space-x-4 transition-all">
             <button onClick={camClickHandler} className="bg-white rounded-full p-2 shadow-md hover:bg-gray-100">
-              <CameraIcon className="h-6 w-6 text-gray-600" />
+            <Camera size={20} className="text-gray-600" />
             </button>
             <button className="bg-white rounded-full p-2 shadow-md hover:bg-gray-100" onClick={voiceClickHandler}>
-              <MicrophoneIcon className="h-6 w-6 text-gray-600" />
+            <Microphone size={20} className="text-gray-600" />
             </button>
             <button className="bg-white rounded-full p-2 shadow-md hover:bg-gray-100" onClick={penClickHandler}>
-              <PencilIcon className="h-6 w-6 " />
+            <Pencil size={20} className="text-gray-600" />
             </button>
           </div>
         )}
@@ -131,11 +130,11 @@ const iconSize = 22
       className={`flex flex-col items-center text-gray-600 ${
         isActive('/reports') ? 'text-accent' : 'hover:text-accent'
       }`}>
-        <ChartBarIcon className="h-6 w-6" />
+        <ChartBar size={iconSize} />
         <span className="text-xs">Reports</span>
       </button>
       <button onClick={logoutHandler} className="flex flex-col items-center text-gray-600 hover:text-red-500">
-        <FaSignOutAlt className='h-6 w-6' />
+        <SignOut size={iconSize} />
         <span className="text-xs">Logout</span>
       </button>
     </div>

@@ -25,9 +25,9 @@ const CustomBarChart = ({ categoryData }) => {
                 <BarChart data={categoryData} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
                     <XAxis dataKey="name" hide />
                     <Tooltip cursor={{ fill: 'rgba(0,0,0,0.05)' }} formatter={CustomTooltipFormatter}  />
-                    <Bar dataKey="amount" radius={[8, 8, 0, 0]}>
+                    <Bar dataKey="total" radius={[8, 8, 0, 0]}>
                         {categoryData.map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                            <Cell key={`cell-${index}`} fill={entry.color.hexcode} />
                         ))}
                     </Bar>
                 </BarChart>

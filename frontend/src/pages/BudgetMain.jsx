@@ -500,18 +500,18 @@ export default function BudgetMain() {
     return (
 
         <>
-            <div className="w-full max-w-lg flex flex-col items-center space-y-2">
-                <div className="relative flex items-center w-full pt-2">
-                    <div className="flex-grow border-t border-gray-300"></div>
-                    <span className="text-xl font-semibold px-4 bg-transparent text-gray-800">Total Budgets</span>
-                    <div className="flex-grow border-t border-gray-300"></div>
+            <div className="w-full max-w-lg flex flex-col items-center min-w-[320px]">
+                <div className="w-full max-w-lg flex flex-col items-center space-y-2">
+                    <div className="relative flex items-center w-full pt-2">
+                        <div className="flex-grow border-t border-gray-300"></div>
+                        <span className="text-xl font-semibold px-4 bg-transparent text-gray-700">Total Budgets</span>
+                        <div className="flex-grow border-t border-gray-300"></div>
+                    </div>
                 </div>
-            </div>
-            {/* Total Budget Box */}
-            {expensesBudget && (
-                <div className="w-full max-w-lg bg-white p-6 rounded-lg shadow-md relative">
-                    <div className="w-full h-15 bg-gray-200 rounded-lg flex items-center justify-center">
-                        <div className="relative mx-5 my-10 w-full max-w-lg">
+                {/* Total Budget Box */}
+                {expensesBudget && (
+                    <div className="w-full max-w-lg bg-white p-6">
+                        <div className="w-full max-w-lg">
                             <div className="w-full h-6 bg-gray-800  relative">
                                 <div className="h-full bg-gradient-to-r from-red-200 to-red-500 "
                                      style={{width: '100%'}}></div>
@@ -543,344 +543,347 @@ export default function BudgetMain() {
                                 </div>
                             </div>
                         </div>
+
+                    </div>)}
+
+                {/* Total Budget Modal */}
+                {showTotalBudgetModal && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                        <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+                            <h2 className="text-2xl font-semibold mb-4 text-center">Set Total Budget</h2>
+
+                            <div className="mb-4">
+                                <label className="block text-sm font-medium text-gray-800 mb-1">Limit:</label>
+                                <input
+                                    type="text"
+                                    className="w-full p-2 border-2 border-gray-300 rounded-md focus:outline-none focus:border-blue-500 placeholder-gray-400"
+                                    placeholder="Enter budget limit"
+                                    value={isEditingLimitTotalBudget ? editingLimitValueTotalBudget : limitTotalBudget}
+                                    onFocus={handleFocusLimitTotalBudget}
+                                    onBlur={handleBlurLimitTotalBudget}
+                                    onChange={handleLimitChangeTotalBudget}
+                                />
+                            </div>
+
+                            <div className="mb-4">
+                                <label className="block text-sm font-medium text-gray-800 mb-1">Starting Amount:</label>
+                                <input
+                                    type="text"
+                                    className="w-full p-2 border-2 border-gray-300 rounded-md focus:outline-none focus:border-blue-500 placeholder-gray-400"
+                                    placeholder="Enter starting amount (Optional)"
+                                    value={isEditingStartAmountTotalBudget ? editingStartAmountValueTotalBudget : startingAmountTotalBudget}
+                                    onFocus={handleFocusStartAmountTotalBudget}
+                                    onBlur={handleBlurStartAmountTotalBudget}
+                                    onChange={handleStartAmountChangeTotalBudget}
+                                />
+                            </div>
+
+                            <div className="flex justify-end space-x-3">
+                                <button onClick={handleCancelTotalBudget}
+                                        className="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg">
+                                    Cancel
+                                </button>
+                                <button onClick={handleSubmitTotalBudget}
+                                        className="px-4 py-2 bg-blue-600 text-white rounded-lg">
+                                    Save
+                                </button>
+                            </div>
+                        </div>
                     </div>
-                </div>)}
+                )}
 
-            {/* Total Budget Modal */}
-            {showTotalBudgetModal && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-                    <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
-                        <h2 className="text-2xl font-semibold mb-4 text-center">Set Total Budget</h2>
 
-                        <div className="mb-4">
-                            <label className="block text-sm font-medium text-gray-800 mb-1">Limit:</label>
-                            <input
-                                type="text"
-                                className="w-full p-2 border-2 border-gray-300 rounded-md focus:outline-none focus:border-blue-500 placeholder-gray-400"
-                                placeholder="Enter budget limit"
-                                value={isEditingLimitTotalBudget ? editingLimitValueTotalBudget : limitTotalBudget}
-                                onFocus={handleFocusLimitTotalBudget}
-                                onBlur={handleBlurLimitTotalBudget}
-                                onChange={handleLimitChangeTotalBudget}
-                            />
-                        </div>
-
-                        <div className="mb-4">
-                            <label className="block text-sm font-medium text-gray-800 mb-1">Starting Amount:</label>
-                            <input
-                                type="text"
-                                className="w-full p-2 border-2 border-gray-300 rounded-md focus:outline-none focus:border-blue-500 placeholder-gray-400"
-                                placeholder="Enter starting amount (Optional)"
-                                value={isEditingStartAmountTotalBudget ? editingStartAmountValueTotalBudget : startingAmountTotalBudget}
-                                onFocus={handleFocusStartAmountTotalBudget}
-                                onBlur={handleBlurStartAmountTotalBudget}
-                                onChange={handleStartAmountChangeTotalBudget}
-                            />
-                        </div>
-
-                        <div className="flex justify-end space-x-3">
-                            <button onClick={handleCancelTotalBudget}
-                                    className="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg">
-                                Cancel
-                            </button>
-                            <button onClick={handleSubmitTotalBudget}
-                                    className="px-4 py-2 bg-blue-600 text-white rounded-lg">
-                                Save
-                            </button>
-                        </div>
+                <div className="w-full max-w-lg flex flex-col items-center space-y-2">
+                    <div className="relative flex items-center w-full pt-2">
+                        <div className="flex-grow border-t border-gray-300"></div>
+                        <span className="text-xl font-semibold px-4 bg-transparent text-gray-800">Budget Overview</span>
+                        <div className="flex-grow border-t border-gray-300"></div>
                     </div>
                 </div>
-            )}
-
-
-            <div className="w-full max-w-lg flex flex-col items-center space-y-2">
-                <div className="relative flex items-center w-full pt-2">
-                    <div className="flex-grow border-t border-gray-300"></div>
-                    <span className="text-xl font-semibold px-4 bg-transparent text-gray-800">Budget Overview</span>
-                    <div className="flex-grow border-t border-gray-300"></div>
-                </div>
-            </div>
-            {/* Scroll View for List of Budgets */}
-            <div
-                className="w-full max-w-lg bg-white p-2 mb-6 rounded-lg shadow-md min-h-[calc(5*48px)] max-h-[calc(5*48px)] overflow-y-scroll">
-                {Array.isArray(budgets) && budgets.length > 0 ? (
-                    budgets.filter(budget => budget.category.name !== "Expenses").map((budget, index) => (
-                        <div
-                            key={index}
-                            className={`mb-2 cursor-pointer p-2 rounded transition-all duration-100 ${
-                                isEditingMode ? "bg-gray-200 border-1 border-gray-500" : "bg-white"
-                            }`}
-                            onClick={() => isEditingMode && openEditModal(budget)}
-                        >
-                            <div className="flex items-center relative">
-                                <div className="w-1/3 text-gray-700 font-medium">
-                                    {budget.category.name}
-                                </div>
-                                <div className="w-2/3 h-5 bg-gray-800 relative overflow-hidden ml-1">
+                {/* Scroll View for List of Budgets */}
+                <div
+                    className="w-full max-w-lg bg-white p-2 mb-2 min-h-[calc(5*36px)] max-h-[calc(5*36px)] overflow-y-scroll">
+                    {Array.isArray(budgets) && budgets.length > 0 ? (
+                        budgets.filter(budget => budget.category.name !== "Expenses").map((budget, index) => (
+                            <div
+                                key={index}
+                                className={`m-2 cursor-pointer rounded transition-all duration-100 ${
+                                    isEditingMode ? "bg-gray-200 border-1 border-gray-500" : "bg-transparent"
+                                }`}
+                                onClick={() => isEditingMode && openEditModal(budget)}
+                            >
+                                <div className="flex items-center relative">
                                     <div
-                                        className="h-full"
-                                        style={{
-                                            width: `${(budget.spend / budget.limit) * 100}%`,
-                                            backgroundColor: budget.category.color.hexcode
-                                        }}
-                                    ></div>
-                                    <div
-                                        className="absolute inset-0 flex items-center justify-center text-white font-bold text-xs">
-                                        {budget.spend} / {budget.limit}
+                                        className="w-1/3 text-gray-700 pl-2 font-medium text-ellipsis whitespace-nowrap">
+                                        {budget.category.name}
+                                    </div>
+                                    <div className="w-[50%] h-5 bg-gray-800 relative overflow-hidden ml-auto">
+                                        <div
+                                            className="h-full"
+                                            style={{
+                                                width: `${(budget.spend / budget.limit) * 100}%`,
+                                                backgroundColor: budget.category.color.hexcode
+                                            }}
+                                        ></div>
+                                        <div
+                                            className="absolute inset-0 flex items-center justify-center text-white font-bold text-xs">
+                                            {budget.spend} / {budget.limit}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                        ))
+                    ) : (
+                        <div className="flex items-center justify-center w-full h-full">
+                            <p className="text-gray-500">No budgets set</p>
                         </div>
-                    ))
-                ) : (
-                    <div className="flex items-center justify-center w-full h-full">
-                        <p className="text-gray-500">No budgets set</p>
+                    )}
+                </div>
+                <div className="w-full h-1 border-t mb-4 border-gray-300"></div>
+                <div className="grid grid-cols-2 gap-4 w-full max-w-lg px-4">
+                    <button
+                        onClick={() => {
+                            resetNewBudgetModalFields();
+                            toggleNewBudgetModal();
+                        }}
+                        disabled={isEditingMode || availableCategories.length === 0}
+                        className={`flex-1 btn btn-lg rounded-lg ${
+                            isEditingMode || availableCategories.length === 0
+                                ? "bg-gray-300 cursor-not-allowed"
+                                : "bg-gray-800 text-white"
+                        }`}
+                    >
+                        New Budget
+                    </button>
+
+                    <button
+                        onClick={toggleEditMode}
+                        className={`flex-1 btn btn-lg rounded-lg text-white ${
+                            isEditingMode ? "bg-orange-400 border-2 border-gray-800" : "bg-gray-800"
+                        }`}
+                    >
+                        {isEditingMode ? "Exit Edit Mode" : "Edit"}
+                    </button>
+                </div>
+
+                {/* Modal for Creating Budget */}
+                {showNewBudgetModal && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                        <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+                            <h2 className="text-2xl font-semibold mb-4 text-center">Create New Budget</h2>
+
+                            {/* Category Selection Dropdown */}
+                            <div className="mb-4">
+                                <label className="block text-sm font-medium text-gray-800">Category</label>
+                                <select
+                                    value={selectedCategoryId || ""}
+                                    onChange={handleNewBudgetCategoryChange}
+                                    className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md"
+                                >
+                                    <option value="">Select category</option>
+                                    {availableCategories.map((category) => (
+                                        <option key={category.id} value={category.id}>
+                                            {category.name}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+
+                            <div className="mb-4">
+                                <label className="block text-sm font-medium text-gray-800 mb-1">Limit:</label>
+                                <input
+                                    type="text"
+                                    className="w-full p-2 border-2 border-gray-300 rounded-md focus:outline-none focus:border-blue-500 placeholder-gray-400"
+                                    placeholder="Enter budget limit"
+                                    value={isEditingLimitNewBudget ? editingLimitValueNewBudget : limitNewBudget}
+                                    onFocus={handleNewBudgetFocusLimit}
+                                    onBlur={handleNewBudgetBlurLimit}
+                                    onChange={handleNewBudgetLimitChange}
+                                />
+                            </div>
+
+                            <div className="mb-4">
+                                <label className="block text-sm font-medium text-gray-800 mb-1">Starting Amount:</label>
+                                <input
+                                    type="text"
+                                    className="w-full p-2 border-2 border-gray-300 rounded-md focus:outline-none focus:border-blue-500 placeholder-gray-400"
+                                    placeholder="Enter starting amount (Optional)"
+                                    value={isEditingStartAmountNewBudget ? editingStartAmountValueNewBudget : startingAmountNewBudget}
+                                    onFocus={handleNewBudgetFocusStartAmount}
+                                    onBlur={handleNewBudgetBlurStartAmount}
+                                    onChange={handleNewBudgetStartAmountChange}
+                                />
+                            </div>
+
+                            {/* Color Selection */}
+                            <div className="relative flex flex-col items-start">
+                                <label className="block text-sm font-medium text-gray-800 mb-1">Color:</label>
+                                <div className="relative flex items-center">
+                                    <button
+                                        onClick={toggleColorDropdown}
+                                        className="w-12 h-12 flex justify-center items-center p-1 border-2 border-gray-300 rounded-md text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        style={{backgroundColor: selectedNewBudgetColor.hexcode || "#e5e7eb"}}
+                                    >
+                                        {selectedNewBudgetColor.hexcode ? (
+                                            <span className="block w-full h-full rounded-md"></span>
+                                        ) : (
+                                            "Select" // Placeholder when no color is selected
+                                        )}
+                                    </button>
+
+                                    {isNewBudgetColorDropdownOpen && (
+                                        <div
+                                            className="absolute left-full ml-2 w-48 bg-white shadow-lg rounded-lg grid grid-cols-4 gap-2 p-2 max-h-60 overflow-y-auto z-50"
+                                            style={{top: "-150px"}}
+                                            onClick={(e) => e.stopPropagation()}
+                                        >
+                                            {colors.map((color) => (
+                                                <button
+                                                    key={color.id}
+                                                    className="w-10 h-10 rounded-md hover:ring-2 hover:ring-gray-600 transition duration-200"
+                                                    style={{backgroundColor: color.hexcode}}
+                                                    onClick={() => handleNewBudgetColorChange(color)}
+                                                ></button>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+
+
+                            {/* Submit Buttons */}
+                            <div className="flex justify-end space-x-3">
+                                <button onClick={handleNewBudgetCancel}
+                                        className="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg">
+                                    Cancel
+                                </button>
+                                <button onClick={handleNewBudgetSubmit}
+                                        className="px-4 py-2 bg-blue-600 text-white rounded-lg">
+                                    Save
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+
+                {/* Modal for Editing Budget */}
+                {showEditModal && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                        <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+                            <div className="flex justify-between items-center mb-4">
+                                <h2 className="text-2xl font-semibold">Edit Budget</h2>
+
+                                {/* Delete Button */}
+                                <button
+                                    onClick={() => handleDeleteBudget(selectedBudget)}
+                                    className="flex items-center justify-center w-8 h-8 bg-transparent hover:bg-gray-200 rounded-full"
+                                    title="Delete"
+                                >
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        strokeWidth={1.5}
+                                        stroke="currentColor"
+                                        className="w-6 h-6 text-red-600"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"
+                                        />
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <div className="mb-4">
+                                <label className="block text-sm font-medium text-gray-800">Category</label>
+                                <select
+                                    value={editCategoryID || ""}
+                                    onChange={handleEditBudgetCategoryChange}
+                                    className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md"
+                                >
+                                    <option value={editCategoryID || ""}>{editCategoryName}</option>
+                                    {availableCategories.map((category) => (
+                                        <option key={category.id} value={category.id}>
+                                            {category.name}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+
+                            <div className="mb-4">
+                                <label className="block text-sm font-medium text-gray-800 mb-1">Limit:</label>
+                                <input
+                                    type="text"
+                                    className="w-full p-2 border-2 border-gray-300 rounded-md focus:outline-none focus:border-blue-500 placeholder-gray-400"
+                                    placeholder="Enter budget limit"
+                                    value={isEditingLimitEditBudget ? editingLimitValueEditBudget : formatCurrency(limitEditBudget)}
+                                    onFocus={handleEditBudgetFocusLimit}
+                                    onBlur={handleEditBudgetBlurLimit}
+                                    onChange={handleEditBudgetLimitChange}
+                                />
+                            </div>
+
+                            <div className="mb-4">
+                                <label className="block text-sm font-medium text-gray-800 mb-1">Starting Amount:</label>
+                                <input
+                                    type="text"
+                                    className="w-full p-2 border-2 border-gray-300 rounded-md focus:outline-none focus:border-blue-500 placeholder-gray-400"
+                                    placeholder="Enter starting amount (Optional)"
+                                    value={isEditingStartAmountEditBudget ? editingStartAmountValueEditBudget : formatCurrency(startingAmountEditBudget)}
+                                    onFocus={handleEditBudgetFocusStartAmount}
+                                    onBlur={handleEditBudgetBlurStartAmount}
+                                    onChange={handleEditBudgetStartAmountChange}
+                                />
+                            </div>
+
+                            <div className="relative flex flex-col items-start mb-4">
+                                <label className="block text-sm font-medium text-gray-800 mb-1">Color:</label>
+                                <div className="relative flex items-center">
+                                    <button
+                                        onClick={() => setEditBudgetColorDropdownOpen(!isEditBudgetColorDropdownOpen)}
+                                        className="w-12 h-12 flex justify-center items-center p-1 border-2 border-gray-300 rounded-md text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        style={{backgroundColor: editColor.hexcode || "#e5e7eb"}}
+                                    >
+                                        {editColor ? (
+                                            <span className="block w-full h-full rounded-md"></span>
+                                        ) : (
+                                            "Select"
+                                        )}
+                                    </button>
+
+                                    {isEditBudgetColorDropdownOpen && (
+                                        <div
+                                            className="absolute left-full ml-2 w-48 bg-white shadow-lg rounded-lg grid grid-cols-4 gap-2 p-2 max-h-60 overflow-y-auto z-50">
+                                            {colors.map((color) => (
+                                                <button
+                                                    key={color.id}
+                                                    className="w-10 h-10 rounded-md hover:ring-2 hover:ring-gray-600 transition duration-200"
+                                                    style={{backgroundColor: color.hexcode}}
+                                                    onClick={() => handleEditBudgetColorChange(color)}
+                                                ></button>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                            <div className="flex justify-end space-x-3">
+                                <button onClick={() => setShowEditModal(false)}
+                                        className="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg">
+                                    Cancel
+                                </button>
+                                <button
+                                    onClick={() => handleEditSave(selectedBudget)}
+                                    className="px-4 py-2 bg-blue-600 text-white rounded-lg">
+                                    Save
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 )}
             </div>
-            <div className="flex justify-between items-center w-full max-w-lg space-x-5 pt-4">
-                <button
-                    onClick={() => {
-                        resetNewBudgetModalFields();
-                        toggleNewBudgetModal();
-                    }}
-                    disabled={isEditingMode || availableCategories.length === 0}
-                    className={`flex-1 btn btn-lg py-2 px-4 rounded-lg ${
-                        isEditingMode || availableCategories.length === 0
-                            ? "bg-gray-300 cursor-not-allowed"
-                            : "bg-secondary text-white"
-                    }`}
-                >
-                    New Budget
-                </button>
-
-                <button
-                    onClick={toggleEditMode}
-                    className={`flex-1 btn btn-lg py-2 px-4 rounded-lg text-white ${
-                        isEditingMode ? "bg-orange-400 border-2 border-gray-500" : "bg-accent"
-                    }`}
-                >
-                    {isEditingMode ? "Exit Edit Mode" : "Edit"}
-                </button>
-            </div>
-
-            {/* Modal for Creating Budget */}
-            {showNewBudgetModal && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-                    <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
-                        <h2 className="text-2xl font-semibold mb-4 text-center">Create New Budget</h2>
-
-                        {/* Category Selection Dropdown */}
-                        <div className="mb-4">
-                            <label className="block text-sm font-medium text-gray-800">Category</label>
-                            <select
-                                value={selectedCategoryId || ""}
-                                onChange={handleNewBudgetCategoryChange}
-                                className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md"
-                            >
-                                <option value="">Select category</option>
-                                {availableCategories.map((category) => (
-                                    <option key={category.id} value={category.id}>
-                                        {category.name}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-
-                        <div className="mb-4">
-                            <label className="block text-sm font-medium text-gray-800 mb-1">Limit:</label>
-                            <input
-                                type="text"
-                                className="w-full p-2 border-2 border-gray-300 rounded-md focus:outline-none focus:border-blue-500 placeholder-gray-400"
-                                placeholder="Enter budget limit"
-                                value={isEditingLimitNewBudget ? editingLimitValueNewBudget : limitNewBudget}
-                                onFocus={handleNewBudgetFocusLimit}
-                                onBlur={handleNewBudgetBlurLimit}
-                                onChange={handleNewBudgetLimitChange}
-                            />
-                        </div>
-
-                        <div className="mb-4">
-                            <label className="block text-sm font-medium text-gray-800 mb-1">Starting Amount:</label>
-                            <input
-                                type="text"
-                                className="w-full p-2 border-2 border-gray-300 rounded-md focus:outline-none focus:border-blue-500 placeholder-gray-400"
-                                placeholder="Enter starting amount (Optional)"
-                                value={isEditingStartAmountNewBudget ? editingStartAmountValueNewBudget : startingAmountNewBudget}
-                                onFocus={handleNewBudgetFocusStartAmount}
-                                onBlur={handleNewBudgetBlurStartAmount}
-                                onChange={handleNewBudgetStartAmountChange}
-                            />
-                        </div>
-
-                        {/* Color Selection */}
-                        <div className="relative flex flex-col items-start">
-                            <label className="block text-sm font-medium text-gray-800 mb-1">Color:</label>
-                            <div className="relative flex items-center">
-                                <button
-                                    onClick={toggleColorDropdown}
-                                    className="w-12 h-12 flex justify-center items-center p-1 border-2 border-gray-300 rounded-md text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                    style={{backgroundColor: selectedNewBudgetColor.hexcode || "#e5e7eb"}}
-                                >
-                                    {selectedNewBudgetColor.hexcode ? (
-                                        <span className="block w-full h-full rounded-md"></span>
-                                    ) : (
-                                        "Select" // Placeholder when no color is selected
-                                    )}
-                                </button>
-
-                                {isNewBudgetColorDropdownOpen && (
-                                    <div
-                                        className="absolute left-full ml-2 w-48 bg-white shadow-lg rounded-lg grid grid-cols-4 gap-2 p-2 max-h-60 overflow-y-auto z-50"
-                                        style={{top: "-150px"}}
-                                        onClick={(e) => e.stopPropagation()}
-                                    >
-                                        {colors.map((color) => (
-                                            <button
-                                                key={color.id}
-                                                className="w-10 h-10 rounded-md hover:ring-2 hover:ring-gray-600 transition duration-200"
-                                                style={{backgroundColor: color.hexcode}}
-                                                onClick={() => handleNewBudgetColorChange(color)}
-                                            ></button>
-                                        ))}
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-
-
-                        {/* Submit Buttons */}
-                        <div className="flex justify-end space-x-3">
-                            <button onClick={handleNewBudgetCancel}
-                                    className="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg">
-                                Cancel
-                            </button>
-                            <button onClick={handleNewBudgetSubmit}
-                                    className="px-4 py-2 bg-blue-600 text-white rounded-lg">
-                                Save
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
-
-
-            {/* Modal for Editing Budget */}
-            {showEditModal && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-                    <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
-                        <div className="flex justify-between items-center mb-4">
-                            <h2 className="text-2xl font-semibold">Edit Budget</h2>
-
-                            {/* Delete Button */}
-                            <button
-                                onClick={() => handleDeleteBudget(selectedBudget)}
-                                className="flex items-center justify-center w-8 h-8 bg-transparent hover:bg-gray-200 rounded-full"
-                                title="Delete"
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    strokeWidth={1.5}
-                                    stroke="currentColor"
-                                    className="w-4 h-4 text-red-600"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"
-                                    />
-                                </svg>
-                            </button>
-                        </div>
-
-                        <div className="mb-4">
-                            <label className="block text-sm font-medium text-gray-800">Category</label>
-                            <select
-                                value={editCategoryID || ""}
-                                onChange={handleEditBudgetCategoryChange}
-                                className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md"
-                            >
-                                <option value={editCategoryID || ""}>{editCategoryName}</option>
-                                {availableCategories.map((category) => (
-                                    <option key={category.id} value={category.id}>
-                                        {category.name}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-
-                        <div className="mb-4">
-                            <label className="block text-sm font-medium text-gray-800 mb-1">Limit:</label>
-                            <input
-                                type="text"
-                                className="w-full p-2 border-2 border-gray-300 rounded-md focus:outline-none focus:border-blue-500 placeholder-gray-400"
-                                placeholder="Enter budget limit"
-                                value={isEditingLimitEditBudget ? editingLimitValueEditBudget : formatCurrency(limitEditBudget)}
-                                onFocus={handleEditBudgetFocusLimit}
-                                onBlur={handleEditBudgetBlurLimit}
-                                onChange={handleEditBudgetLimitChange}
-                            />
-                        </div>
-
-                        <div className="mb-4">
-                            <label className="block text-sm font-medium text-gray-800 mb-1">Starting Amount:</label>
-                            <input
-                                type="text"
-                                className="w-full p-2 border-2 border-gray-300 rounded-md focus:outline-none focus:border-blue-500 placeholder-gray-400"
-                                placeholder="Enter starting amount (Optional)"
-                                value={isEditingStartAmountEditBudget ? editingStartAmountValueEditBudget : formatCurrency(startingAmountEditBudget)}
-                                onFocus={handleEditBudgetFocusStartAmount}
-                                onBlur={handleEditBudgetBlurStartAmount}
-                                onChange={handleEditBudgetStartAmountChange}
-                            />
-                        </div>
-
-                        <div className="relative flex flex-col items-start mb-4">
-                            <label className="block text-sm font-medium text-gray-800 mb-1">Color:</label>
-                            <div className="relative flex items-center">
-                                <button
-                                    onClick={() => setEditBudgetColorDropdownOpen(!isEditBudgetColorDropdownOpen)}
-                                    className="w-12 h-12 flex justify-center items-center p-1 border-2 border-gray-300 rounded-md text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                    style={{backgroundColor: editColor.hexcode || "#e5e7eb"}}
-                                >
-                                    {editColor ? (
-                                        <span className="block w-full h-full rounded-md"></span>
-                                    ) : (
-                                        "Select"
-                                    )}
-                                </button>
-
-                                {isEditBudgetColorDropdownOpen && (
-                                    <div
-                                        className="absolute left-full ml-2 w-48 bg-white shadow-lg rounded-lg grid grid-cols-4 gap-2 p-2 max-h-60 overflow-y-auto z-50">
-                                        {colors.map((color) => (
-                                            <button
-                                                key={color.id}
-                                                className="w-10 h-10 rounded-md hover:ring-2 hover:ring-gray-600 transition duration-200"
-                                                style={{backgroundColor: color.hexcode}}
-                                                onClick={() => handleEditBudgetColorChange(color)}
-                                            ></button>
-                                        ))}
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-                        <div className="flex justify-end space-x-3">
-                            <button onClick={() => setShowEditModal(false)}
-                                    className="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg">
-                                Cancel
-                            </button>
-                            <button
-                                onClick={() => handleEditSave(selectedBudget)}
-                                className="px-4 py-2 bg-blue-600 text-white rounded-lg">
-                                Save
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
         </>
     );
 }

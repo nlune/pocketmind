@@ -504,7 +504,7 @@ export default function BudgetMain() {
                 <div className="w-full max-w-lg flex flex-col items-center space-y-2">
                     <div className="relative flex items-center w-full pt-2">
                         <div className="flex-grow border-t border-gray-300"></div>
-                        <span className="text-xl font-semibold px-4 bg-transparent text-gray-700">Total Budgets</span>
+                        <span className="text-xl font-semibold px-4 bg-transparent text-gray-700">Total Budget</span>
                         <div className="flex-grow border-t border-gray-300"></div>
                     </div>
                 </div>
@@ -530,7 +530,7 @@ export default function BudgetMain() {
                                 <div>
                                     <button
                                         onClick={toggleTotalBudgetModal}
-                                        className="absolute left-1/2 transform -translate-x-1/2 px-4 py-2 bg-primary text-white font-bold rounded-lg"
+                                        className="absolute left-1/2 transform -translate-x-1/2 px-4 py-2 bg-gray-800 text-white font-bold rounded-lg"
                                     >
                                         Set Budget
                                     </button>

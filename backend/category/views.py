@@ -22,7 +22,7 @@ class ListCreateCategoryView(generics.ListCreateAPIView):
         total_colors = Color.objects.count()
         if total_colors > 0:
             entry_number = (
-                (category.id - 1) % total_colors
+                    (category.id - 1) % total_colors
             )  # modolo to start from start if not enough colors available
             try:
                 color = Color.objects.get(entry_number=entry_number)

@@ -57,7 +57,7 @@ const AudioInputPage = () => {
   }
 
 return (
-    <div className="flex flex-col gap-4 items-center">
+    <div className="flex flex-col gap-4 items-center mt-2">
       <h2 className="text-lg font-semibold mt-16 text-gray-600 mb-2">
         Describe your latest expense
       </h2>

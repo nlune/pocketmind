@@ -78,7 +78,9 @@ const penClickHandler = (e) => {
 
 const toggleAddOptions = () => setShowAddOptions(!showAddOptions);
 
-const iconSize = 22
+const iconSize = 24
+const addNewSize = 32
+const addIconSize = 24
   
   return (
     <div className="fixed bottom-0 w-full bg-white border-t border-gray-200 shadow-lg flex justify-around py-2">
@@ -106,7 +108,7 @@ const iconSize = 22
         {/* Main Add New Button */}
          <div className="relative flex flex-col items-center">
         <button ref={addBtnRef} onClick={toggleAddOptions} className="flex flex-col items-center text-blue-600">
-        <PlusCircle size={32} className="bg-white rounded-full shadow-lg" />
+        <PlusCircle size={addNewSize} className="bg-white rounded-full shadow-lg" />
           <span className="text-xs">Add New</span>
         </button>
 
@@ -114,13 +116,13 @@ const iconSize = 22
         {showAddOptions && (
           <div ref={popUpRef} className="absolute bottom-14 left-1/2 transform -translate-x-1/2 flex space-x-4 transition-all">
             <button onClick={camClickHandler} className="bg-white rounded-full p-2 shadow-md hover:bg-gray-100">
-            <Camera size={20} className="text-gray-600" />
+            <Camera size={addIconSize} className="text-gray-600" />
             </button>
             <button className="bg-white rounded-full p-2 shadow-md hover:bg-gray-100" onClick={voiceClickHandler}>
-            <Microphone size={20} className="text-gray-600" />
+            <Microphone size={addIconSize} className="text-gray-600" />
             </button>
             <button className="bg-white rounded-full p-2 shadow-md hover:bg-gray-100" onClick={penClickHandler}>
-            <Pencil size={20} className="text-gray-600" />
+            <Pencil size={addIconSize} className="text-gray-600" />
             </button>
           </div>
         )}

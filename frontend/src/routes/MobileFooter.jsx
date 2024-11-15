@@ -87,7 +87,7 @@ const addIconSize = 24
     <div className="fixed bottom-0 w-full bg-white border-t border-gray-200 shadow-lg flex justify-around py-2">
       
       <button onClick={handleHomeClick} 
-      className={`flex flex-col items-center text-gray-600 text-accent ${
+      className={`flex flex-col items-center text-gray-600  ${
         isActive('/home') ? 'text-accent' : 'hover:text-accent'
       }`}>
         <House size={iconSize}/>
@@ -95,7 +95,7 @@ const addIconSize = 24
       </button>
 
       <button onClick={navTransactionHandler} 
-      className={`flex flex-col items-center text-gray-600 text-accent ${
+      className={`flex flex-col items-center text-gray-600  ${
         isActive('/transactions') ? 'text-accent' : 'hover:text-accent'
       }`}>
         <FileText size={iconSize} />

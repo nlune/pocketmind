@@ -18,6 +18,7 @@ function MobileFooter({ onHome, onTransactions, onAddNew, onReports, onLogout })
         setShowAddOptions(false);
     }
 };
+
 useEffect(() => {
     if (showAddOptions) {
         document.addEventListener("mousedown", handleClickOutside);
@@ -84,8 +85,9 @@ const addIconSize = 24
   
   return (
     <div className="fixed bottom-0 w-full bg-white border-t border-gray-200 shadow-lg flex justify-around py-2">
+      
       <button onClick={handleHomeClick} 
-      className={`flex flex-col items-center text-gray-600 ${
+      className={`flex flex-col items-center text-gray-600  ${
         isActive('/home') ? 'text-accent' : 'hover:text-accent'
       }`}>
         <House size={iconSize}/>
@@ -93,7 +95,7 @@ const addIconSize = 24
       </button>
 
       <button onClick={navTransactionHandler} 
-      className={`flex flex-col items-center text-gray-600 ${
+      className={`flex flex-col items-center text-gray-600  ${
         isActive('/transactions') ? 'text-accent' : 'hover:text-accent'
       }`}>
         <FileText size={iconSize} />
@@ -107,8 +109,8 @@ const addIconSize = 24
 
         {/* Main Add New Button */}
          <div className="relative flex flex-col items-center">
-        <button ref={addBtnRef} onClick={toggleAddOptions} className="flex flex-col items-center text-blue-600">
-        <PlusCircle size={addNewSize} className="bg-white rounded-full shadow-lg" />
+        <button ref={addBtnRef} onClick={toggleAddOptions} className="flex flex-col items-center text-blue-500">
+        <PlusCircle size={addNewSize} className="bg-white rounded-full shadow-sm" />
           <span className="text-xs">Add New</span>
         </button>
 

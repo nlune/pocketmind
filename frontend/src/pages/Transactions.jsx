@@ -84,7 +84,7 @@ export default function TransactionsPage() {
     }, [data, error])
 
     return (
-        <div className="min-h-screen bg-white flex flex-col items-center py-6 px-2 mx-3">
+        <div className="min-h-screen bg-white flex flex-col items-center py-6 px-3 mx-3">
             {/* <h1 className="text-2xl font-bold mb-6">Transactions</h1> */}
 
             <div role="tablist" className="tabs tabs-lifted tabs-lg self-start">
@@ -142,7 +142,7 @@ export default function TransactionsPage() {
             </div>
             {loading && <LoadingSwirl/>} 
             {/* Transactions List */}
-            <div className="w-full max-w-2xl bg-white m-2 py-4 rounded-lg shadow-md">
+            <div className="w-full  bg-white m-2 py-4 rounded-lg shadow-md">
                 <div className="flex flex-row justify-between mb-3">
                 <h2 className="text-xl font-semibold p-2">
                     {activeTab === 'recent' ? 'Transactions' : 'Recurring Transactions'}
@@ -169,7 +169,7 @@ function TransactionItem({ description, amount, date, category, color }) {
     return (
       <li className="flex justify-between items-center p-3 bg-gray-50 rounded-md hover:bg-gray-100">
         <div>
-          <p className="text-lg font-medium">{description}</p>
+          <p className="text-lg font-medium ">{description}</p>
  
             <p className="text-sm text-gray-500">{date}</p>
         </div>

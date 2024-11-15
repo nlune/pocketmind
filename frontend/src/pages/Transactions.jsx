@@ -35,7 +35,8 @@ export default function TransactionsPage() {
     const getRecurring = async () => {
         try {
             const resp = await axios.get("/transactions/recurring/", {"headers": headers})
-            setRecurringItems(resp.data)
+            setRecurringItems(resp.data.details)
+            setRecurringTotal(resp.data.total)
             console.log(resp.data)
         }catch (error) {
             console.log(error)
@@ -83,7 +84,7 @@ export default function TransactionsPage() {
     }, [data, error])
 
     return (
-        <div className="min-h-screen bg-white flex flex-col items-center p-6">
+        <div className="min-h-screen bg-white flex flex-col items-center py-6 px-2 mx-3">
             {/* <h1 className="text-2xl font-bold mb-6">Transactions</h1> */}
 
             <div role="tablist" className="tabs tabs-lifted tabs-lg self-start">
@@ -102,7 +103,7 @@ export default function TransactionsPage() {
             </div>
 
             {/* Filters */}
-            <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-6 w-full max-w-2xl bg-white p-4 rounded-lg shadow-md">
+             <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-6 w-full max-w-2xl bg-white p-4 rounded-lg shadow-md">
                 <div className="form-control w-full max-w-xs">
                     <label className="label">
                         <span className="label-text">From Date</span>
@@ -141,10 +142,10 @@ export default function TransactionsPage() {
             </div>
             {loading && <LoadingSwirl/>} 
             {/* Transactions List */}
-            <div className="w-full max-w-2xl bg-white p-4 rounded-lg shadow-md">
+            <div className="w-full max-w-2xl bg-white m-2 py-4 rounded-lg shadow-md">
                 <div className="flex flex-row justify-between mb-3">
                 <h2 className="text-xl font-semibold p-2">
-                    {activeTab === 'recent' ? 'Recent Transactions' : 'Recurring Transactions'}
+                    {activeTab === 'recent' ? 'Transactions' : 'Recurring Transactions'}
                 </h2>
                 {activeTab === 'recent' && trasnactionTotal > 0 && <h2 className="text-xl p-2">Total: {trasnactionTotal.toFixed(2)}</h2>}
                 {activeTab === 'recurring' && recurringTotal > 0 && <h2 className="text-xl p-2">Total: {recurringTotal.toFixed(2)}</h2>}

@@ -61,7 +61,7 @@ export default function Header() {
         <>
             {/* Header */}
                 <header className="w-full flex items-center justify-between bg-custom2
-                                    p-2 px-3 rounded-lg shadow-md">
+                                    p-2 px-3 shadow-md">
                                        
                     <div className='flex flex-row items-center gap-1'>
                      <img className="h-6" src="/logo2.png" alt="Pocketmind"/> 

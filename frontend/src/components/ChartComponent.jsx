@@ -7,8 +7,7 @@ const ChartComponent = ({ data }) =>  {
     console.log(window.innerWidth)
 
     return (
-        // <div className="w-screen max-w-screen flex justify-center bg-white rounded-lg overflow-hidden p-2 md:p-4">
-        <ResponsiveContainer width="110%" height={isMobile ? 300 : 400}>
+        <ResponsiveContainer width="105%" height={isMobile ? 300 : 400}>
           <LineChart data={data} margin={{ top: 20, right: isMobile ? 10 : 30, left: isMobile ? 5 : 20, bottom: 10 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />
   
@@ -58,7 +57,6 @@ const ChartComponent = ({ data }) =>  {
             />
           </LineChart>
         </ResponsiveContainer>
-    //   </div>
 );
 }
 

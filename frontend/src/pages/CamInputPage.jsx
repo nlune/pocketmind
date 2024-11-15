@@ -10,7 +10,7 @@ const CamInputPage = () => {
   const [imageData, setImageData] = useState(null);
   const [ocrText, setOcrText] = useState('');
   const [loading, setLoading] = useState(false);
- 
+ const ocrTextRef = useRef(null)
 
   const startCamera = async () => {
     try {
@@ -35,7 +35,15 @@ const CamInputPage = () => {
     }
   }, []);
 
+  useEffect(() => {
+    if (ocrText && ocrTextRef.current) {
+     ocrTextRef.current.scrollIntoView({
+      behaviour: "smooth",
+      block: "center"
+    }) 
+    }
 
+  }, [ocrText])
 
   const stopCamera = () => {
     const stream = videoRef.current?.srcObject;
@@ -148,7 +156,7 @@ const CamInputPage = () => {
             <button className="btn btn-info bg-custom2 text-white w-1/3 rounded-lg border-gray-300
           hover:bg-opacity-90 hover:border-opacity-100 hover:border-custom2 hover:bg-custom2"
                     onClick={handleCancel}>
-              Return
+              Cancel
             </button>
             <button className="btn btn-secondary bg-custom3 text-white w-1/3 rounded-lg
         hover:bg-opacity-90 hover:border-opacity-100 hover:border-custom3 hover:bg-custom3"
@@ -166,7 +174,7 @@ const CamInputPage = () => {
       {/* <div className='relative w-full max-w-md '> */}
       {loading &&
           <p className="bg-gray-100 text-gray-700 p-4 rounded-md shadow-md mt-4 max-w-md mx-auto">Processing...</p>}
-      {ocrText && <pre className="bg-gray-100 text-gray-700 p-4 rounded-md shadow-md mt-4 max-w-md mx-auto sm:text-xs">{ocrText}</pre>}
+      {ocrText && <pre ref={ocrTextRef} className="bg-gray-100 text-gray-700 p-4 rounded-md shadow-md mt-4 max-w-md mx-auto sm:text-xs">{ocrText}</pre>}
          {/* </div> */}
     </div>
   </div>

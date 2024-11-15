@@ -176,7 +176,7 @@ export default function GraphsReportsPage() {
             </div>
 
             {/* Content Section */}
-            <div className="flex flex-col md:flex-row justify-between items-center gap-4 w-full max-w-3xl bg-white p-6 sm:p-1 rounded-lg shadow-lg transition-all duration-300 ease-in-out">
+            <div className="flex flex-col md:flex-row justify-between items-center gap-4 w-full max-w-3xl bg-white px-6 py-3 sm:p-1 rounded-lg shadow-lg transition-all duration-300 ease-in-out">
                 <div className="form-control w-full text-center md:text-left">
                     <h1 className="text-xl py-2 md:text-2xl lg:text-3xl font-semibold text-gray-700 transition-all duration-300 ease-in-out">
                         {activeTab === 'graphs' ? '' : activeTab === 'weekly' ? 'Insights from last week transactions' : 'Insights based on transactions from past month'}
@@ -215,7 +215,7 @@ export default function GraphsReportsPage() {
 
                     {/* Display different type of graph  */}
                     {activeTab === 'graphs' &&
-                    <div className="flex flex-col justify-center items-center sm:m-0 md:m-5 lg:m-8 xl:m-10 2xl:m-10">
+                    <div className="flex flex-col justify-center items-center p-0 sm:m-2 md:m-5 lg:m-8 xl:m-10 2xl:m-10">
                         {graphTab === 'pie'  && categoryDat &&
                             <CustomPieChart categoryData={categoryDat}/>}
                         {graphTab === 'line' && dailyDat &&

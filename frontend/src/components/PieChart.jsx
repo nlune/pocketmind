@@ -19,7 +19,7 @@ const CustomPieChart = ({ categoryData }) => {
   
       return (
         <>
-        { percent > 0.02 && <text
+        { percent > 0.01 && <text
           x={x}
           y={y}
           fill="lightgray"
@@ -36,7 +36,8 @@ const CustomPieChart = ({ categoryData }) => {
     };
   
     return (
-      <div className="flex flex-col items-center w-full p-2 sm:p-0 bg-white rounded-lg">
+      // <div className="w-screen max-w-screen flex justify-center bg-white rounded-lg overflow-hidden px-2 mx-2 md:p-4">
+      <div className="flex flex-col items-center w-full px-2 mx-2 sm:p-0 bg-white rounded-lg">
         <h2 className="text-2xl font-semibold text-gray-700 mb-4">Expense Distribution</h2>
         <p className="text-sm text-gray-500 mb-6">Overview of your spending by category</p>
         <div className="w-full" style={{ height: '300px' }}>

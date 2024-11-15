@@ -38,12 +38,12 @@ export default function MainRoutes() {
             <Route path="/reports/" element={<GraphsReportsPage/>}/>
             <Route path='/profile/' element={<ProfilePage/>}/>
             <Route path="/home/settings" element={<SettingsPage />} />  {/* include settingspath */}
+            <Route path='/budget/' element={<BudgetMain/>}/>
         </Route>
 
             <Route path="/login" element={<LoginPage/>}/>
             {/* <Route path="*" element={<NotFound/>} /> */}
 
-            <Route path='/budget/' element={<BudgetMain/>}/>
             {/*<Route path='/registration/' element={<RegistrationPage/>}/>*/}
             <Route path='/password-reset/' element={<PasswordResetPage/>}/>
             <Route path='*' element={<NotFoundPage/>}/>

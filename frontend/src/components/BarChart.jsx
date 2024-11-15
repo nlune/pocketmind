@@ -12,7 +12,7 @@ const COLORS = ['#6366F1', '#F59E0B', '#34D399', '#F472B6', '#60A5FA', '#A78BFA'
 
 const CustomTooltipFormatter = (value, name, props) => {
   // Customize the label based on `name` or other data properties
-  const displayLabel = `Total: $${value}`;
+  const displayLabel = `Total: $${value.toFixed(2)}`;
   return [displayLabel]; // The second argument is the label name
 };
 

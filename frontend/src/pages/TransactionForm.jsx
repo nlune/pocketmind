@@ -55,7 +55,7 @@ export default function TransactionForm() {
         console.log(data)
           setDescription(data?.description)
           setAmount(data?.amount)
-          setCategory(data?.category.name)
+          setCategory(data?.category?.name)
       }
   }, [data, error])
 
@@ -96,7 +96,7 @@ export default function TransactionForm() {
 
     return (
         <>
-        <div className="flex flex-col w-full max-w-md p-6 bg-white rounded-lg shadow-md space-y-6 ">
+        <div className="flex flex-col w-full max-w-md mt-6 p-6 bg-white rounded-lg shadow-md space-y-6 ">
         <h3 className="text-2xl font-semibold text-center text-gray-700">Add Transaction</h3>
 
             <div className="px-6">
@@ -148,7 +148,7 @@ export default function TransactionForm() {
           <button className="btn btn-info bg-custom2 text-white w-20 rounded-lg border-gray-300
           hover:bg-opacity-90 hover:border-opacity-100 hover:border-custom2 hover:bg-custom2"
                   onClick={handleCancel}>
-            Home
+            Cancel
           </button>
           <button className="btn btn-secondary bg-custom3 text-white w-20 rounded-lg
         hover:bg-opacity-90 hover:border-opacity-100 hover:border-custom3 hover:bg-custom3"

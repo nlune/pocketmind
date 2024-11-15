@@ -97,14 +97,14 @@ export default function AskInsightComponent() {
           }`}
           onClick={handleFocusInsightClick}
         >
-          <div className="text-white rounded-lg text-center
+          <div className="text-white rounded-lg text-center pb-1
           hover:bg-opacity-90 hover:border-opacity-100 hover:border-custom3 hover:bg-custom3">Ask for Insights</div>
           {/* TODO move input field above, ask for insights instead of submit btn; audio orb above with option to write text below */}
           
           {insightFocus && (
             <div className="flex flex-col gap-4 mt-4 space-y-2 ">
 
-            {audioMode && <div className="flex flex-col justify-center">
+            {audioMode && <div className="flex flex-col justify-center items-center">
 
               <button 
               onClick={() => setAudioMode(false)}
@@ -115,12 +115,12 @@ export default function AskInsightComponent() {
               <AudioInputComponent focus={insightFocus} sendRequest={sendRequest} updateInputValue={setInputValue} updateInsightFocus={setInsightFocus}/>
             </div>}
 
-           {!audioMode && <> <div className="flex flex-row gap-2">
+           {!audioMode && <> <div className="flex flex-row gap-3 items-center">
               <input
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 type="text"
-                className="w-full p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
+                className="w-full text-sm h-11 px-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
                 placeholder="Type your question here..."
               />
 

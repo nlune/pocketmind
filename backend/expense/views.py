@@ -192,7 +192,9 @@ class ReportsView(APIView):
             query_start_date = query_end_date.replace(day=1)
         elif interval == "custom" and start_date and end_date:
             try:
-                query_start_date = timezone.datetime.strptime(start_date, "%Y-%m-%d").date()
+                query_start_date = timezone.datetime.strptime(
+                    start_date, "%Y-%m-%d"
+                ).date()
                 query_end_date = timezone.datetime.strptime(end_date, "%Y-%m-%d").date()
             except ValueError:
                 return Response(
@@ -211,8 +213,15 @@ class ReportsView(APIView):
 
         if query_start_date:
             expenses = expenses.filter(
-                Q(is_recurring=False, created__date__range=(query_start_date, query_end_date)) |
-                Q(is_recurring=True, start_date__lte=query_end_date, end_date__gte=query_start_date, )
+                Q(
+                    is_recurring=False,
+                    created__date__range=(query_start_date, query_end_date),
+                )
+                | Q(
+                    is_recurring=True,
+                    start_date__lte=query_end_date,
+                    end_date__gte=query_start_date,
+                )
             )
 
         if category_id:
@@ -298,8 +307,11 @@ class ListRecurringView(ListAPIView):
     serializer_class = ReportsExpenseSerializer
     permission_classes = [IsAuthenticated]
 
-    def get_queryset(self):
-        return Expense.objects.filter(user=self.request.user, is_recurring=True)
+    def get(self, request):
+        transactions = Expense.objects.filter(user=self.request.user, is_recurring=True)
+        serializer = self.get_serializer(transactions, many=True)
+        total = transactions.aggregate(grand_total=Sum("amount"))["grand_total"]
+        return Response({"total": total, "details": serializer.data})
 
 
 class DailyTotalMonthView(APIView):
@@ -336,14 +348,24 @@ class UpdateExpenseCreatedDateView(APIView):
         except Expense.DoesNotExist:
             raise NotFound("Expense entry not found.")
 
-        new_created_date = request.data.get('created')
+        new_created_date = request.data.get("created")
         if new_created_date:
             try:
                 expense.created = timezone.datetime.fromisoformat(new_created_date)
                 expense.save()
-                return Response({"success": "Created date updated successfully."}, status=status.HTTP_200_OK)
+                return Response(
+                    {"success": "Created date updated successfully."},
+                    status=status.HTTP_200_OK,
+                )
             except ValueError:
-                return Response({"error": "Invalid date format. Use ISO format (YYYY-MM-DDThh:mm:ss)."},
-                                status=status.HTTP_400_BAD_REQUEST)
+                return Response(
+                    {
+                        "error": "Invalid date format. Use ISO format (YYYY-MM-DDThh:mm:ss)."
+                    },
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
         else:
-            return Response({"error": "Created date not provided."}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                {"error": "Created date not provided."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )

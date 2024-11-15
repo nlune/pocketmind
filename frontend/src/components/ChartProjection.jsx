@@ -9,6 +9,11 @@ const toTimestamp = (dateStr) => new Date(dateStr).getDate();
 
 const getAvg = (arr) => arr.reduce((sum, val) => sum + val.amount, 0) / arr.length
 
+
+const returnHigher = (a, b) => a.amount >= b.amount ? a : b
+
+const getHighest = (arr) => arr.reduce((a, b) => returnHigher(a,b))
+
 const getProjectionData = (data, regressionFn) => {
     const avg_daily_spend = getAvg(data)
 
@@ -19,15 +24,16 @@ const getProjectionData = (data, regressionFn) => {
 
     const monthend = new Date(data[data.length - 1].date);
     monthend.setMonth(monthend.getMonth() + 1)
-    console.log(monthend.getMonth())
+
     monthend.setDate(0)
     
     const totalDays = monthend.getDate();
     const projectionData = [];
     const lastRealDataIndex = data.length;
 
-    for (let i = lastRealDataIndex; i <= totalDays; i++) {
-        const amount = regressionFn(i);
+    for (let i = 1; i <= totalDays; i++) {
+        let amount = regressionFn(i);
+        amount = (amount < 0) ? 0 : amount
         let date = `${monthend.getFullYear()}-${monthend.getMonth() + 1}-${i.toString().padStart(2, '0')}`;
         date = toTimestamp(date)
         projectionData.push({ date, amount });
@@ -57,9 +63,10 @@ const ChartProjection = ({ data }) => {
 
     const lastDayMonth = projectionData[projectionData.length - 1].date
 
-    console.log(data)
+    const highest = getHighest(data)
+    const maxTickValue = Math.ceil(highest.amount + 1);
+    const ticks = Array.from({ length: maxTickValue + 1 }, (_, i) => i + 1);
 
-    console.log(projectionData)
 
     return (
         <ResponsiveContainer width="105%" height={isMobile ? 300 : 400}>
@@ -90,6 +97,11 @@ const ChartProjection = ({ data }) => {
                     tick={{ fill: "#555", fontSize: isMobile ? 9: 10 }} 
                     axisLine={{ stroke: '#ccc' }} 
                     tickLine={false} 
+                    // domain={[5, Math.max(highest.amount + 1, 10)]}
+                    // allowDecimals={false} // Disable decimals on tick labels
+                    // interval="preserveStartEnd"
+                    // ticks={ticks}
+                    type="number"
                     width={isMobile ? 40 : 50}
                 >
                     <Label 

@@ -9,7 +9,7 @@ const CustomPieChart = ({ categoryData }) => {
     // console.log(window.innerWidth)
 
     // Custom label function to display labels inside the pie on small screens
-    const renderCustomLabel = ({ name, percent, cx, cy, midAngle, innerRadius, outerRadius, index }) => {
+    const renderCustomLabel = ({ name,amount, percent, cx, cy, midAngle, innerRadius, outerRadius, index }) => {
       if (!isMobile) return null; // Only display labels inside on mobile
       
       const RADIAN = Math.PI / 180;

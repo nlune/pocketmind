@@ -48,7 +48,6 @@ export default function HomePage() {
 
   useEffect(() => {
     if (data && !error) {
-      console.log(data.categories[0].color)
       setCategoryDat(data.categories)
 
   }
